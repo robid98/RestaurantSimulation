@@ -18,3 +18,10 @@
 <h2>RestaurantSimulation.Frontend</h2>
 
 - React
+
+<h2>Branches conventions</h2>
+
+- <h4>backend/feature/branch-name</h4>
+- <h4>backend/bug/bug-name</h4>
+- <h4>frontend/feature/branch-name</h4>
+- <h4>frontend/bug/bug-name</h4>
