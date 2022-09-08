@@ -3,6 +3,9 @@
 <h2>Deploy</h2>
 - Azure or AWS
 
+<h2>Authentication/Authorization</h2>
+- Auth0 : https://auth0.com/
+
 <h2>RestaurantSimulation.Backend</h2>
 
 - CLEAN Arhitecture
