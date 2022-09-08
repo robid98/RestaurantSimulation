@@ -21,6 +21,7 @@
 <h2>RestaurantSimulation.Frontend</h2>
 
 - React
+- Angular
 
 <h2>Branches conventions</h2>
 
