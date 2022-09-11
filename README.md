@@ -29,3 +29,6 @@
 - <h4>backend/bug/bug-name</h4>
 - <h4>frontend/feature/branch-name</h4>
 - <h4>frontend/bug/bug-name</h4>
+
+<h2>EntityFramework Migrations Commands</h2>
+- add-migration <migration-name> -project RestaurantSimulation.Infrastructure -o Persistence/Migrations
