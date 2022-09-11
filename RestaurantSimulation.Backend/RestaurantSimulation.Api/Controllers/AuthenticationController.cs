@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantSimulation.Application.Authentication.Commands.Register;
+using RestaurantSimulation.Application.Authentication.Common;
 using RestaurantSimulation.Application.Authentication.Common.Services.ExtractUserClaims;
 using RestaurantSimulation.Contracts.Authentication;
 
@@ -47,8 +48,19 @@ namespace RestaurantSimulation.Api.Controllers
                 );
 
             return registerCommand.Match(
-                registerResult => Ok(registerResult),
+                registerResult => Ok(GetAuthenticationResponse(registerResult)),
                 errors => Problem(errors));
+        }
+
+        private static AuthenticationResponse GetAuthenticationResponse(AuthenticationResult authenticationResult)
+        {
+            return new AuthenticationResponse(
+                            authenticationResult.Id,
+                            authenticationResult.Email,
+                            authenticationResult.FirstName,
+                            authenticationResult.LastName,
+                            authenticationResult.PhoneNumber,
+                            authenticationResult.Address);
         }
     }
 }
