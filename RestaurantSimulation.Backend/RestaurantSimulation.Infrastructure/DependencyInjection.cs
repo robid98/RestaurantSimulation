@@ -3,6 +3,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using RestaurantSimulation.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
+using RestaurantSimulation.Application.Common.Interfaces.Persistence;
+using RestaurantSimulation.Infrastructure.Persistence.Authentication;
 
 namespace RestaurantSimulation.Infrastructure
 {
@@ -10,7 +14,8 @@ namespace RestaurantSimulation.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, ConfigurationManager configuration)
         {
-            services.AddAuthenticationServices(configuration);
+            services.AddAuthenticationServices(configuration)
+                .AddPersistenceServices(configuration);
 
             return services;
         }
@@ -29,6 +34,17 @@ namespace RestaurantSimulation.Infrastructure
                         NameClaimType = ClaimTypes.NameIdentifier
                     };
                 });
+
+            return services;
+        }
+
+        public static IServiceCollection AddPersistenceServices(this IServiceCollection services, ConfigurationManager configuration)
+        {
+            services.AddDbContext<RestaurantSimulationContext>(options =>
+                options.UseSqlServer(configuration["SqlServer:ConnectionString"], 
+                optionsAction => optionsAction.MigrationsAssembly("RestaurantSimulation.Infrastructure")));
+
+            services.AddScoped<IUserRepository, UserRepository>();
 
             return services;
         }

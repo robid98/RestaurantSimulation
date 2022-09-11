@@ -24,4 +24,10 @@ export class AppComponent {
     })
   }
 
+  getAccessToken() {
+    console.log(this.auth.getAccessTokenSilently().subscribe((token) => {
+      console.log(token);
+    }));
+  }
+
 }
