@@ -37,3 +37,7 @@
 
 - add-migration <migration-name> -project RestaurantSimulation.Infrastructure -o Persistence/Migrations
 - update-database 
+
+<h2>Backend status</h2>
+
+[![Build status](https://dev.azure.com/robertdarabana796/robertdarabana796/_apis/build/status/RestaurantSimulation.Backend)]
