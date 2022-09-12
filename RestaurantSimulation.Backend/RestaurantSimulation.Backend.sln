@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32602.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestaurantSimulation.Api", "RestaurantSimulation.Api\RestaurantSimulation.Api.csproj", "{500495EB-DF1A-4098-B8AA-568C07796A64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestaurantSimulation.Api", "RestaurantSimulation.Api\RestaurantSimulation.Api.csproj", "{500495EB-DF1A-4098-B8AA-568C07796A64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestaurantSimulation.Contracts", "RestaurantSimulation.Contracts\RestaurantSimulation.Contracts.csproj", "{16BCB5F0-FD5D-4DEA-96CB-53852382D2CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestaurantSimulation.Contracts", "RestaurantSimulation.Contracts\RestaurantSimulation.Contracts.csproj", "{16BCB5F0-FD5D-4DEA-96CB-53852382D2CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestaurantSimulation.Application", "RestaurantSimulation.Application\RestaurantSimulation.Application.csproj", "{A285F4AA-0E5B-43C1-882E-B9923710B52F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestaurantSimulation.Application", "RestaurantSimulation.Application\RestaurantSimulation.Application.csproj", "{A285F4AA-0E5B-43C1-882E-B9923710B52F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestaurantSimulation.Domain", "RestaurantSimulation.Domain\RestaurantSimulation.Domain.csproj", "{FB254C2F-65FB-407C-A0C7-8FF06705D41F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestaurantSimulation.Domain", "RestaurantSimulation.Domain\RestaurantSimulation.Domain.csproj", "{FB254C2F-65FB-407C-A0C7-8FF06705D41F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestaurantSimulation.Infrastructure", "RestaurantSimulation.Infrastructure\RestaurantSimulation.Infrastructure.csproj", "{FA061141-A7BC-4B98-94FC-D933A7B66C14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestaurantSimulation.Infrastructure", "RestaurantSimulation.Infrastructure\RestaurantSimulation.Infrastructure.csproj", "{FA061141-A7BC-4B98-94FC-D933A7B66C14}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestaurantSimulation.Tests", "RestaurantSimulation.Tests\RestaurantSimulation.Tests.csproj", "{DE84168A-5C0C-4B55-937C-9B163E5697CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{FA061141-A7BC-4B98-94FC-D933A7B66C14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA061141-A7BC-4B98-94FC-D933A7B66C14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA061141-A7BC-4B98-94FC-D933A7B66C14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE84168A-5C0C-4B55-937C-9B163E5697CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE84168A-5C0C-4B55-937C-9B163E5697CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE84168A-5C0C-4B55-937C-9B163E5697CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE84168A-5C0C-4B55-937C-9B163E5697CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
