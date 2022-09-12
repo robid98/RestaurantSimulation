@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using RestaurantSimulation.Application.Authentication.Commands.Register;
 using RestaurantSimulation.Application.Authentication.Common;
 using RestaurantSimulation.Application.Authentication.Common.Services.ExtractUserClaims;
+using RestaurantSimulation.Application.Authentication.Queries.GetUserByAccessToken;
+using RestaurantSimulation.Application.Authentication.Queries.GetUserById;
+using RestaurantSimulation.Application.Authentication.Queries.GetUsers;
 using RestaurantSimulation.Contracts.Authentication;
 
 namespace RestaurantSimulation.Api.Controllers
@@ -24,7 +27,7 @@ namespace RestaurantSimulation.Api.Controllers
             _extractUserClaimsService = extractUserClaimsService;
         }
 
-        [HttpPost("register")]
+        [HttpPost("users/register")]
         public async Task<IActionResult> Register(RegisterRequest request)
         {
             ErrorOr<string> userEmail = _extractUserClaimsService.GetUserEmail();
@@ -52,6 +55,36 @@ namespace RestaurantSimulation.Api.Controllers
                 errors => Problem(errors));
         }
 
+        [HttpGet("users/accesstoken")]
+        public async Task<IActionResult> GetUserByAccessToken()
+        {
+            var getUserByAccessTokenQuery = await _sender.Send(new GetUserByAccessTokenQuery());
+
+            return getUserByAccessTokenQuery.Match(
+                getUserByAccessTokenResult => Ok(GetAuthenticationResponse(getUserByAccessTokenResult)),
+                errors => Problem(errors));
+        }
+
+        [HttpGet("users/id/{id}")]
+        public async Task<IActionResult> GetUserById(Guid id)
+        {
+            var getUserByIdQuery = await _sender.Send(new GetUserByIdQuery(id));
+
+            return getUserByIdQuery.Match(
+                getUserByIdResult => Ok(GetAuthenticationResponse(getUserByIdResult)),
+                errors => Problem(errors));
+        }
+
+        [HttpGet("users")]
+        public async Task<IActionResult> GetUsers()
+        {
+            var getUsersQuery = await _sender.Send(new GetUsersQuery());
+
+            return getUsersQuery.Match(
+                getUsersResult => Ok(GetAuthenticationResponseList(getUsersResult)),
+                errors => Problem(errors));
+        }
+
         private static AuthenticationResponse GetAuthenticationResponse(AuthenticationResult authenticationResult)
         {
             return new AuthenticationResponse(
@@ -61,6 +94,17 @@ namespace RestaurantSimulation.Api.Controllers
                             authenticationResult.LastName,
                             authenticationResult.PhoneNumber,
                             authenticationResult.Address);
+        }
+
+        private static List<AuthenticationResponse> GetAuthenticationResponseList(List<AuthenticationResult> authenticationResultList)
+        {
+            return authenticationResultList.Select(authenticationResult => new AuthenticationResponse(
+                            authenticationResult.Id,
+                            authenticationResult.Email,
+                            authenticationResult.FirstName,
+                            authenticationResult.LastName,
+                            authenticationResult.PhoneNumber,
+                            authenticationResult.Address)).ToList();
         }
     }
 }

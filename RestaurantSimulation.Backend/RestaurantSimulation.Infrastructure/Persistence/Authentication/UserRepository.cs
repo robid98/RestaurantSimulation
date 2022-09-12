@@ -33,5 +33,19 @@ namespace RestaurantSimulation.Infrastructure.Persistence.Authentication
 
             return user;
         }
+
+        public async Task<User?> GetUserByIdAsync(Guid id)
+        {
+            User? user = await _restaurantSimulationContext.Users.FirstOrDefaultAsync(user => user.Id == id);
+
+            return user;
+        }
+
+        public async Task<List<User>> GetUsersAsync()
+        {
+            List<User> users = await _restaurantSimulationContext.Users.ToListAsync();
+
+            return users;
+        }
     }
 }
