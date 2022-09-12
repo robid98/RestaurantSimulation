@@ -37,3 +37,7 @@
 
 - add-migration <migration-name> -project RestaurantSimulation.Infrastructure -o Persistence/Migrations ( adding a new migration )
 - update-database ( update the database with the new migrations )
+
+<h2>Branch protection rules</h2>
+- Git guardian with passed status
+- RestaurantSimulation.Backend Azure Pipeline with passed status
