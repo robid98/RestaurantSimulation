@@ -35,5 +35,5 @@
 
 <h2>EntityFramework Migrations Commands</h2>
 
-- add-migration <migration-name> -project RestaurantSimulation.Infrastructure -o Persistence/Migrations
-- update-database 
+- add-migration <migration-name> -project RestaurantSimulation.Infrastructure -o Persistence/Migrations ( adding a new migration )
+- update-database ( update the database with the new migrations )
