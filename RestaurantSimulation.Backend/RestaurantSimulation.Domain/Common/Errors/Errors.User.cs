@@ -11,6 +11,12 @@ namespace RestaurantSimulation.Domain.Common.Errors
                     code: "User.DuplicateEmail", 
                     "Email is already in use");
 
+
+            public static Error NotFound =>
+                Error.NotFound(
+                    code: "User.NotFound",
+                    "User not found");
+
         }
     }
 }

@@ -17,8 +17,4 @@
     <ProjectReference Include="..\RestaurantSimulation.Domain\RestaurantSimulation.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Authentication\Queries\" />
-  </ItemGroup>
-
 </Project>
