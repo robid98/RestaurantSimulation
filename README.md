@@ -17,6 +17,9 @@
 - ErrorOr Library
 - WebAPI
 - LINQ
+- xUnit
+- moq
+- shouldly
 
 <h2>RestaurantSimulation.Frontend</h2>
 
