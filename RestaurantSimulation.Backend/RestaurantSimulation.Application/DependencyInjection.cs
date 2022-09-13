@@ -1,6 +1,9 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using RestaurantSimulation.Application.Authentication.Common.Services.ExtractUserClaims;
+using RestaurantSimulation.Application.Common.Behaviors;
+using System.Reflection;
 
 namespace RestaurantSimulation.Application
 {
@@ -10,6 +13,12 @@ namespace RestaurantSimulation.Application
         {
             services.AddMediatR(typeof(DependencyInjection).Assembly);
             services.AddSingleton<IExtractUserClaimsService, ExtractUserClaimsService>();
+
+            services.AddScoped(
+                typeof(IPipelineBehavior<,>),
+                typeof(ValidationBehavior<,>));
+
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             return services;
         }
