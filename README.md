@@ -9,7 +9,7 @@
 <h2>RestaurantSimulation.Backend</h2>
 
 - CLEAN Arhitecture
-- CQRS
+- CQRS - MediatR
 - Entity Framework Core 6.0
 - SQL Server
 - FluentValidation
