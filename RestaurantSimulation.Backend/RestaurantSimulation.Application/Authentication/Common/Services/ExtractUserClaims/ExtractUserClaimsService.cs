@@ -17,7 +17,7 @@ namespace RestaurantSimulation.Application.Authentication.Common.Services.Extrac
 
         private ClaimsIdentity? GetClaimsIdentity()
         {
-            return accessor.HttpContext.User.Identity as ClaimsIdentity; ;
+            return accessor.HttpContext?.User.Identity as ClaimsIdentity; ;
         }
 
         public ErrorOr<string> GetUserEmail()
@@ -27,17 +27,17 @@ namespace RestaurantSimulation.Application.Authentication.Common.Services.Extrac
             if (email is null)
                 return Errors.Authentication.EmailClaimNull;
 
-            else return email.Value;
+            return email.Value;
         }
 
         public ErrorOr<string> GetUserSub()
         {
-            string? sub = GetClaimsIdentity()?.Name;
+            Claim? sub = GetClaimsIdentity()?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
 
             if (sub is null)
                 return Errors.Authentication.SubClaimNull;
 
-            return sub;
+            return sub.Value;
         }
     }
 }
