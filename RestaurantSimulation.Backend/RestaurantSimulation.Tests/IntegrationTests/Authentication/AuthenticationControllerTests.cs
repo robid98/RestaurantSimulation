@@ -1,5 +1,6 @@
 ﻿using RestaurantSimulation.Application.Authentication.Common;
 using RestaurantSimulation.Contracts.Authentication;
+using RestaurantSimulation.Domain.Common.Roles;
 using Shouldly;
 using System.Net;
 using System.Net.Http.Json;
@@ -11,13 +12,13 @@ namespace RestaurantSimulation.Tests.IntegrationTests.Authentication
         [Fact]
         public async Task Should_Add_A_New_User()
         {
-            await AuthenticateAndRegisterAUser();
+            await AuthenticateAndRegisterClientUser();
         }
 
         [Fact]
         public async Task Should_Get_A_List_Of_Users()
         {
-            await AuthenticateAndRegisterAUser();
+            await AuthenticateAndRegisterAdminUser();
 
             var responseGet = await TestClient.GetAsync("/api/auth/users/");
 
@@ -32,7 +33,7 @@ namespace RestaurantSimulation.Tests.IntegrationTests.Authentication
         [Fact]
         public async Task Should_Get_User_By_Access_Token()
         {
-            await AuthenticateAndRegisterAUser();
+            await AuthenticateAndRegisterClientUser();
 
             var responseGet = await TestClient.GetAsync("/api/auth/users/accesstoken");
 
@@ -47,7 +48,7 @@ namespace RestaurantSimulation.Tests.IntegrationTests.Authentication
         [Fact]
         public async Task Should_Return_Not_Found_When_User_Is_Not_Registered_Getting_By_Access_Token()
         {
-            AuthenticateAsync();
+            AuthenticateAsync(RestaurantSimulationRoles.ClientRole);
 
             var responseGet = await TestClient.GetAsync("/api/auth/users/accesstoken");
 
@@ -57,7 +58,7 @@ namespace RestaurantSimulation.Tests.IntegrationTests.Authentication
         [Fact]
         public async Task Should_Return_Not_Found_If_A_User_With_Specified_Id_Not_Registered()
         {
-            AuthenticateAsync();
+            AuthenticateAsync(RestaurantSimulationRoles.ClientRole);
 
             var responseGet = await TestClient.GetAsync($"/api/auth/users/id/{Guid.NewGuid()}");
 
@@ -68,7 +69,7 @@ namespace RestaurantSimulation.Tests.IntegrationTests.Authentication
         [Fact]
         public async Task Should_Return_User_Registered_With_Specified_Id()
         {
-            await AuthenticateAndRegisterAUser();
+            await AuthenticateAndRegisterAdminUser();
 
             var responseGet = await TestClient.GetAsync("/api/auth/users/");
 
@@ -91,7 +92,7 @@ namespace RestaurantSimulation.Tests.IntegrationTests.Authentication
         [Fact]
         public async Task Should_Return_Bad_Request_If_Validations_For_First_Name_Will_Fail()
         {
-            AuthenticateAsync();
+            AuthenticateAsync(RestaurantSimulationRoles.ClientRole);
 
             var responsePost = await TestClient.PostAsJsonAsync("/api/auth/users/register",
                 CreateRegisterRequest("", "Doctorul", "0773823901", "Piatra Neamt"));
@@ -112,7 +113,7 @@ namespace RestaurantSimulation.Tests.IntegrationTests.Authentication
         [Fact]
         public async Task Should_Return_Bad_Request_If_Validations_For_Last_Name_Will_Fail()
         {
-            AuthenticateAsync();
+            AuthenticateAsync(RestaurantSimulationRoles.ClientRole);
 
             var responsePost = await TestClient.PostAsJsonAsync("/api/auth/users/register",
                 CreateRegisterRequest("Mirel", "", "0773823901", "Piatra Neamt"));
@@ -133,7 +134,7 @@ namespace RestaurantSimulation.Tests.IntegrationTests.Authentication
         [Fact]
         public async Task Should_Return_Bad_Request_If_Validations_For_PhoneNumber_Will_Fail()
         {
-            AuthenticateAsync();
+            AuthenticateAsync(RestaurantSimulationRoles.ClientRole);
 
             var responsePost = await TestClient.PostAsJsonAsync("/api/auth/users/register",
                 CreateRegisterRequest("Mirel", "Dorel", "07738239011", "Piatra Neamt"));
@@ -154,7 +155,7 @@ namespace RestaurantSimulation.Tests.IntegrationTests.Authentication
         [Fact]
         public async Task Should_Return_Bad_Request_If_Validations_For_Address_Will_Fail()
         {
-            AuthenticateAsync();
+            AuthenticateAsync(RestaurantSimulationRoles.ClientRole);
 
             var responsePost = await TestClient.PostAsJsonAsync("/api/auth/users/register",
                 CreateRegisterRequest("Mirel", "Dorel", "0773823901", "%#$heh^^"));
@@ -171,9 +172,19 @@ namespace RestaurantSimulation.Tests.IntegrationTests.Authentication
         /**************/
         /***HELPERS****/
         /*************/
-        public async Task AuthenticateAndRegisterAUser()
+        public async Task AuthenticateAndRegisterClientUser()
         {
-            AuthenticateAsync();
+            AuthenticateAsync(RestaurantSimulationRoles.ClientRole);
+
+            var responsePost = await TestClient.PostAsJsonAsync("/api/auth/users/register",
+                CreateRegisterRequest("Mirel", "Doctorul", "0773823901", "Piatra Neamt"));
+
+            responsePost.StatusCode.ShouldBe(HttpStatusCode.OK);
+        }
+
+        public async Task AuthenticateAndRegisterAdminUser()
+        {
+            AuthenticateAsync(RestaurantSimulationRoles.AdminRole);
 
             var responsePost = await TestClient.PostAsJsonAsync("/api/auth/users/register",
                 CreateRegisterRequest("Mirel", "Doctorul", "0773823901", "Piatra Neamt"));

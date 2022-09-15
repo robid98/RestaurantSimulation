@@ -7,6 +7,9 @@ using RestaurantSimulation.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using RestaurantSimulation.Application.Common.Interfaces.Persistence;
 using RestaurantSimulation.Infrastructure.Persistence.Authentication;
+using RestaurantSimulation.Domain.Common.Policies.Authorization;
+using RestaurantSimulation.Domain.Common.Claims;
+using RestaurantSimulation.Domain.Common.Roles;
 
 namespace RestaurantSimulation.Infrastructure
 {
@@ -15,6 +18,7 @@ namespace RestaurantSimulation.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, ConfigurationManager configuration)
         {
             services.AddAuthenticationServices(configuration)
+                .AddAuthorizationServices(configuration)
                 .AddPersistenceServices(configuration);
 
             return services;
@@ -34,6 +38,31 @@ namespace RestaurantSimulation.Infrastructure
                         NameClaimType = ClaimTypes.NameIdentifier
                     };
                 });
+
+
+            return services;
+        }
+
+        public static IServiceCollection AddAuthorizationServices(this IServiceCollection services, ConfigurationManager configuration)
+        {
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(AuthorizationPolicies.AdminRolePolicy,
+                    (policy) => {
+                        policy.RequireClaim(RestaurantSimulationClaims.RestaurantSimulationRoles, RestaurantSimulationRoles.AdminRole);
+                    });
+
+                options.AddPolicy(AuthorizationPolicies.ClientRolePolicy,
+                    (policy) => {
+                        policy.RequireClaim(RestaurantSimulationClaims.RestaurantSimulationRoles, RestaurantSimulationRoles.ClientRole);
+                    });
+
+                options.AddPolicy(AuthorizationPolicies.ClientOrAdminRolePolicy,
+                    (policy) => {
+                        policy.RequireClaim(RestaurantSimulationClaims.RestaurantSimulationRoles, RestaurantSimulationRoles.ClientRole, RestaurantSimulationRoles.AdminRole);
+                    });
+
+            });
 
             return services;
         }

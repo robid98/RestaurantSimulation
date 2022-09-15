@@ -25,7 +25,13 @@ export class AppComponent {
   }
 
   getAccessToken() {
-    console.log(this.auth.getAccessTokenSilently().subscribe((token) => {
+    console.log(this.auth.getAccessTokenSilently({ ignoreCache: true }).subscribe((token) => {
+      console.log(token);
+    }));
+  }
+
+  getRoles() {
+    console.log(this.auth.getIdTokenClaims().subscribe((token) => {
       console.log(token);
     }));
   }
