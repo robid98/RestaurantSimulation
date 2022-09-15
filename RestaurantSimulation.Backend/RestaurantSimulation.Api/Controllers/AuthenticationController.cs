@@ -67,7 +67,7 @@ namespace RestaurantSimulation.Api.Controllers
                 errors => Problem(errors));
         }
 
-        [Authorize(Policy = AuthorizationPolicies.ClientOrAdminRolePolicy)]
+        [Authorize(Policy = AuthorizationPolicies.AdminRolePolicy)]
         [HttpGet("users/id/{id}")]
         public async Task<IActionResult> GetUserById(Guid id)
         {

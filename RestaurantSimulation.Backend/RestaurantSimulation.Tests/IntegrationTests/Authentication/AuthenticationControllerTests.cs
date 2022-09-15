@@ -58,7 +58,7 @@ namespace RestaurantSimulation.Tests.IntegrationTests.Authentication
         [Fact]
         public async Task Should_Return_Not_Found_If_A_User_With_Specified_Id_Not_Registered()
         {
-            AuthenticateAsync(RestaurantSimulationRoles.ClientRole);
+            AuthenticateAsync(RestaurantSimulationRoles.AdminRole);
 
             var responseGet = await TestClient.GetAsync($"/api/auth/users/id/{Guid.NewGuid()}");
 
