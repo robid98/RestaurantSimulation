@@ -9,11 +9,11 @@ using RestaurantSimulation.Application.Authentication.Queries.GetUserByAccessTok
 using RestaurantSimulation.Application.Authentication.Queries.GetUserById;
 using RestaurantSimulation.Application.Authentication.Queries.GetUsers;
 using RestaurantSimulation.Contracts.Authentication;
+using RestaurantSimulation.Domain.Common.Policies.Authorization;
 
 namespace RestaurantSimulation.Api.Controllers
 {
     [Route("api/auth")]
-    [Authorize]
     public class AuthenticationController : ApiController
     {
         private readonly ISender _sender;
@@ -27,6 +27,7 @@ namespace RestaurantSimulation.Api.Controllers
             _extractUserClaimsService = extractUserClaimsService;
         }
 
+        [Authorize(Policy = AuthorizationPolicies.ClientOrAdminRolePolicy)]
         [HttpPost("users/register")]
         public async Task<IActionResult> Register(RegisterRequest request)
         {
@@ -55,6 +56,7 @@ namespace RestaurantSimulation.Api.Controllers
                 errors => Problem(errors));
         }
 
+        [Authorize(Policy = AuthorizationPolicies.ClientOrAdminRolePolicy)]
         [HttpGet("users/accesstoken")]
         public async Task<IActionResult> GetUserByAccessToken()
         {
@@ -65,6 +67,7 @@ namespace RestaurantSimulation.Api.Controllers
                 errors => Problem(errors));
         }
 
+        [Authorize(Policy = AuthorizationPolicies.ClientOrAdminRolePolicy)]
         [HttpGet("users/id/{id}")]
         public async Task<IActionResult> GetUserById(Guid id)
         {
@@ -75,6 +78,7 @@ namespace RestaurantSimulation.Api.Controllers
                 errors => Problem(errors));
         }
 
+        [Authorize(Policy = AuthorizationPolicies.AdminRolePolicy)]
         [HttpGet("users")]
         public async Task<IActionResult> GetUsers()
         {

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using RestaurantSimulation.Domain.Common.Claims;
+using RestaurantSimulation.Domain.Common.Roles;
 using RestaurantSimulation.Infrastructure.Persistence;
 using System.Dynamic;
 using System.Net;
@@ -45,12 +47,13 @@ namespace RestaurantSimulation.Tests.IntegrationTests
             TestClient = appFactory.CreateClient();
         }
 
-        protected void  AuthenticateAsync()
+        protected void  AuthenticateAsync(string role)
         {
             var data = new ExpandoObject() as IDictionary<string, Object>;
 
             data.Add(ClaimTypes.NameIdentifier, Guid.NewGuid());
             data.Add(ClaimTypes.Email, $"test_mail{Guid.NewGuid()}@restaurant.com");
+            data.Add(RestaurantSimulationClaims.RestaurantSimulationRoles, role);
 
             TestClient.SetFakeBearerToken((object)data);
         }
