@@ -10,6 +10,7 @@ using RestaurantSimulation.Application.Authentication.Queries.GetUserById;
 using RestaurantSimulation.Application.Authentication.Queries.GetUsers;
 using RestaurantSimulation.Contracts.Authentication;
 using RestaurantSimulation.Domain.Common.Policies.Authorization;
+using Swashbuckle.Swagger.Annotations;
 
 namespace RestaurantSimulation.Api.Controllers
 {
@@ -27,8 +28,16 @@ namespace RestaurantSimulation.Api.Controllers
             _extractUserClaimsService = extractUserClaimsService;
         }
 
+        /// <summary>
+        /// Register a new User
+        /// </summary>
         [Authorize(Policy = AuthorizationPolicies.ClientOrAdminRolePolicy)]
         [HttpPost("users")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthenticationResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Register(RegisterRequest request)
         {
             ErrorOr<string> userEmail = _extractUserClaimsService.GetUserEmail();
@@ -56,8 +65,14 @@ namespace RestaurantSimulation.Api.Controllers
                 errors => Problem(errors));
         }
 
+        /// <summary>
+        ///Get current user
+        /// </summary>
         [Authorize(Policy = AuthorizationPolicies.ClientOrAdminRolePolicy)]
-        [HttpGet("users/accesstoken")]
+        [HttpGet("user")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthenticationResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUserByAccessToken()
         {
             var getUserByAccessTokenQuery = await _sender.Send(new GetUserByAccessTokenQuery());
@@ -67,8 +82,14 @@ namespace RestaurantSimulation.Api.Controllers
                 errors => Problem(errors));
         }
 
+        /// <summary>
+        ///Get user by Id (admin role)
+        /// </summary>
         [Authorize(Policy = AuthorizationPolicies.AdminRolePolicy)]
-        [HttpGet("users/{id}")]
+        [HttpGet("user/{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthenticationResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUserById(Guid id)
         {
             var getUserByIdQuery = await _sender.Send(new GetUserByIdQuery(id));
@@ -78,8 +99,13 @@ namespace RestaurantSimulation.Api.Controllers
                 errors => Problem(errors));
         }
 
+        /// <summary>
+        ///Get a list with all Users (admin role)
+        /// </summary>
         [Authorize(Policy = AuthorizationPolicies.AdminRolePolicy)]
         [HttpGet("users")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<AuthenticationResponse>))]
         public async Task<IActionResult> GetUsers()
         {
             var getUsersQuery = await _sender.Send(new GetUsersQuery());

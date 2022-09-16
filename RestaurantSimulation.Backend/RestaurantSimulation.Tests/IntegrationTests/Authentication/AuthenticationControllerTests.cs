@@ -35,7 +35,7 @@ namespace RestaurantSimulation.Tests.IntegrationTests.Authentication
         {
             await AuthenticateAndRegisterClientUser();
 
-            var responseGet = await TestClient.GetAsync("/api/auth/users/accesstoken");
+            var responseGet = await TestClient.GetAsync("/api/auth/user");
 
             responseGet.StatusCode.ShouldBe(HttpStatusCode.OK);
 
@@ -78,7 +78,7 @@ namespace RestaurantSimulation.Tests.IntegrationTests.Authentication
             users?.Count.ShouldBe(1);
             users?[0].FirstName.ShouldBe("Mirel");
 
-            var responseGetUserById = await TestClient.GetAsync($"/api/auth/users/{users?[0].Id}");
+            var responseGetUserById = await TestClient.GetAsync($"/api/auth/user/{users?[0].Id}");
 
             responseGetUserById.StatusCode.ShouldBe(HttpStatusCode.OK);
 
