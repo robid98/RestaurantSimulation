@@ -1,4 +1,6 @@
 # RestaurantSimulation
+The aim of this project is to make a functional Restaurant web application.
+On the backend side the project will be build as a Web API and the frontend side will be made in Angular or React.
 
 <h2>Deploy</h2>
 - Azure or AWS
