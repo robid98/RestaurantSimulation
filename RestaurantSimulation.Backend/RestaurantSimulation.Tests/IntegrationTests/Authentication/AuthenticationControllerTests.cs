@@ -60,7 +60,7 @@ namespace RestaurantSimulation.Tests.IntegrationTests.Authentication
         {
             AuthenticateAsync(RestaurantSimulationRoles.AdminRole);
 
-            var responseGet = await TestClient.GetAsync($"/api/auth/users/id/{Guid.NewGuid()}");
+            var responseGet = await TestClient.GetAsync($"/api/auth/users/{Guid.NewGuid()}");
 
             responseGet.StatusCode.ShouldBe(HttpStatusCode.NotFound);
 
@@ -78,7 +78,7 @@ namespace RestaurantSimulation.Tests.IntegrationTests.Authentication
             users?.Count.ShouldBe(1);
             users?[0].FirstName.ShouldBe("Mirel");
 
-            var responseGetUserById = await TestClient.GetAsync($"/api/auth/users/id/{users?[0].Id}");
+            var responseGetUserById = await TestClient.GetAsync($"/api/auth/users/{users?[0].Id}");
 
             responseGetUserById.StatusCode.ShouldBe(HttpStatusCode.OK);
 
@@ -94,17 +94,17 @@ namespace RestaurantSimulation.Tests.IntegrationTests.Authentication
         {
             AuthenticateAsync(RestaurantSimulationRoles.ClientRole);
 
-            var responsePost = await TestClient.PostAsJsonAsync("/api/auth/users/register",
+            var responsePost = await TestClient.PostAsJsonAsync("/api/auth/users",
                 CreateRegisterRequest("", "Doctorul", "0773823901", "Piatra Neamt"));
 
             responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
-            responsePost = await TestClient.PostAsJsonAsync("/api/auth/users/register",
+            responsePost = await TestClient.PostAsJsonAsync("/api/auth/users",
                 CreateRegisterRequest("12311", "Doctorul", "0773823901", "Piatra Neamt"));
 
             responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
-            responsePost = await TestClient.PostAsJsonAsync("/api/auth/users/register",
+            responsePost = await TestClient.PostAsJsonAsync("/api/auth/users",
                 CreateRegisterRequest("Ro", "Doctorul", "0773823901", "Piatra Neamt"));
 
             responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
@@ -115,17 +115,17 @@ namespace RestaurantSimulation.Tests.IntegrationTests.Authentication
         {
             AuthenticateAsync(RestaurantSimulationRoles.ClientRole);
 
-            var responsePost = await TestClient.PostAsJsonAsync("/api/auth/users/register",
+            var responsePost = await TestClient.PostAsJsonAsync("/api/auth/users",
                 CreateRegisterRequest("Mirel", "", "0773823901", "Piatra Neamt"));
 
             responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
-            responsePost = await TestClient.PostAsJsonAsync("/api/auth/users/register",
+            responsePost = await TestClient.PostAsJsonAsync("/api/auth/users",
                 CreateRegisterRequest("Mirel", "12311", "0773823901", "Piatra Neamt"));
 
             responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
-            responsePost = await TestClient.PostAsJsonAsync("/api/auth/users/register",
+            responsePost = await TestClient.PostAsJsonAsync("/api/auth/users",
                 CreateRegisterRequest("Mirel", "Do", "0773823901", "Piatra Neamt"));
 
             responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
@@ -136,17 +136,22 @@ namespace RestaurantSimulation.Tests.IntegrationTests.Authentication
         {
             AuthenticateAsync(RestaurantSimulationRoles.ClientRole);
 
-            var responsePost = await TestClient.PostAsJsonAsync("/api/auth/users/register",
+            var responsePost = await TestClient.PostAsJsonAsync("/api/auth/users",
                 CreateRegisterRequest("Mirel", "Dorel", "07738239011", "Piatra Neamt"));
 
             responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
-            responsePost = await TestClient.PostAsJsonAsync("/api/auth/users/register",
+            responsePost = await TestClient.PostAsJsonAsync("/api/auth/users",
                 CreateRegisterRequest("Mirel", "Dorel", "0773823901a", "Piatra Neamt"));
 
             responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
-            responsePost = await TestClient.PostAsJsonAsync("/api/auth/users/register",
+            responsePost = await TestClient.PostAsJsonAsync("/api/auth/users",
+                CreateRegisterRequest("Mirel", "Dorel", "0773823^01a", "Piatra Neamt"));
+
+            responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+
+            responsePost = await TestClient.PostAsJsonAsync("/api/auth/users",
                 CreateRegisterRequest("Mirel", "Dorel", "aaa", "Piatra Neamt"));
 
             responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
@@ -157,12 +162,12 @@ namespace RestaurantSimulation.Tests.IntegrationTests.Authentication
         {
             AuthenticateAsync(RestaurantSimulationRoles.ClientRole);
 
-            var responsePost = await TestClient.PostAsJsonAsync("/api/auth/users/register",
-                CreateRegisterRequest("Mirel", "Dorel", "0773823901", "%#$heh^^"));
+            var responsePost = await TestClient.PostAsJsonAsync("/api/auth/users",
+                CreateRegisterRequest("Mirel", "Dorel", "0773823901", "heh^^"));
 
             responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
-            responsePost = await TestClient.PostAsJsonAsync("/api/auth/users/register",
+            responsePost = await TestClient.PostAsJsonAsync("/api/auth/users",
                 CreateRegisterRequest("Mirel", "Dorel", "0773823901", "Pp"));
 
             responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
@@ -176,7 +181,7 @@ namespace RestaurantSimulation.Tests.IntegrationTests.Authentication
         {
             AuthenticateAsync(RestaurantSimulationRoles.ClientRole);
 
-            var responsePost = await TestClient.PostAsJsonAsync("/api/auth/users/register",
+            var responsePost = await TestClient.PostAsJsonAsync("/api/auth/users",
                 CreateRegisterRequest("Mirel", "Doctorul", "0773823901", "Piatra Neamt"));
 
             responsePost.StatusCode.ShouldBe(HttpStatusCode.OK);
@@ -186,7 +191,7 @@ namespace RestaurantSimulation.Tests.IntegrationTests.Authentication
         {
             AuthenticateAsync(RestaurantSimulationRoles.AdminRole);
 
-            var responsePost = await TestClient.PostAsJsonAsync("/api/auth/users/register",
+            var responsePost = await TestClient.PostAsJsonAsync("/api/auth/users",
                 CreateRegisterRequest("Mirel", "Doctorul", "0773823901", "Piatra Neamt"));
 
             responsePost.StatusCode.ShouldBe(HttpStatusCode.OK);

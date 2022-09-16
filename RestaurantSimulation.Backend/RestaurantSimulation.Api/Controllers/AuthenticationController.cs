@@ -28,7 +28,7 @@ namespace RestaurantSimulation.Api.Controllers
         }
 
         [Authorize(Policy = AuthorizationPolicies.ClientOrAdminRolePolicy)]
-        [HttpPost("users/register")]
+        [HttpPost("users")]
         public async Task<IActionResult> Register(RegisterRequest request)
         {
             ErrorOr<string> userEmail = _extractUserClaimsService.GetUserEmail();
@@ -68,7 +68,7 @@ namespace RestaurantSimulation.Api.Controllers
         }
 
         [Authorize(Policy = AuthorizationPolicies.AdminRolePolicy)]
-        [HttpGet("users/id/{id}")]
+        [HttpGet("users/{id}")]
         public async Task<IActionResult> GetUserById(Guid id)
         {
             var getUserByIdQuery = await _sender.Send(new GetUserByIdQuery(id));

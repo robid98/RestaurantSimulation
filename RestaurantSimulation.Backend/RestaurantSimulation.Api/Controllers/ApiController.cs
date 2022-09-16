@@ -50,7 +50,7 @@ namespace RestaurantSimulation.Api.Controllers
                     error.Code,
                     error.Description);
             }
-
+            
             return ValidationProblem(modelStateDictionary);
         }
     }
