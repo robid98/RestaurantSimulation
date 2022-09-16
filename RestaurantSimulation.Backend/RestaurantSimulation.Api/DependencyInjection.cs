@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.OpenApi.Models;
 using RestaurantSimulation.Api.Common.Errors;
+using System.Reflection;
 
 namespace RestaurantSimulation.Api
 {
@@ -23,10 +24,21 @@ namespace RestaurantSimulation.Api
             {
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "API Documentation",
+                    Title = "RestaurantSimulation API",
                     Version = "v1.0",
-                    Description = "RestaurantSimulation.Api"
+                    Description = "Web API for managing a Online Restaurant",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "RestaurantSimulation",
+                        Url = new Uri("https://github.com/robid98/RestaurantSimulation")
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "MIT License",
+                        Url = new Uri("https://opensource.org/licenses/MIT")
+                    }
                 });
+
                 options.ResolveConflictingActions(x => x.First());
                 options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
@@ -56,6 +68,9 @@ namespace RestaurantSimulation.Api
                           new[] { "openid" }
                       }
                 });
+
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });
 
             return services;
