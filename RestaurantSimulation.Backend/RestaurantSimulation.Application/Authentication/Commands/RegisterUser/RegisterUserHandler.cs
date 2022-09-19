@@ -1,0 +1,65 @@
+﻿using ErrorOr;
+using MediatR;
+using RestaurantSimulation.Application.Authentication.Common;
+using RestaurantSimulation.Application.Authentication.Common.Services.ExtractUserClaims;
+using RestaurantSimulation.Application.Common.Interfaces.Persistence;
+using RestaurantSimulation.Domain.Common.Errors;
+using RestaurantSimulation.Domain.Entities.Authentication;
+
+namespace RestaurantSimulation.Application.Authentication.Commands.RegisterUser
+{
+    public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, ErrorOr<AuthenticationResult>>
+    {
+        private readonly IUserRepository _userRepository;
+        private readonly IExtractUserClaimsService _extractUserClaimsService;
+
+        public RegisterUserHandler(
+            IUserRepository userRepository,
+            IExtractUserClaimsService extractUserClaimsService)
+        {
+            _userRepository = userRepository;
+            _extractUserClaimsService = extractUserClaimsService;
+        }
+
+        public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+        {
+            ErrorOr<string> userEmail = _extractUserClaimsService.GetUserEmail();
+
+            if (userEmail.IsError)
+                return userEmail.FirstError;
+
+            ErrorOr<string> userSub = _extractUserClaimsService.GetUserSub();
+
+            if (userSub.IsError)
+                return userSub.FirstError;
+
+            if (await _userRepository.GetUserByEmailAsync(userEmail.Value) is not null)
+            {
+                return Errors.User.DuplicateEmail;
+            }
+
+            var userId = Guid.NewGuid();
+
+            var user = new User
+            {
+                Id = userId,
+                Sub = userSub.Value,
+                Email = userEmail.Value,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                PhoneNumber = request.PhoneNumber,
+                Address = request.Address
+            };
+
+            await _userRepository.AddAsync(user);
+
+            return new AuthenticationResult(
+                userId,
+                userEmail.Value,
+                request.FirstName,
+                request.LastName,
+                request.PhoneNumber,
+                request.Address);
+        }
+    }
+}

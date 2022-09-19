@@ -47,12 +47,12 @@ namespace RestaurantSimulation.Tests.IntegrationTests
             TestClient = appFactory.CreateClient();
         }
 
-        protected void  AuthenticateAsync(string role)
+        protected void  AuthenticateAsync(string role, string email)
         {
             var data = new ExpandoObject() as IDictionary<string, Object>;
 
             data.Add(ClaimTypes.NameIdentifier, Guid.NewGuid());
-            data.Add(ClaimTypes.Email, $"test_mail{Guid.NewGuid()}@restaurant.com");
+            data.Add(ClaimTypes.Email, email);
             data.Add(RestaurantSimulationClaims.RestaurantSimulationRoles, role);
 
             TestClient.SetFakeBearerToken((object)data);

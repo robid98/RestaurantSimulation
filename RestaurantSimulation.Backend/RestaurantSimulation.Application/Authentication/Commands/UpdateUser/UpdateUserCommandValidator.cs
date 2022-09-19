@@ -1,17 +1,16 @@
 ﻿using FluentValidation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace RestaurantSimulation.Application.Authentication.Commands.Register
+namespace RestaurantSimulation.Application.Authentication.Commands.UpdateUser
 {
-    public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
+    public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
     {
-        public RegisterCommandValidator()
+        public UpdateUserCommandValidator()
         {
-            RuleFor(x => x.Sub)
-                .NotEmpty();
-
-            RuleFor(x => x.Email)
-                .NotEmpty();
-
             RuleFor(x => x.FirstName)
                 .NotEmpty()
                 .MinimumLength(3)

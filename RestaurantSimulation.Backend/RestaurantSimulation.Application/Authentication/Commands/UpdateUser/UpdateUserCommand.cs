@@ -2,11 +2,9 @@
 using MediatR;
 using RestaurantSimulation.Application.Authentication.Common;
 
-namespace RestaurantSimulation.Application.Authentication.Commands.Register
+namespace RestaurantSimulation.Application.Authentication.Commands.UpdateUser
 {
-    public record RegisterCommand(
-        string Sub,
-        string Email,
+    public record UpdateUserCommand(
         string FirstName,
         string LastName,
         string PhoneNumber,

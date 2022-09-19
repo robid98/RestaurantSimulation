@@ -1,16 +1,14 @@
-﻿using ErrorOr;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RestaurantSimulation.Application.Authentication.Commands.Register;
+using RestaurantSimulation.Application.Authentication.Commands.RegisterUser;
+using RestaurantSimulation.Application.Authentication.Commands.UpdateUser;
 using RestaurantSimulation.Application.Authentication.Common;
-using RestaurantSimulation.Application.Authentication.Common.Services.ExtractUserClaims;
 using RestaurantSimulation.Application.Authentication.Queries.GetUserByAccessToken;
 using RestaurantSimulation.Application.Authentication.Queries.GetUserById;
 using RestaurantSimulation.Application.Authentication.Queries.GetUsers;
 using RestaurantSimulation.Contracts.Authentication;
 using RestaurantSimulation.Domain.Common.Policies.Authorization;
-using Swashbuckle.Swagger.Annotations;
 
 namespace RestaurantSimulation.Api.Controllers
 {
@@ -18,14 +16,11 @@ namespace RestaurantSimulation.Api.Controllers
     public class AuthenticationController : ApiController
     {
         private readonly ISender _sender;
-        private readonly IExtractUserClaimsService _extractUserClaimsService;
 
         public AuthenticationController(
-            ISender mediator,
-            IExtractUserClaimsService extractUserClaimsService)
+            ISender mediator)
         {
             _sender = mediator;
-            _extractUserClaimsService = extractUserClaimsService;
         }
 
         /// <summary>
@@ -38,30 +33,43 @@ namespace RestaurantSimulation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public async Task<IActionResult> Register(RegisterRequest request)
+        public async Task<IActionResult> RegisterUser(RegisterUserRequest request)
         {
-            ErrorOr<string> userEmail = _extractUserClaimsService.GetUserEmail();
-
-            if (userEmail.IsError)
-                return Problem(userEmail.Errors);
-
-            ErrorOr<string> userSub = _extractUserClaimsService.GetUserSub();
-
-            if (userSub.IsError)
-                return Problem(userSub.Errors);
-
-            var registerCommand = await _sender.Send(
-                new RegisterCommand(
-                    userSub.Value,
-                    userEmail.Value,
+            var registerUserCommand = await _sender.Send(
+                new RegisterUserCommand(
                     request.FirstName,
                     request.LastName,
                     request.PhoneNumber,
                     request.Address)
                 );
 
-            return registerCommand.Match(
+            return registerUserCommand.Match(
                 registerResult => Ok(GetAuthenticationResponse(registerResult)),
+                errors => Problem(errors));
+        }
+
+        /// <summary>
+        /// Update existing User
+        /// </summary>
+        [Authorize(Policy = AuthorizationPolicies.ClientOrAdminRolePolicy)]
+        [HttpPut("users")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthenticationResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateUser(UpdateUserRequest request)
+        {
+            var updateUserCommand = await _sender.Send(
+                new UpdateUserCommand(
+                    request.FirstName,
+                    request.LastName,
+                    request.PhoneNumber,
+                    request.Address)
+                );
+
+            return updateUserCommand.Match(
+                updateResult => Ok(GetAuthenticationResponse(updateResult)),
                 errors => Problem(errors));
         }
 
