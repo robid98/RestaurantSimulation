@@ -1,4 +1,5 @@
-﻿using RestaurantSimulation.Domain.Entities.Authentication;
+﻿using ErrorOr;
+using RestaurantSimulation.Domain.Entities.Authentication;
 
 namespace RestaurantSimulation.Application.Common.Interfaces.Persistence
 {
@@ -13,5 +14,7 @@ namespace RestaurantSimulation.Application.Common.Interfaces.Persistence
         Task<List<User>> GetUsersAsync();
 
         Task AddAsync(User user);
+
+        Task<ErrorOr<User>> UpdateAsync(User user);
     }
 }

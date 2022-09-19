@@ -1,30 +1,34 @@
 ﻿using Moq;
-using RestaurantSimulation.Application.Authentication.Commands.Register;
+using RestaurantSimulation.Application.Authentication.Commands.RegisterUser;
 using RestaurantSimulation.Application.Common.Interfaces.Persistence;
 using RestaurantSimulation.Domain.Entities.Authentication;
 using RestaurantSimulation.Tests.UnitTests.Mocks.Authentication;
 using Shouldly;
 using RestaurantSimulation.Domain.Common.Errors;
+using RestaurantSimulation.Application.Authentication.Common.Services.ExtractUserClaims;
 
 namespace RestaurantSimulation.Tests.UnitTests.Authentication.Commands
 {
-    public class RegisterHandlerTests
+    public class RegisterUserHandlerTests
     {
         private Mock<IUserRepository> _mockUserRepository;
+        private Mock<IExtractUserClaimsService> _extractUserClaimsService;
 
-        public RegisterHandlerTests()
+        public RegisterUserHandlerTests()
         {
             _mockUserRepository = MockUserRepository.GetUserRepository();
+            _extractUserClaimsService = new Mock<IExtractUserClaimsService>();
         }
 
         [Fact]
         public async Task Should_Add_A_New_User_To_User_List()
         {
-            var handler = new RegisterHandler(_mockUserRepository.Object);
+            _extractUserClaimsService.Setup(x => x.GetUserEmail()).Returns("test@email.com");
+            _extractUserClaimsService.Setup(x => x.GetUserSub()).Returns("restaurant|usertest");
 
-            var result = await handler.Handle(new RegisterCommand(
-                    Sub: "Auth0:Test",
-                    Email: "Auth0:TestEmail",
+            var handler = new RegisterUserHandler(_mockUserRepository.Object, _extractUserClaimsService.Object);
+
+            var result = await handler.Handle(new RegisterUserCommand(
                     FirstName: "Gigel",
                     LastName: "Fronea",
                     PhoneNumber: "Auth0:TestNumber",
@@ -44,11 +48,9 @@ namespace RestaurantSimulation.Tests.UnitTests.Authentication.Commands
 
             _mockUserRepository.Setup(r => r.GetUserByEmailAsync(It.IsAny<string>())).ReturnsAsync(new User());
 
-            var handler = new RegisterHandler(_mockUserRepository.Object);
+            var handler = new RegisterUserHandler(_mockUserRepository.Object, _extractUserClaimsService.Object);
 
-            var result = await handler.Handle(new RegisterCommand(
-                    Sub: "Auth0:Test",
-                    Email: "Auth0:TestEmail",
+            var result = await handler.Handle(new RegisterUserCommand(
                     FirstName: "Gigel",
                     LastName: "Fronea",
                     PhoneNumber: "Auth0:TestNumber",

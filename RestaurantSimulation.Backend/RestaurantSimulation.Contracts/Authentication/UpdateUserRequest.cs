@@ -1,6 +1,6 @@
 ﻿namespace RestaurantSimulation.Contracts.Authentication
 {
-    public record RegisterRequest(
+    public record UpdateUserRequest(
         string FirstName,
         string LastName,
         string PhoneNumber,
