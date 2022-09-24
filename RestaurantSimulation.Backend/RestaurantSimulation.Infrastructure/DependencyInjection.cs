@@ -10,6 +10,7 @@ using RestaurantSimulation.Infrastructure.Persistence.Authentication;
 using RestaurantSimulation.Domain.Common.Policies.Authorization;
 using RestaurantSimulation.Domain.Common.Claims;
 using RestaurantSimulation.Domain.Common.Roles;
+using RestaurantSimulation.Infrastructure.Persistence.Restaurant;
 
 namespace RestaurantSimulation.Infrastructure
 {
@@ -74,6 +75,7 @@ namespace RestaurantSimulation.Infrastructure
                 optionsAction => optionsAction.MigrationsAssembly("RestaurantSimulation.Infrastructure")));
 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IMenuCategoryRepository, MenuCategoryRepository>();
 
             return services;
         }
