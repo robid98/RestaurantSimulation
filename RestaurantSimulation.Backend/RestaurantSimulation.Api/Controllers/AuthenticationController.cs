@@ -27,12 +27,12 @@ namespace RestaurantSimulation.Api.Controllers
         /// Register a new User
         /// </summary>
         [Authorize(Policy = AuthorizationPolicies.ClientOrAdminRolePolicy)]
-        [HttpPost("users")]
+        [HttpPost("user")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthenticationResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> RegisterUser(RegisterUserRequest request)
         {
             var registerUserCommand = await _sender.Send(
@@ -52,12 +52,12 @@ namespace RestaurantSimulation.Api.Controllers
         /// Update existing User
         /// </summary>
         [Authorize(Policy = AuthorizationPolicies.ClientOrAdminRolePolicy)]
-        [HttpPut("users")]
+        [HttpPut("user")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthenticationResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> UpdateUser(UpdateUserRequest request)
         {
             var updateUserCommand = await _sender.Send(
@@ -81,6 +81,7 @@ namespace RestaurantSimulation.Api.Controllers
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthenticationResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetUserByAccessToken()
         {
             var getUserByAccessTokenQuery = await _sender.Send(new GetUserByAccessTokenQuery());
@@ -98,6 +99,7 @@ namespace RestaurantSimulation.Api.Controllers
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthenticationResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetUserById(Guid id)
         {
             var getUserByIdQuery = await _sender.Send(new GetUserByIdQuery(id));
@@ -114,6 +116,7 @@ namespace RestaurantSimulation.Api.Controllers
         [HttpGet("users")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<AuthenticationResponse>))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetUsers()
         {
             var getUsersQuery = await _sender.Send(new GetUsersQuery());
