@@ -3,7 +3,7 @@ using MediatR;
 using RestaurantSimulation.Application.Authentication.Common;
 using RestaurantSimulation.Application.Authentication.Common.Services.ExtractUserClaims;
 using RestaurantSimulation.Application.Common.Interfaces.Persistence;
-using RestaurantSimulation.Domain.Common.Errors;
+using RestaurantSimulation.Domain.RestaurantApplicationErrors;
 using RestaurantSimulation.Domain.Entities.Authentication;
 
 namespace RestaurantSimulation.Application.Authentication.Queries.GetUserByAccessToken

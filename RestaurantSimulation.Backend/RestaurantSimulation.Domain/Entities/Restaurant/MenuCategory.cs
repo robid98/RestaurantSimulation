@@ -1,13 +1,25 @@
-﻿namespace RestaurantSimulation.Domain.Entities.Restaurant
+﻿using RestaurantSimulation.Domain.Primitives;
+
+namespace RestaurantSimulation.Domain.Entities.Restaurant
 {
-    public class MenuCategory
+    public class MenuCategory : Entity
     {
-        public Guid Id { get; set; }
+        public MenuCategory(Guid id, string name, string description) : base(id)
+        {
+            Name = name;
+            Description = description;
+        }
 
-        public string Name { get; set; } = default!;
+        public string Name { get; private set; } = default!;
 
-        public string Description { get; set; } = default!;
+        public string Description { get; private set; } = default!;
 
-        public virtual ICollection<Product> Products { get; set; } = default!;
+        public virtual ICollection<Product> Products { get; private set; } = default!;
+
+        public static void UpdateMenuCategoryInfo(MenuCategory menuCategory, string name, string description)
+        {
+            menuCategory.Name = name;
+            menuCategory.Description = description;
+        }
     }
 }

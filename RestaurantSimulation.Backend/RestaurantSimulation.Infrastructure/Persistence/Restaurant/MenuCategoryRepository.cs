@@ -1,6 +1,6 @@
 ﻿using RestaurantSimulation.Application.Common.Interfaces.Persistence;
 using RestaurantSimulation.Domain.Entities.Restaurant;
-using RestaurantSimulation.Domain.Common.Errors;
+using RestaurantSimulation.Domain.RestaurantApplicationErrors;
 using ErrorOr;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,21 +23,9 @@ namespace RestaurantSimulation.Infrastructure.Persistence.Restaurant
             await _restaurantSimulationContext.SaveChangesAsync();
         }
 
-        public async Task<ErrorOr<MenuCategory>> UpdateAsync(MenuCategory request)
+        public async Task UpdateAsync()
         {
-            MenuCategory? category = await GetRestaurantMenuCategory(request.Id);
-
-            if (category is null)
-            {
-                return Errors.RestaurantMenuCategory.NotFound;
-            }
-
-            category.Description = request.Description;
-            category.Name = request.Name;
-
             await _restaurantSimulationContext.SaveChangesAsync();
-
-            return category;
         }
 
         public async Task DeleteAsync(MenuCategory request)

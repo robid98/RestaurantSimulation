@@ -10,22 +10,24 @@ namespace RestaurantSimulation.Tests.UnitTests.Mocks.Authentication
         public static Guid _guid2 = Guid.NewGuid();
 
         public static List<User> userList = new List<User> {
-                new User {
-                    Id = _guid1,
-                    Email = "robert98@yahoo.com",
-                    FirstName = "Robert",
-                    LastName = "Darabana",
-                    Address = "Piatra Neamt",
-                    PhoneNumber = "0773111222"
-                },
-                new User {
-                    Id = _guid2,
-                    Email = "valibujor@yahoo.com",
-                    FirstName = "Vali",
-                    LastName = "Bujor",
-                    Address = "Piatra Neamt",
-                    PhoneNumber = "0773111333"
-                },
+                new User (
+                    _guid1,
+                    "auth0|sub1",
+                    "robert98@yahoo.com",
+                    "Robert",
+                    "Darabana",
+                    "0773111222",
+                    "Piatra Neamt"
+                ),
+                new User (
+                    _guid2,
+                    "auth0|sub2",
+                    "valibujor@yahoo.com",
+                    "Vali",
+                    "Bujor",
+                    "0773111333",
+                    "Piatra Neamt"
+                ),
            };
 
         public static Mock<IUserRepository> GetUserRepository(List<User> users = null!)

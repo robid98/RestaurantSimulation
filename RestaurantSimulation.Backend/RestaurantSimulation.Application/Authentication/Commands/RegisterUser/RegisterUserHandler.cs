@@ -3,7 +3,7 @@ using MediatR;
 using RestaurantSimulation.Application.Authentication.Common;
 using RestaurantSimulation.Application.Authentication.Common.Services.ExtractUserClaims;
 using RestaurantSimulation.Application.Common.Interfaces.Persistence;
-using RestaurantSimulation.Domain.Common.Errors;
+using RestaurantSimulation.Domain.RestaurantApplicationErrors;
 using RestaurantSimulation.Domain.Entities.Authentication;
 
 namespace RestaurantSimulation.Application.Authentication.Commands.RegisterUser
@@ -40,16 +40,7 @@ namespace RestaurantSimulation.Application.Authentication.Commands.RegisterUser
 
             var userId = Guid.NewGuid();
 
-            var user = new User
-            {
-                Id = userId,
-                Sub = userSub.Value,
-                Email = userEmail.Value,
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                PhoneNumber = request.PhoneNumber,
-                Address = request.Address
-            };
+            var user = new User(userId, userSub.Value, userEmail.Value, request.FirstName, request.LastName, request.PhoneNumber, request.Address);
 
             await _userRepository.AddAsync(user);
 
