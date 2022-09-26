@@ -26,17 +26,16 @@ namespace RestaurantSimulation.Domain.Entities.Authentication
 
         public string Address { get; private set; } = default!;
 
-        public static void UpdateUserProfile(
-            User user, 
+        public void UpdateUserProfile(
             string firstName,
             string lastName,
-            string PhoneNumber,
-            string Address)
+            string phoneNumber,
+            string address)
         {
-            user.FirstName = firstName;
-            user.LastName = lastName;
-            user.PhoneNumber = PhoneNumber;
-            user.Address = Address;
+            FirstName = firstName;
+            LastName = lastName;
+            PhoneNumber = phoneNumber;
+            Address = address;
         }
     }
 }

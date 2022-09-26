@@ -39,7 +39,7 @@ namespace RestaurantSimulation.Application.Authentication.Commands.UpdateUser
                 return Errors.User.NotFound;
             }
 
-            User.UpdateUserProfile(user,
+            user.UpdateUserProfile(
                 request.FirstName,
                 request.LastName,
                 request.PhoneNumber,
