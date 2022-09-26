@@ -12,13 +12,16 @@ namespace RestaurantSimulation.Application.Authentication.Commands.RegisterUser
     {
         private readonly IUserRepository _userRepository;
         private readonly IExtractUserClaimsService _extractUserClaimsService;
+        private readonly IUnitOfWork _unitOfWork;
 
         public RegisterUserHandler(
             IUserRepository userRepository,
-            IExtractUserClaimsService extractUserClaimsService)
+            IExtractUserClaimsService extractUserClaimsService,
+            IUnitOfWork unitOfWork)
         {
             _userRepository = userRepository;
             _extractUserClaimsService = extractUserClaimsService;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
@@ -43,6 +46,8 @@ namespace RestaurantSimulation.Application.Authentication.Commands.RegisterUser
             var user = new User(userId, userSub.Value, userEmail.Value, request.FirstName, request.LastName, request.PhoneNumber, request.Address);
 
             await _userRepository.AddAsync(user);
+
+            await _unitOfWork.SaveChangesAsync();
 
             return new AuthenticationResult(
                 userId,

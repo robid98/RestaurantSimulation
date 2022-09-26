@@ -12,12 +12,15 @@ namespace RestaurantSimulation.Application.Authentication.Commands.UpdateUser
     {
         private readonly IUserRepository _userRepository;
         private readonly IExtractUserClaimsService _extractUserClaimsService;
+        private readonly IUnitOfWork _unitOfWork;
 
         public UpdateUserHandler(IUserRepository userRepository,
-            IExtractUserClaimsService extractUserClaimsService)
+            IExtractUserClaimsService extractUserClaimsService,
+            IUnitOfWork unitOfWork)
         {
             _userRepository = userRepository;
             _extractUserClaimsService = extractUserClaimsService;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<ErrorOr<AuthenticationResult>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
@@ -45,7 +48,7 @@ namespace RestaurantSimulation.Application.Authentication.Commands.UpdateUser
                 request.PhoneNumber,
                 request.Address);
 
-            await _userRepository.UpdateAsync();
+            await _unitOfWork.SaveChangesAsync();
 
             return new AuthenticationResult
             (

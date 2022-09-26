@@ -1,7 +1,5 @@
 ﻿using RestaurantSimulation.Application.Common.Interfaces.Persistence;
 using RestaurantSimulation.Domain.Entities.Restaurant;
-using RestaurantSimulation.Domain.RestaurantApplicationErrors;
-using ErrorOr;
 using Microsoft.EntityFrameworkCore;
 
 namespace RestaurantSimulation.Infrastructure.Persistence.Restaurant
@@ -19,20 +17,13 @@ namespace RestaurantSimulation.Infrastructure.Persistence.Restaurant
         public async Task AddAsync(MenuCategory category)
         {
             await _restaurantSimulationContext.MenuCategories.AddAsync(category);
-
-            await _restaurantSimulationContext.SaveChangesAsync();
-        }
-
-        public async Task UpdateAsync()
-        {
-            await _restaurantSimulationContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(MenuCategory request)
         {
-            _restaurantSimulationContext.MenuCategories.Remove(request);
+            await Task.CompletedTask;
 
-            await _restaurantSimulationContext.SaveChangesAsync();
+            _restaurantSimulationContext.MenuCategories.Remove(request);
         }
 
         public async Task<List<MenuCategory>> GetRestaurantMenuCategories()

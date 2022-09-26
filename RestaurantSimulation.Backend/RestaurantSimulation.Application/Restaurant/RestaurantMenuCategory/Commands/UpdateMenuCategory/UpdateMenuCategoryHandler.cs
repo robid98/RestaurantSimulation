@@ -10,10 +10,14 @@ namespace RestaurantSimulation.Application.Restaurant.RestaurantMenuCategory.Com
     public class UpdateMenuCategoryHandler : IRequestHandler<UpdateMenuCategoryCommand, ErrorOr<MenuCategoryResult>>
     {
         private readonly IMenuCategoryRepository _menuCategoryRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateMenuCategoryHandler(IMenuCategoryRepository menuCategoryRepository)
+        public UpdateMenuCategoryHandler(
+            IMenuCategoryRepository menuCategoryRepository,
+            IUnitOfWork unitOfWork)
         {
             _menuCategoryRepository = menuCategoryRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<ErrorOr<MenuCategoryResult>> Handle(UpdateMenuCategoryCommand request, CancellationToken cancellationToken)
@@ -32,7 +36,7 @@ namespace RestaurantSimulation.Application.Restaurant.RestaurantMenuCategory.Com
 
             category.UpdateMenuCategoryInfo(request.Name, request.Description);
 
-            await _menuCategoryRepository.UpdateAsync();
+            await _unitOfWork.SaveChangesAsync();
 
             return new MenuCategoryResult (
                 category.Id,
