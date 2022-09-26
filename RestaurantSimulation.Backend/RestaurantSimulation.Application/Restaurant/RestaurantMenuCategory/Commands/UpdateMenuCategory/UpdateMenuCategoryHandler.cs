@@ -30,7 +30,7 @@ namespace RestaurantSimulation.Application.Restaurant.RestaurantMenuCategory.Com
                 return Errors.RestaurantMenuCategory.DuplicateRestaurantMenuCategory;
             }
 
-            MenuCategory.UpdateMenuCategoryInfo(category, request.Name, request.Description);
+            category.UpdateMenuCategoryInfo(request.Name, request.Description);
 
             await _menuCategoryRepository.UpdateAsync();
 
