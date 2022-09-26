@@ -16,13 +16,6 @@ namespace RestaurantSimulation.Infrastructure.Persistence.Authentication
         public async Task AddAsync(User user)
         {
             await _restaurantSimulationContext.Users.AddAsync(user);
-
-            await _restaurantSimulationContext.SaveChangesAsync();
-        }
-
-        public async Task UpdateAsync()
-        {
-            await _restaurantSimulationContext.SaveChangesAsync();
         }
 
         public async Task<User?> GetUserByEmailAsync(string email)

@@ -13,11 +13,13 @@ namespace RestaurantSimulation.Tests.UnitTests.Authentication.Commands
     {
         private Mock<IUserRepository> _mockUserRepository;
         private Mock<IExtractUserClaimsService> _extractUserClaimsService;
+        private Mock<IUnitOfWork> _unitOfWork;
 
         public UpdateUserHandlerTests()
         {
             _mockUserRepository = MockUserRepository.GetUserRepository();
             _extractUserClaimsService = new Mock<IExtractUserClaimsService>();
+            _unitOfWork = new Mock<IUnitOfWork>();
         }
 
         [Fact]
@@ -26,7 +28,10 @@ namespace RestaurantSimulation.Tests.UnitTests.Authentication.Commands
             _extractUserClaimsService.Setup(x => x.GetUserEmail()).Returns("robert98@yahoo.com");
             _extractUserClaimsService.Setup(x => x.GetUserSub()).Returns("restaurant|usertest");
 
-            var handler = new UpdateUserHandler(_mockUserRepository.Object, _extractUserClaimsService.Object);
+            var handler = new UpdateUserHandler(
+                _mockUserRepository.Object, 
+                _extractUserClaimsService.Object,
+                _unitOfWork.Object);
 
             var result = await handler.Handle(new UpdateUserCommand(
                     FirstName: "Costelus",
@@ -51,7 +56,10 @@ namespace RestaurantSimulation.Tests.UnitTests.Authentication.Commands
 
             _mockUserRepository.Setup(x => x.GetUserByEmailAsync(It.IsAny<string>())).Returns(Task.FromResult<User?>(null));
 
-            var handler = new UpdateUserHandler(_mockUserRepository.Object, _extractUserClaimsService.Object);
+            var handler = new UpdateUserHandler(
+                _mockUserRepository.Object, 
+                _extractUserClaimsService.Object,
+                _unitOfWork.Object);
 
             var result = await handler.Handle(new UpdateUserCommand(
                     FirstName: "Costelus",

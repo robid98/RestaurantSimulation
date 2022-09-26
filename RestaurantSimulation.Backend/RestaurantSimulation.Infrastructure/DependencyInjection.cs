@@ -76,6 +76,7 @@ namespace RestaurantSimulation.Infrastructure
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMenuCategoryRepository, MenuCategoryRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;
         }

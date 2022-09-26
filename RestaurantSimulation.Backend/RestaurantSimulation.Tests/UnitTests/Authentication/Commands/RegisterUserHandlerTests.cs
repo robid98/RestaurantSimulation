@@ -13,11 +13,13 @@ namespace RestaurantSimulation.Tests.UnitTests.Authentication.Commands
     {
         private Mock<IUserRepository> _mockUserRepository;
         private Mock<IExtractUserClaimsService> _extractUserClaimsService;
+        private Mock<IUnitOfWork> _unitOfWork;
 
         public RegisterUserHandlerTests()
         {
             _mockUserRepository = MockUserRepository.GetUserRepository();
             _extractUserClaimsService = new Mock<IExtractUserClaimsService>();
+            _unitOfWork = new Mock<IUnitOfWork>();
         }
 
         [Fact]
@@ -26,7 +28,10 @@ namespace RestaurantSimulation.Tests.UnitTests.Authentication.Commands
             _extractUserClaimsService.Setup(x => x.GetUserEmail()).Returns("test@email.com");
             _extractUserClaimsService.Setup(x => x.GetUserSub()).Returns("restaurant|usertest");
 
-            var handler = new RegisterUserHandler(_mockUserRepository.Object, _extractUserClaimsService.Object);
+            var handler = new RegisterUserHandler(
+                _mockUserRepository.Object, 
+                _extractUserClaimsService.Object, 
+                _unitOfWork.Object);
 
             var result = await handler.Handle(new RegisterUserCommand(
                     FirstName: "Gigel",
@@ -56,7 +61,10 @@ namespace RestaurantSimulation.Tests.UnitTests.Authentication.Commands
                 "Beatiful Place"
             ));
 
-            var handler = new RegisterUserHandler(_mockUserRepository.Object, _extractUserClaimsService.Object);
+            var handler = new RegisterUserHandler(
+                _mockUserRepository.Object, 
+                _extractUserClaimsService.Object,
+                _unitOfWork.Object);
 
             var result = await handler.Handle(new RegisterUserCommand(
                     FirstName: "Gigel",
