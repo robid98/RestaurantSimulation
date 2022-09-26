@@ -21,16 +21,17 @@ namespace RestaurantSimulation.Tests.UnitTests.Authentication.Queries
         [Fact]
         public async Task Should_Return_List_Of_Users()
         {
-           List<User> users = new List<User> {
-                new User {
-                    Id = Guid.NewGuid(),
-                    Email = "robert98@yahoo.com",
-                    FirstName = "Robert",
-                    LastName = "Darabana",
-                    Address = "Piatra Neamt",
-                    PhoneNumber = "0773111222"
-                },
-           };
+            List<User> users = new List<User> {
+                new User (
+                    Guid.NewGuid(),
+                    "auth0|testsub",
+                    "robert98@yahoo.com",
+                    "Robert",
+                    "Darabana",
+                    "Piatra Neamt",
+                    "0773111222"
+                 )
+            };
 
             _mockUserRepository = MockUserRepository.GetUserRepository(users);
 

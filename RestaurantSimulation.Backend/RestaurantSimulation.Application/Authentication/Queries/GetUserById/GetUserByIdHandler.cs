@@ -3,7 +3,7 @@ using MediatR;
 using RestaurantSimulation.Application.Authentication.Common;
 using RestaurantSimulation.Application.Common.Interfaces.Persistence;
 using RestaurantSimulation.Domain.Entities.Authentication;
-using RestaurantSimulation.Domain.Common.Errors;
+using RestaurantSimulation.Domain.RestaurantApplicationErrors;
 
 namespace RestaurantSimulation.Application.Authentication.Queries.GetUserById
 {

@@ -5,7 +5,7 @@ using RestaurantSimulation.Application.Common.Interfaces.Persistence;
 using RestaurantSimulation.Domain.Entities.Authentication;
 using RestaurantSimulation.Tests.UnitTests.Mocks.Authentication;
 using Shouldly;
-using RestaurantSimulation.Domain.Common.Errors;
+using RestaurantSimulation.Domain.RestaurantApplicationErrors;
 
 namespace RestaurantSimulation.Tests.UnitTests.Authentication.Commands
 {
@@ -25,16 +25,6 @@ namespace RestaurantSimulation.Tests.UnitTests.Authentication.Commands
         {
             _extractUserClaimsService.Setup(x => x.GetUserEmail()).Returns("robert98@yahoo.com");
             _extractUserClaimsService.Setup(x => x.GetUserSub()).Returns("restaurant|usertest");
-
-            _mockUserRepository.Setup(x => x.UpdateAsync(It.IsAny<User>())).ReturnsAsync(new User
-            {
-                Id = Guid.NewGuid(),
-                Sub = "auth0|test",
-                FirstName = "Costelus",
-                LastName = "Barbosul",
-                PhoneNumber = "1111111111",
-                Address = "Schimbata Adresa"
-            });
 
             var handler = new UpdateUserHandler(_mockUserRepository.Object, _extractUserClaimsService.Object);
 
@@ -59,7 +49,7 @@ namespace RestaurantSimulation.Tests.UnitTests.Authentication.Commands
             _extractUserClaimsService.Setup(x => x.GetUserEmail()).Returns("robert98@yahoo.com");
             _extractUserClaimsService.Setup(x => x.GetUserSub()).Returns("restaurant|usertest");
 
-            _mockUserRepository.Setup(x => x.UpdateAsync(It.IsAny<User>())).ReturnsAsync(Errors.User.NotFound);
+            _mockUserRepository.Setup(x => x.GetUserByEmailAsync(It.IsAny<string>())).Returns(Task.FromResult<User?>(null));
 
             var handler = new UpdateUserHandler(_mockUserRepository.Object, _extractUserClaimsService.Object);
 

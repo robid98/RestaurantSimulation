@@ -4,7 +4,7 @@ using RestaurantSimulation.Application.Common.Interfaces.Persistence;
 using RestaurantSimulation.Domain.Entities.Authentication;
 using RestaurantSimulation.Tests.UnitTests.Mocks.Authentication;
 using Shouldly;
-using RestaurantSimulation.Domain.Common.Errors;
+using RestaurantSimulation.Domain.RestaurantApplicationErrors;
 using RestaurantSimulation.Application.Authentication.Common.Services.ExtractUserClaims;
 
 namespace RestaurantSimulation.Tests.UnitTests.Authentication.Commands
@@ -46,7 +46,15 @@ namespace RestaurantSimulation.Tests.UnitTests.Authentication.Commands
         {
             _mockUserRepository = new Mock<IUserRepository>();
 
-            _mockUserRepository.Setup(r => r.GetUserByEmailAsync(It.IsAny<string>())).ReturnsAsync(new User());
+            _mockUserRepository.Setup(r => r.GetUserByEmailAsync(It.IsAny<string>())).ReturnsAsync(new User(
+                Guid.NewGuid(),
+                "auth0|test",
+                "testemail@restaurant.com",
+                "Gigel",
+                "Fronea",
+                "Auth0:TestNumber",
+                "Beatiful Place"
+            ));
 
             var handler = new RegisterUserHandler(_mockUserRepository.Object, _extractUserClaimsService.Object);
 

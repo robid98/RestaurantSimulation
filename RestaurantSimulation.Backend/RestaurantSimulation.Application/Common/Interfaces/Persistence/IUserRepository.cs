@@ -7,7 +7,7 @@ namespace RestaurantSimulation.Application.Common.Interfaces.Persistence
     {
         Task AddAsync(User user);
 
-        Task<ErrorOr<User>> UpdateAsync(User user);
+        Task UpdateAsync();
 
         Task<User?> GetUserByEmailAsync(string email);
 

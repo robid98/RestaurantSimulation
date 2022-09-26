@@ -1,7 +1,7 @@
 ﻿using ErrorOr;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
-using RestaurantSimulation.Domain.Common.Errors;
+using RestaurantSimulation.Domain.RestaurantApplicationErrors;
 
 namespace RestaurantSimulation.Application.Authentication.Common.Services.ExtractUserClaims
 {

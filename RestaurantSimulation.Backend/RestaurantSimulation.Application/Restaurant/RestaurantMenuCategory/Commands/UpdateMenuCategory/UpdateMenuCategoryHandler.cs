@@ -3,6 +3,7 @@ using MediatR;
 using RestaurantSimulation.Application.Common.Interfaces.Persistence;
 using RestaurantSimulation.Application.Restaurant.RestaurantMenuCategory.Common;
 using RestaurantSimulation.Domain.Entities.Restaurant;
+using RestaurantSimulation.Domain.RestaurantApplicationErrors;
 
 namespace RestaurantSimulation.Application.Restaurant.RestaurantMenuCategory.Commands.UpdateMenuCategory
 {
@@ -17,19 +18,26 @@ namespace RestaurantSimulation.Application.Restaurant.RestaurantMenuCategory.Com
 
         public async Task<ErrorOr<MenuCategoryResult>> Handle(UpdateMenuCategoryCommand request, CancellationToken cancellationToken)
         {
-            var menuCategory = await _menuCategoryRepository.UpdateAsync(new MenuCategory { 
-                Id = request.Id,
-                Name = request.Name,
-                Description = request.Description,
-            });
+            MenuCategory? category = await _menuCategoryRepository.GetRestaurantMenuCategory(request.Id);
 
-            if (menuCategory.IsError)
-                return menuCategory.FirstError;
+            if (category is null)
+            {
+                return Errors.RestaurantMenuCategory.NotFound;
+            }
+
+            if (await _menuCategoryRepository.GetRestaurantCategoryByName(request.Name) is not null)
+            {
+                return Errors.RestaurantMenuCategory.DuplicateRestaurantMenuCategory;
+            }
+
+            MenuCategory.UpdateMenuCategoryInfo(category, request.Name, request.Description);
+
+            await _menuCategoryRepository.UpdateAsync();
 
             return new MenuCategoryResult (
-                menuCategory.Value.Id,
-                menuCategory.Value.Name,
-                menuCategory.Value.Description
+                category.Id,
+                category.Name,
+                category.Description
             );
         }
     }

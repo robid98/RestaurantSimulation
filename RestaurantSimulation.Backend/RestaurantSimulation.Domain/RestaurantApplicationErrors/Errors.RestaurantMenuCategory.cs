@@ -1,6 +1,6 @@
 ﻿using ErrorOr;
 
-namespace RestaurantSimulation.Domain.Common.Errors
+namespace RestaurantSimulation.Domain.RestaurantApplicationErrors
 {
     public static partial class Errors
     {

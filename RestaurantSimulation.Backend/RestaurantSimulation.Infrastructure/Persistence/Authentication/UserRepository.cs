@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RestaurantSimulation.Application.Common.Interfaces.Persistence;
 using RestaurantSimulation.Domain.Entities.Authentication;
-using RestaurantSimulation.Domain.Common.Errors;
-using ErrorOr;
 
 namespace RestaurantSimulation.Infrastructure.Persistence.Authentication
 {
@@ -22,23 +20,9 @@ namespace RestaurantSimulation.Infrastructure.Persistence.Authentication
             await _restaurantSimulationContext.SaveChangesAsync();
         }
 
-        public async Task<ErrorOr<User>> UpdateAsync(User request)
+        public async Task UpdateAsync()
         {
-            User? user = await GetUserByEmailAsync(request.Email);
-
-            if (user is null)
-            {
-                return Errors.User.NotFound;
-            }
-
-            user.FirstName = request.FirstName;
-            user.LastName = request.LastName;
-            user.PhoneNumber = request.PhoneNumber;
-            user.Address = request.Address;
-
             await _restaurantSimulationContext.SaveChangesAsync();
-
-            return user;
         }
 
         public async Task<User?> GetUserByEmailAsync(string email)

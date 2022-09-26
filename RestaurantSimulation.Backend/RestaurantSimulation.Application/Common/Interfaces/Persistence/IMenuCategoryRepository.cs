@@ -7,7 +7,7 @@ namespace RestaurantSimulation.Application.Common.Interfaces.Persistence
     {
         Task AddAsync(MenuCategory restaurantMenuCategory);
 
-        Task<ErrorOr<MenuCategory>> UpdateAsync(MenuCategory request);
+        Task UpdateAsync();
 
         Task DeleteAsync(MenuCategory request);
 
