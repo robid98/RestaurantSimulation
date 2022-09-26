@@ -14,7 +14,7 @@ namespace RestaurantSimulation.Domain.Entities.Restaurant
 
         public string Description { get; private set; } = default!;
 
-        public virtual ICollection<Product> Products { get; private set; } = default!;
+        public ICollection<Product> Products { get; private set; } = default!;
 
         public static void UpdateMenuCategoryInfo(MenuCategory menuCategory, string name, string description)
         {
