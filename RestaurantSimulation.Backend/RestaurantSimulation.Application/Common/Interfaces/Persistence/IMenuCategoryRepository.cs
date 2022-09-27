@@ -1,5 +1,4 @@
-﻿using ErrorOr;
-using RestaurantSimulation.Domain.Entities.Restaurant;
+﻿using RestaurantSimulation.Domain.Entities.Restaurant;
 
 namespace RestaurantSimulation.Application.Common.Interfaces.Persistence
 {
@@ -11,10 +10,10 @@ namespace RestaurantSimulation.Application.Common.Interfaces.Persistence
 
         Task<List<MenuCategory>> GetRestaurantMenuCategories();
 
-        Task<MenuCategory?> GetRestaurantMenuCategory(Guid id);
+        Task<MenuCategory?> GetRestaurantMenuCategoryById(Guid id);
 
-        Task<MenuCategory?> GetRestaurantCategoryByName(string name);
+        Task<MenuCategory?> GetRestaurantMenuCategoryByName(string name);
 
-        Task<List<Product>> GetProductsRestaurantMenuCategory(Guid id);
+        Task<List<Product>> GetProductsRestaurantMenuCategoryById(Guid id);
     }
 }

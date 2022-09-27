@@ -33,14 +33,14 @@ namespace RestaurantSimulation.Infrastructure.Persistence.Restaurant
             return menuCategories;
         }
 
-        public async Task<MenuCategory?> GetRestaurantMenuCategory(Guid id)
+        public async Task<MenuCategory?> GetRestaurantMenuCategoryById(Guid id)
         {
             MenuCategory? category = await _restaurantSimulationContext.MenuCategories.FirstOrDefaultAsync(category => category.Id == id);
 
             return category;
         }
 
-        public async Task<List<Product>> GetProductsRestaurantMenuCategory(Guid id)
+        public async Task<List<Product>> GetProductsRestaurantMenuCategoryById(Guid id)
         {
             MenuCategory? category = await _restaurantSimulationContext.MenuCategories.FirstOrDefaultAsync(category => category.Id == id);
 
@@ -50,7 +50,7 @@ namespace RestaurantSimulation.Infrastructure.Persistence.Restaurant
             return null!;
         }
 
-        public async Task<MenuCategory?> GetRestaurantCategoryByName(string name)
+        public async Task<MenuCategory?> GetRestaurantMenuCategoryByName(string name)
         {
             MenuCategory? category = await _restaurantSimulationContext.MenuCategories.FirstOrDefaultAsync(category => category.Name == name);
 

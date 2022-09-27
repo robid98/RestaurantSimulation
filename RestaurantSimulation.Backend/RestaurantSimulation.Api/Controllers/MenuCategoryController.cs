@@ -1,7 +1,9 @@
-﻿using MediatR;
+﻿using ErrorOr;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantSimulation.Application.Restaurant.RestaurantMenuCategory.Commands.CreateMenuCategory;
+using RestaurantSimulation.Application.Restaurant.RestaurantMenuCategory.Commands.DeleteMenuCategory;
 using RestaurantSimulation.Application.Restaurant.RestaurantMenuCategory.Commands.UpdateMenuCategory;
 using RestaurantSimulation.Application.Restaurant.RestaurantMenuCategory.Common;
 using RestaurantSimulation.Contracts.Restaurant;
@@ -32,7 +34,7 @@ namespace RestaurantSimulation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> CreateMenuCategory(MenuCategoryRequest request)
         {
-            var createMenuCategoryCommand = await _sender.Send(
+            ErrorOr<MenuCategoryResult> createMenuCategoryCommand = await _sender.Send(
                 new CreateMenuCategoryCommand(
                     request.Name,
                     request.Description)
@@ -56,7 +58,7 @@ namespace RestaurantSimulation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateMenuCategory(Guid id, MenuCategoryRequest request)
         {
-            var updateMenuCategoryCommand = await _sender.Send(
+            ErrorOr<MenuCategoryResult> updateMenuCategoryCommand = await _sender.Send(
                 new UpdateMenuCategoryCommand(
                     id,
                     request.Name,
@@ -64,7 +66,7 @@ namespace RestaurantSimulation.Api.Controllers
                 );
 
             return updateMenuCategoryCommand.Match(
-                updatecategoryResult => Ok(GetRestaurantMenuCategoryResponse(updatecategoryResult)),
+                updateCategoryResult => Ok(GetRestaurantMenuCategoryResponse(updateCategoryResult)),
                 errors => Problem(errors));
         }
 
@@ -74,12 +76,17 @@ namespace RestaurantSimulation.Api.Controllers
         [Authorize(Policy = AuthorizationPolicies.AdminRolePolicy)]
         [HttpDelete("restaurant/menucategory/{id}")]
         [Produces("application/json")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult DeleteMenuCategory(Guid id)
+        public async Task<IActionResult> DeleteMenuCategory(Guid id)
         {
-            return Ok();
+            ErrorOr<Unit> deleteMenuCategoryCommand = await _sender.Send(
+                    new DeleteMenuCategoryCommand(id));
+
+            return deleteMenuCategoryCommand.Match(
+                deleteMenuCategoryResult => NoContent(),
+                errors => Problem(errors));
         }
 
         /// <summary>
