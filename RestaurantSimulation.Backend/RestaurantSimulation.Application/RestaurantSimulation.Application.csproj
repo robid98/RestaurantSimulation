@@ -18,4 +18,9 @@
   <ItemGroup>
     <ProjectReference Include="..\RestaurantSimulation.Domain\RestaurantSimulation.Domain.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Restaurant\RestaurantProducts\Commands\" />
+    <Folder Include="Restaurant\RestaurantProducts\Queries\" />
+  </ItemGroup>
 </Project>

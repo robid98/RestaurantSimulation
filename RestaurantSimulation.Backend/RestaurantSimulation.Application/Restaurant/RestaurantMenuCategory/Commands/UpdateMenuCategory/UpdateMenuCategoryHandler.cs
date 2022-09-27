@@ -22,14 +22,14 @@ namespace RestaurantSimulation.Application.Restaurant.RestaurantMenuCategory.Com
 
         public async Task<ErrorOr<MenuCategoryResult>> Handle(UpdateMenuCategoryCommand request, CancellationToken cancellationToken)
         {
-            MenuCategory? category = await _menuCategoryRepository.GetRestaurantMenuCategory(request.Id);
+            MenuCategory? category = await _menuCategoryRepository.GetRestaurantMenuCategoryById(request.Id);
 
             if (category is null)
             {
                 return Errors.RestaurantMenuCategory.NotFound;
             }
 
-            if (await _menuCategoryRepository.GetRestaurantCategoryByName(request.Name) is not null)
+            if (await _menuCategoryRepository.GetRestaurantMenuCategoryByName(request.Name) is not null)
             {
                 return Errors.RestaurantMenuCategory.DuplicateRestaurantMenuCategory;
             }

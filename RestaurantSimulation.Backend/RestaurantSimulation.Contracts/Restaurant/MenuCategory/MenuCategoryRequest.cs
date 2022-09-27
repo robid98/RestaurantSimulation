@@ -1,4 +1,4 @@
-﻿namespace RestaurantSimulation.Contracts.Restaurant
+﻿namespace RestaurantSimulation.Contracts.Restaurant.MenuCategory
 {
     public record MenuCategoryRequest(
         string Name,

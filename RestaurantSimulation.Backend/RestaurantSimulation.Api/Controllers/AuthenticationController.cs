@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using ErrorOr;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantSimulation.Application.Authentication.Commands.RegisterUser;
@@ -35,7 +36,7 @@ namespace RestaurantSimulation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> RegisterUser(RegisterUserRequest request)
         {
-            var registerUserCommand = await _sender.Send(
+            ErrorOr<AuthenticationResult> registerUserCommand = await _sender.Send(
                 new RegisterUserCommand(
                     request.FirstName,
                     request.LastName,
@@ -60,7 +61,7 @@ namespace RestaurantSimulation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> UpdateUser(UpdateUserRequest request)
         {
-            var updateUserCommand = await _sender.Send(
+            ErrorOr<AuthenticationResult> updateUserCommand = await _sender.Send(
                 new UpdateUserCommand(
                     request.FirstName,
                     request.LastName,
@@ -84,7 +85,7 @@ namespace RestaurantSimulation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetUserByAccessToken()
         {
-            var getUserByAccessTokenQuery = await _sender.Send(new GetUserByAccessTokenQuery());
+            ErrorOr<AuthenticationResult> getUserByAccessTokenQuery = await _sender.Send(new GetUserByAccessTokenQuery());
 
             return getUserByAccessTokenQuery.Match(
                 getUserByAccessTokenResult => Ok(GetAuthenticationResponse(getUserByAccessTokenResult)),
@@ -102,7 +103,7 @@ namespace RestaurantSimulation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetUserById(Guid id)
         {
-            var getUserByIdQuery = await _sender.Send(new GetUserByIdQuery(id));
+            ErrorOr<AuthenticationResult> getUserByIdQuery = await _sender.Send(new GetUserByIdQuery(id));
 
             return getUserByIdQuery.Match(
                 getUserByIdResult => Ok(GetAuthenticationResponse(getUserByIdResult)),
@@ -119,7 +120,7 @@ namespace RestaurantSimulation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetUsers()
         {
-            var getUsersQuery = await _sender.Send(new GetUsersQuery());
+            ErrorOr<List<AuthenticationResult>> getUsersQuery = await _sender.Send(new GetUsersQuery());
 
             return getUsersQuery.Match(
                 getUsersResult => Ok(GetAuthenticationResponseList(getUsersResult)),

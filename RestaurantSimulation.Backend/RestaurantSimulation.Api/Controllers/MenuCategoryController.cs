@@ -1,11 +1,19 @@
-﻿using MediatR;
+﻿using ErrorOr;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantSimulation.Application.Restaurant.RestaurantMenuCategory.Commands.CreateMenuCategory;
+using RestaurantSimulation.Application.Restaurant.RestaurantMenuCategory.Commands.DeleteMenuCategory;
 using RestaurantSimulation.Application.Restaurant.RestaurantMenuCategory.Commands.UpdateMenuCategory;
 using RestaurantSimulation.Application.Restaurant.RestaurantMenuCategory.Common;
-using RestaurantSimulation.Contracts.Restaurant;
+using RestaurantSimulation.Application.Restaurant.RestaurantMenuCategory.Queries.GetMenuCategories;
+using RestaurantSimulation.Application.Restaurant.RestaurantMenuCategory.Queries.GetMenuCategoryById;
+using RestaurantSimulation.Application.Restaurant.RestaurantMenuCategory.Queries.GetProductsMenuCategoryById;
+using RestaurantSimulation.Application.Restaurant.RestaurantProducts.Common;
+using RestaurantSimulation.Contracts.Restaurant.MenuCategory;
+using RestaurantSimulation.Contracts.Restaurant.Product;
 using RestaurantSimulation.Domain.Common.Policies.Authorization;
+using RestaurantSimulation.Domain.Entities.Restaurant;
 
 namespace RestaurantSimulation.Api.Controllers
 {
@@ -32,7 +40,7 @@ namespace RestaurantSimulation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> CreateMenuCategory(MenuCategoryRequest request)
         {
-            var createMenuCategoryCommand = await _sender.Send(
+            ErrorOr<MenuCategoryResult> createMenuCategoryCommand = await _sender.Send(
                 new CreateMenuCategoryCommand(
                     request.Name,
                     request.Description)
@@ -56,7 +64,7 @@ namespace RestaurantSimulation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateMenuCategory(Guid id, MenuCategoryRequest request)
         {
-            var updateMenuCategoryCommand = await _sender.Send(
+            ErrorOr<MenuCategoryResult> updateMenuCategoryCommand = await _sender.Send(
                 new UpdateMenuCategoryCommand(
                     id,
                     request.Name,
@@ -64,7 +72,7 @@ namespace RestaurantSimulation.Api.Controllers
                 );
 
             return updateMenuCategoryCommand.Match(
-                updatecategoryResult => Ok(GetRestaurantMenuCategoryResponse(updatecategoryResult)),
+                updateCategoryResult => Ok(GetRestaurantMenuCategoryResponse(updateCategoryResult)),
                 errors => Problem(errors));
         }
 
@@ -74,12 +82,17 @@ namespace RestaurantSimulation.Api.Controllers
         [Authorize(Policy = AuthorizationPolicies.AdminRolePolicy)]
         [HttpDelete("restaurant/menucategory/{id}")]
         [Produces("application/json")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult DeleteMenuCategory(Guid id)
+        public async Task<IActionResult> DeleteMenuCategory(Guid id)
         {
-            return Ok();
+            ErrorOr<Unit> deleteMenuCategoryCommand = await _sender.Send(
+                    new DeleteMenuCategoryCommand(id));
+
+            return deleteMenuCategoryCommand.Match(
+                deleteMenuCategoryResult => NoContent(),
+                errors => Problem(errors));
         }
 
         /// <summary>
@@ -88,12 +101,17 @@ namespace RestaurantSimulation.Api.Controllers
         [Authorize(Policy = AuthorizationPolicies.ClientOrAdminRolePolicy)]
         [HttpGet("restaurant/menucategory/{id}")]
         [Produces("application/json")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MenuCategoryResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult GetRestaurantMenuCategory(Guid id)
+        public async Task<IActionResult> GetRestaurantMenuCategoryById(Guid id)
         {
-            return Ok();
+            ErrorOr<MenuCategoryResult> menuCategoryResult  = await _sender.Send(
+                    new GetMenuCategoryByIdQuery(id));
+
+            return menuCategoryResult.Match(
+                categoryResult => Ok(GetRestaurantMenuCategoryResponse(categoryResult)),
+                errors => Problem(errors));
         }
 
         /// <summary>
@@ -102,11 +120,16 @@ namespace RestaurantSimulation.Api.Controllers
         [Authorize(Policy = AuthorizationPolicies.ClientOrAdminRolePolicy)]
         [HttpGet("restaurant/menucategories")]
         [Produces("application/json")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<MenuCategoryResponse>))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult GetRestaurantMenuCategories()
+        public async Task<IActionResult> GetRestaurantMenuCategories()
         {
-            return Ok();
+            ErrorOr<List<MenuCategoryResult>> menuCategoriesResult = await _sender.Send(
+                    new GetMenuCategoriesQuery());
+
+            return menuCategoriesResult.Match(
+                menuCategoriesResult => Ok(GetRestaurantMenuCategoriesResponse(menuCategoriesResult)),
+                errors => Problem(errors));
         }
 
 
@@ -116,12 +139,18 @@ namespace RestaurantSimulation.Api.Controllers
         [Authorize(Policy = AuthorizationPolicies.ClientOrAdminRolePolicy)]
         [HttpGet("restaurant/menucategory/{id}/products")]
         [Produces("application/json")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ProductResult>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult GetProductsFromRestaurantMenuCategory(Guid id)
+        public async Task<IActionResult> GetProductsFromRestaurantMenuCategory(Guid id)
         {
-            return Ok();
+            ErrorOr<List<ProductResult>> productsResult = await _sender.Send(
+                    new GetProductsMenuCategoryByIdQuery(id));
+
+            return productsResult.Match(
+                productsResult => Ok(productsResult.Select(product => 
+                    new ProductResponse(product.Id, product.Price, product.Description, product.isAvailable, product.CategoryId))),
+                errors => Problem(errors));
         }
 
         private static MenuCategoryResponse GetRestaurantMenuCategoryResponse(MenuCategoryResult menuCategoryResult)
@@ -130,6 +159,12 @@ namespace RestaurantSimulation.Api.Controllers
                             menuCategoryResult.Id,
                             menuCategoryResult.Name,
                             menuCategoryResult.Description);
+        }
+
+        private static List<MenuCategoryResponse> GetRestaurantMenuCategoriesResponse(List<MenuCategoryResult> menuCategoriesResult)
+        {
+            return menuCategoriesResult.Select(menuCategoryResult => 
+                new MenuCategoryResponse(menuCategoryResult.Id, menuCategoryResult.Name, menuCategoryResult.Description)).ToList();
         }
     }
 }
