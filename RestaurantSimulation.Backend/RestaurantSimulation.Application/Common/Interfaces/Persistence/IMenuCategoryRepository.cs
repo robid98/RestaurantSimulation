@@ -14,6 +14,6 @@ namespace RestaurantSimulation.Application.Common.Interfaces.Persistence
 
         Task<MenuCategory?> GetRestaurantMenuCategoryByName(string name);
 
-        Task<List<Product>> GetProductsRestaurantMenuCategoryById(Guid id);
+        Task<List<Product>?> GetProductsRestaurantMenuCategoryById(Guid id);
     }
 }
