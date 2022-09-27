@@ -98,7 +98,7 @@ namespace RestaurantSimulation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult GetRestaurantMenuCategory(Guid id)
+        public IActionResult GetRestaurantMenuCategoryById(Guid id)
         {
             return Ok();
         }
