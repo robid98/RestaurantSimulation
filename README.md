@@ -8,10 +8,17 @@
 <img src="https://neosmart.net/blog/wp-content/uploads/2019/06/dot-NET-Core.png" alt="auth0" width="150" height="140"/> &nbsp;&nbsp;
 <img src="https://seeklogo.com/images/M/microsoft-sql-server-logo-96AF49E2B3-seeklogo.com.png" alt="auth0" width="150" height="140"/> &nbsp;&nbsp;
 
+<br>
+
+<div align="center">
 
 ## Description
 The aim of this project is to make a functional Restaurant web application.
 On the backend side the project will be build as a Web API and the frontend side will be made in Angular or React.
+
+</div>
+
+<br>
 
 ## Deploy
 - Azure or AWS
