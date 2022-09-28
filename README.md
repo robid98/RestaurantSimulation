@@ -74,3 +74,5 @@ On the backend side the project will be build as a Web API and the frontend side
 - Also feel free to report any bug`s you find into the application.
 - This project is also good for begginers to learn how to structure code with CLEAN Architecture, learn CQRS with the help of MediatR Library, Entity Framework etc.
 - This project can help you also if you are only a Frontend Developer. You will have a free Web API to use, for building an Frontend, with a technology by your choice. The only restriction is, authentication need to be made with <b>Auth0</b>.
+
+https://github.com/robid98/RestaurantSimulation/issues - For suggestions, bugs. Here you will find also what needs to be implemented / current stories.
