@@ -25,6 +25,7 @@ namespace RestaurantSimulation.Tests.UnitTests.Authentication.Commands
         [Fact]
         public async Task Should_Add_A_New_User_To_User_List()
         {
+            // arrange
             _extractUserClaimsService.Setup(x => x.GetUserEmail()).Returns("test@email.com");
             _extractUserClaimsService.Setup(x => x.GetUserSub()).Returns("restaurant|usertest");
 
@@ -33,12 +34,14 @@ namespace RestaurantSimulation.Tests.UnitTests.Authentication.Commands
                 _extractUserClaimsService.Object, 
                 _unitOfWork.Object);
 
+            // act
             var result = await handler.Handle(new RegisterUserCommand(
                     FirstName: "Gigel",
                     LastName: "Fronea",
                     PhoneNumber: "Auth0:TestNumber",
                     Address: "Beatiful Place"), CancellationToken.None);
 
+            // assert
             if (result.IsError is false)
             {
                 MockUserRepository.userList.Count.ShouldBe(3);
@@ -49,6 +52,7 @@ namespace RestaurantSimulation.Tests.UnitTests.Authentication.Commands
         [Fact]
         public async Task Should_Return_Error_Duplicate_Email_If_The_User_Already_Exist()
         {
+            // arrange
             _mockUserRepository = new Mock<IUserRepository>();
 
             _mockUserRepository.Setup(r => r.GetUserByEmailAsync(It.IsAny<string>())).ReturnsAsync(new User(
@@ -66,12 +70,14 @@ namespace RestaurantSimulation.Tests.UnitTests.Authentication.Commands
                 _extractUserClaimsService.Object,
                 _unitOfWork.Object);
 
+            // act
             var result = await handler.Handle(new RegisterUserCommand(
                     FirstName: "Gigel",
                     LastName: "Fronea",
                     PhoneNumber: "Auth0:TestNumber",
                     Address: "Beatiful Place"), CancellationToken.None);
 
+            // assert
             result.IsError.ShouldBe(true);
             result.FirstError.Code.ShouldBe(Errors.User.DuplicateEmail.Code);
         }

@@ -25,6 +25,7 @@ namespace RestaurantSimulation.Tests.UnitTests.Authentication.Commands
         [Fact]
         public async Task Should_Update_Current_User_Profile()
         {
+            // arrange
             _extractUserClaimsService.Setup(x => x.GetUserEmail()).Returns("robert98@yahoo.com");
             _extractUserClaimsService.Setup(x => x.GetUserSub()).Returns("restaurant|usertest");
 
@@ -33,12 +34,14 @@ namespace RestaurantSimulation.Tests.UnitTests.Authentication.Commands
                 _extractUserClaimsService.Object,
                 _unitOfWork.Object);
 
+            // act
             var result = await handler.Handle(new UpdateUserCommand(
                     FirstName: "Costelus",
                     LastName: "Barbosul",
                     PhoneNumber: "1111111111",
                     Address: "Schimbata Adresa"), CancellationToken.None);
 
+            // assert
             if (result.IsError is false)
             {
                 result.Value.FirstName.ShouldBe("Costelus");
@@ -51,6 +54,7 @@ namespace RestaurantSimulation.Tests.UnitTests.Authentication.Commands
         [Fact]
         public async Task Should_Return_404_If_User_Dont_Exist_And_Want_To_Be_Updated()
         {
+            // arrange
             _extractUserClaimsService.Setup(x => x.GetUserEmail()).Returns("robert98@yahoo.com");
             _extractUserClaimsService.Setup(x => x.GetUserSub()).Returns("restaurant|usertest");
 
@@ -61,13 +65,14 @@ namespace RestaurantSimulation.Tests.UnitTests.Authentication.Commands
                 _extractUserClaimsService.Object,
                 _unitOfWork.Object);
 
+            // act
             var result = await handler.Handle(new UpdateUserCommand(
                     FirstName: "Costelus",
                     LastName: "Barbosul",
                     PhoneNumber: "1111111111",
                     Address: "Schimbata Adresa"), CancellationToken.None);
 
-
+            // assert
             result.IsError.ShouldBe(true);
             result.FirstError.Code.ShouldBe(Errors.User.NotFound.Code);
         }

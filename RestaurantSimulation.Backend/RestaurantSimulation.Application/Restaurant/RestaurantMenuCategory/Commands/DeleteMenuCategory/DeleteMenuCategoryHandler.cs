@@ -20,7 +20,7 @@ namespace RestaurantSimulation.Application.Restaurant.RestaurantMenuCategory.Com
 
         public async Task<ErrorOr<Unit>> Handle(DeleteMenuCategoryCommand request, CancellationToken cancellationToken)
         {
-            var menuCategory = await _menuCategoryRepository.GetRestaurantMenuCategoryById(request.id);
+            var menuCategory = await _menuCategoryRepository.GetRestaurantMenuCategoryByIdAsync(request.id);
 
             if (menuCategory is null)
                 return Errors.RestaurantMenuCategory.NotFound;
