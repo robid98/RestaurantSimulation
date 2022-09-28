@@ -149,7 +149,13 @@ namespace RestaurantSimulation.Api.Controllers
 
             return productsResult.Match(
                 productsResult => Ok(productsResult.Select(product => 
-                    new ProductResponse(product.Id, product.Price, product.Description, product.isAvailable, product.CategoryId))),
+                    new ProductResponse(
+                        product.Id, 
+                        product.Price, 
+                        product.Name, 
+                        product.Description, 
+                        product.isAvailable, 
+                        product.CategoryId))),
                 errors => Problem(errors));
         }
 

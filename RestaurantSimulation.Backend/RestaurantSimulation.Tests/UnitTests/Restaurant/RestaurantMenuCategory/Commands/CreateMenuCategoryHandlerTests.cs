@@ -33,7 +33,7 @@ namespace RestaurantSimulation.Tests.UnitTests.Restaurant.RestaurantMenuCategory
             ErrorOr<MenuCategoryResult> result = await handler.Handle
                 (new CreateMenuCategoryCommand("Fruits", "Best Fruits"), CancellationToken.None);
 
-            // arrange
+            // assert
             result.IsError.ShouldBeFalse();
             result.Value.Name.ShouldBe("Fruits");
             result.Value.Description.ShouldBe("Best Fruits");
@@ -53,7 +53,7 @@ namespace RestaurantSimulation.Tests.UnitTests.Restaurant.RestaurantMenuCategory
             ErrorOr<MenuCategoryResult> result = await handler.Handle
                 (new CreateMenuCategoryCommand("Fruits", "Best Fruits"), CancellationToken.None);
 
-            // arrange
+            // assert
             result.IsError.ShouldBeTrue();
             result.FirstError.Code.ShouldBe(Errors.RestaurantMenuCategory.DuplicateRestaurantMenuCategory.Code);
             result.FirstError.Description.ShouldBe(Errors.RestaurantMenuCategory.DuplicateRestaurantMenuCategory.Description);
