@@ -2,7 +2,6 @@
 
 <br>
 
-<img src="https://user-images.githubusercontent.com/89996135/192699135-ae7175b9-cf22-4311-a8e6-7d9022d47e7a.png" alt="angular" width="150" height="150"/> &nbsp;&nbsp;
 <img src="https://user-images.githubusercontent.com/89996135/192704213-81735e23-98ed-4373-a7d7-89dce6c9b575.png" alt="angular" width="150" height="150"/> &nbsp;&nbsp;
 <img src="https://uploads-ssl.webflow.com/61566192da988c377f1ac06c/616dfac0a533fe024d89e327_60dbd7237742ba750d49cf35_icon-auth0-marketplace.svg" alt="auth0"  width="150" height="140"/> &nbsp;&nbsp;
 <img src="https://neosmart.net/blog/wp-content/uploads/2019/06/dot-NET-Core.png" alt="auth0" width="150" height="140"/> &nbsp;&nbsp;
