@@ -18,7 +18,7 @@ namespace RestaurantSimulation.Application.Restaurant.RestaurantMenuCategory.Que
 
         public async Task<ErrorOr<List<ProductResult>>> Handle(GetProductsMenuCategoryByIdQuery request, CancellationToken cancellationToken)
         {
-            List<Product>? products = await _menuCategoryRepository.GetProductsRestaurantMenuCategoryById(request.Id);
+            List<Product>? products = await _menuCategoryRepository.GetProductsRestaurantMenuCategoryByIdAsync(request.Id);
 
             if (products is null)
                 return Errors.RestaurantMenuCategory.NotFound;

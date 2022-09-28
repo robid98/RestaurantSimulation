@@ -21,6 +21,7 @@ namespace RestaurantSimulation.Tests.UnitTests.Authentication.Queries
         [Fact]
         public async Task Should_Return_List_Of_Users()
         {
+            // arrange
             List<User> users = new List<User> {
                 new User (
                     Guid.NewGuid(),
@@ -37,8 +38,10 @@ namespace RestaurantSimulation.Tests.UnitTests.Authentication.Queries
 
             var handler = new GetUsersHandler(_mockUserRepository.Object);
 
+            // act
             var result = await handler.Handle(new GetUsersQuery(), CancellationToken.None);
 
+            // assert
             result.ShouldBeOfType<ErrorOr<List<AuthenticationResult>>>();
 
             if (result.IsError is false)
@@ -51,12 +54,15 @@ namespace RestaurantSimulation.Tests.UnitTests.Authentication.Queries
         [Fact]
         public async Task Should_Return_Empty_List_Of_Users()
         {
+            // arrange
             _mockUserRepository = MockUserRepository.GetUserRepository(new());
 
             var handler = new GetUsersHandler(_mockUserRepository.Object);
 
+            // act
             var result = await handler.Handle(new GetUsersQuery(), CancellationToken.None);
 
+            // assert
             result.ShouldBeOfType<ErrorOr<List<AuthenticationResult>>>();
 
             if (result.IsError is false)

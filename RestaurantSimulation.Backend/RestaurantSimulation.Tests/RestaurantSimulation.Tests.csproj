@@ -32,4 +32,8 @@
     <ProjectReference Include="..\RestaurantSimulation.Application\RestaurantSimulation.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UnitTests\Mocks\Restaurant\" />
+  </ItemGroup>
+
 </Project>
