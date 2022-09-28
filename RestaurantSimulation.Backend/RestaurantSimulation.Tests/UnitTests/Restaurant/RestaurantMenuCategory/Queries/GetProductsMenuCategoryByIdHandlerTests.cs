@@ -29,6 +29,7 @@ namespace RestaurantSimulation.Tests.UnitTests.Restaurant.RestaurantMenuCategory
                             Guid.NewGuid(),
                             15.35,
                             "Omleta",
+                            "Oua, rosii, ardei",
                             true,
                             Guid.NewGuid()
                        )
@@ -44,7 +45,8 @@ namespace RestaurantSimulation.Tests.UnitTests.Restaurant.RestaurantMenuCategory
             result.IsError.ShouldBeFalse();
 
             result.Value[0].Price.ShouldBe(15.35);
-            result.Value[0].Description.ShouldBe("Omleta");
+            result.Value[0].Name.ShouldBe("Omleta");
+            result.Value[0].Description.ShouldBe("Oua, rosii, ardei");
         }
 
         [Fact]

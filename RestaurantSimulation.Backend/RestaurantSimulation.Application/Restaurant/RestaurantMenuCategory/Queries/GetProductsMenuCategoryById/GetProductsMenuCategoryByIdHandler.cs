@@ -26,6 +26,7 @@ namespace RestaurantSimulation.Application.Restaurant.RestaurantMenuCategory.Que
             return products.Select(product => new ProductResult(
                 product.Id, 
                 product.Price, 
+                product.Name,
                 product.Description, 
                 product.IsAvailable, 
                 product.CategoryId)).ToList();
