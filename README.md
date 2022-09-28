@@ -1,46 +1,69 @@
-# RestaurantSimulation
+<h1 align="center">Restaurant Simulation - A real world restaurant application</h1>
+
+<br>
+
+![image](https://user-images.githubusercontent.com/89996135/192699135-ae7175b9-cf22-4311-a8e6-7d9022d47e7a.png) &nbsp;&nbsp;
+<img src="https://user-images.githubusercontent.com/89996135/192704213-81735e23-98ed-4373-a7d7-89dce6c9b575.png" alt="angular" width="150" height="150"/> &nbsp;&nbsp;
+<img src="https://uploads-ssl.webflow.com/61566192da988c377f1ac06c/616dfac0a533fe024d89e327_60dbd7237742ba750d49cf35_icon-auth0-marketplace.svg" alt="auth0"  width="150" height="140"/> &nbsp;&nbsp;
+<img src="https://neosmart.net/blog/wp-content/uploads/2019/06/dot-NET-Core.png" alt="auth0" width="150" height="140"/> &nbsp;&nbsp;
+<img src="https://seeklogo.com/images/M/microsoft-sql-server-logo-96AF49E2B3-seeklogo.com.png" alt="auth0" width="150" height="140"/> &nbsp;&nbsp;
+
+
+## Description
 The aim of this project is to make a functional Restaurant web application.
 On the backend side the project will be build as a Web API and the frontend side will be made in Angular or React.
 
-<h2>Deploy</h2>
+## Deploy
 - Azure or AWS
 
-<h2>Authentication/Authorization</h2>
-- Auth0 : https://auth0.com/
+## Authentication
+- Auth0 : https://auth0.com/ <br>
+- RestaurantSimulation.Backend is protected with Auth0. You need a valid access token in order to use the Api. Also there are two roles in the RestaurantSimulation:<br>
+&nbsp;&nbsp;&nbsp;  1.  <b>restaurant-simulation-admin</b>  (You have full access to all features of the application) <br>
+&nbsp;&nbsp;&nbsp;  2.  <b>restaurant-simulation-client</b> (You have access only to some features of the application)
 
-<h2>RestaurantSimulation.Backend</h2>
+## RestaurantSimulation.Backend
 
-- CLEAN Arhitecture
-- CQRS - MediatR
-- Entity Framework Core 6.0
-- SQL Server
-- FluentValidation
-- Auth0
-- ErrorOr Library
-- WebAPI
-- LINQ
-- xUnit
-- moq
-- shouldly
+- <b>CLEAN Arhitecture</br>
+- <b>CQRS - MediatR</br>
+- <b>Entity Framework Core 6.0</br>
+- <b>SQL Server</br>
+- <b>FluentValidation</br>
+- <b>Auth0</br>
+- <b>ErrorOr Library</br>
+- <b>WebAPI</br>
+- <b>LINQ</br>
+- <b>xUnit</br>
+- <b>moq</br>
+- <b>shouldly</br>
 
-<h2>RestaurantSimulation.Frontend</h2>
+## RestaurantSimulation.Frontend
 
-- React
-- Angular
+- <b>React</br>
+- <b>Angular</br>
 
-<h2>Branches conventions</h2>
+## Branches conventions
 
 - <h4>backend/feature/branch-name</h4>
 - <h4>backend/bug/bug-name</h4>
 - <h4>frontend/feature/branch-name</h4>
 - <h4>frontend/bug/bug-name</h4>
 
-<h2>EntityFramework Migrations Commands</h2>
+## EntityFramework Migrations Commands
 
 - EntityFrameworkCore\Add-Migration 'migration-name' -project RestaurantSimulation.Infrastructure -o Persistence/Migrations
 - EntityFrameworkCore\Update-database
 
-<h2>Branch protection rules</h2>
+## Branch protection rules
 
 - Git guardian with passed status
 - RestaurantSimulation.Backend Azure Pipeline with passed status
+
+<hr>
+
+## Contributing
+
+- Feel free to contribute to this project if you like it or if you have any suggestions for new Features.
+- Also feel free to report any bug`s you find into the application.
+- This project is also good for begginers to learn how to structure code with CLEAN Architecture, learn CQRS with the help of MediatR Library, Entity Framework etc.
+- This project can help you also if you are only a Frontend Developer. You will have a free Web API to use, for building an Frontend, with a technology by your choice. The only restriction is, authentication need to be made with <b>Auth0</b>.
