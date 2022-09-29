@@ -46,6 +46,8 @@ namespace RestaurantSimulation.IntegrationTests
 
                         var serviceProvider = services.BuildServiceProvider();
                         _context = serviceProvider.GetService<RestaurantSimulationContext>();
+
+                        RestaurantContextSeed.SeedAsync(_context!);
                     });
                 });
 

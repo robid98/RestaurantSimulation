@@ -41,10 +41,10 @@ namespace RestaurantSimulation.IntegrationTests.Authentication
 
             responseGet.StatusCode.ShouldBe(HttpStatusCode.OK);
 
-            var users = await responseGet.Content.ReadFromJsonAsync<List<AuthenticationResult>>();
+            var users = await responseGet.Content.ReadFromJsonAsync<List<AuthenticationResponse>>();
 
-            users?.Count.ShouldBe(1);
-            users?[0].FirstName.ShouldBe(userRequest.FirstName);
+            users?.Count.ShouldBe(RestaurantContextSeed.users.Count + 1);
+            users?[RestaurantContextSeed.users.Count].FirstName.ShouldBe(userRequest.FirstName);
         }
 
         [Fact, Order(3)]
@@ -56,7 +56,7 @@ namespace RestaurantSimulation.IntegrationTests.Authentication
 
             responseGet.StatusCode.ShouldBe(HttpStatusCode.OK);
 
-            var user = await responseGet.Content.ReadFromJsonAsync<AuthenticationResult>();
+            var user = await responseGet.Content.ReadFromJsonAsync<AuthenticationResponse>();
 
             user?.FirstName.ShouldBe(userRequest.FirstName);
             user?.PhoneNumber.ShouldBe(userRequest.PhoneNumber);
@@ -86,23 +86,14 @@ namespace RestaurantSimulation.IntegrationTests.Authentication
         [Fact, Order(6)]
         public async Task Should_Return_User_Registered_With_Specified_Id()
         {
-            _integrationTestsSetup.AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _integrationTestsSetup.userSub);
-
-            var responseGet = await _integrationTestsSetup.TestClient.GetAsync("/api/auth/users/");
-
-            var users = await responseGet.Content.ReadFromJsonAsync<List<AuthenticationResult>>();
-
-            users?.Count.ShouldBe(1);
-            users?[0].FirstName.ShouldBe(userRequest.FirstName);
-
-            var responseGetUserById = await _integrationTestsSetup.TestClient.GetAsync($"/api/auth/user/{users?[0].Id}");
+            var responseGetUserById = await _integrationTestsSetup.TestClient.GetAsync($"/api/auth/user/{RestaurantContextSeed.usersGuid[0]}");
 
             responseGetUserById.StatusCode.ShouldBe(HttpStatusCode.OK);
 
-            var user = await responseGetUserById.Content.ReadFromJsonAsync<AuthenticationResult>();
+            var user = await responseGetUserById.Content.ReadFromJsonAsync<AuthenticationResponse>();
 
-            user?.FirstName.ShouldBe(userRequest.FirstName);
-            user?.PhoneNumber.ShouldBe(userRequest.PhoneNumber);
+            user?.FirstName.ShouldBe(RestaurantContextSeed.users[0].FirstName);
+            user?.PhoneNumber.ShouldBe(RestaurantContextSeed.users[0].PhoneNumber);
 
         }
 
@@ -116,7 +107,7 @@ namespace RestaurantSimulation.IntegrationTests.Authentication
 
             responseHttpPutUser.StatusCode.ShouldBe(HttpStatusCode.OK);
 
-            var user = await responseHttpPutUser.Content.ReadFromJsonAsync<AuthenticationResult>();
+            var user = await responseHttpPutUser.Content.ReadFromJsonAsync<AuthenticationResponse>();
 
             user?.FirstName.ShouldBe("Mirel");
             user?.LastName.ShouldBe("Danilu");
@@ -128,7 +119,7 @@ namespace RestaurantSimulation.IntegrationTests.Authentication
 
             responseGetUser.StatusCode.ShouldBe(HttpStatusCode.OK);
 
-            var userById = await responseGetUser.Content.ReadFromJsonAsync<AuthenticationResult>();
+            var userById = await responseGetUser.Content.ReadFromJsonAsync<AuthenticationResponse>();
 
             userById?.FirstName.ShouldBe("Mirel");
             userById?.LastName.ShouldBe("Danilu");
