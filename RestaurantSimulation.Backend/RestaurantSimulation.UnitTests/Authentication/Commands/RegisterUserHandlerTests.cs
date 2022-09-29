@@ -2,12 +2,12 @@
 using RestaurantSimulation.Application.Authentication.Commands.RegisterUser;
 using RestaurantSimulation.Application.Common.Interfaces.Persistence;
 using RestaurantSimulation.Domain.Entities.Authentication;
-using RestaurantSimulation.Tests.UnitTests.Mocks.Authentication;
+using RestaurantSimulation.UnitTests.Mocks.Authentication;
 using Shouldly;
 using RestaurantSimulation.Domain.RestaurantApplicationErrors;
 using RestaurantSimulation.Application.Authentication.Common.Services.ExtractUserClaims;
 
-namespace RestaurantSimulation.Tests.UnitTests.Authentication.Commands
+namespace RestaurantSimulation.UnitTests.Authentication.Commands
 {
     public class RegisterUserHandlerTests
     {

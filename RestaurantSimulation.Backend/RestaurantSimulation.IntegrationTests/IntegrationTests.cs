@@ -2,22 +2,24 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using RestaurantSimulation.Domain.Common.Claims;
-using RestaurantSimulation.Domain.Common.Roles;
 using RestaurantSimulation.Infrastructure.Persistence;
 using System.Dynamic;
 using System.Net;
 using System.Security.Claims;
 using WebMotions.Fake.Authentication.JwtBearer;
 
-namespace RestaurantSimulation.Tests.IntegrationTests
+namespace RestaurantSimulation.IntegrationTests
 {
-    public class IntegrationTests
+    public class IntegrationTestsSetup : IDisposable
     {
-        protected readonly HttpClient TestClient;
+        public readonly HttpClient TestClient;
+        private RestaurantSimulationContext? _context { get; set; }
+
+        public string userSub = Guid.NewGuid().ToString();
 
         private readonly string _dbName = Guid.NewGuid().ToString();
 
-        protected IntegrationTests()
+        public IntegrationTestsSetup()
         {
             var appFactory = new WebApplicationFactory<Program>()
                 .WithWebHostBuilder(builder =>
@@ -41,17 +43,25 @@ namespace RestaurantSimulation.Tests.IntegrationTests
                         });
 
                         services.AddAuthentication(FakeJwtBearerDefaults.AuthenticationScheme).AddFakeJwtBearer();
+
+                        var serviceProvider = services.BuildServiceProvider();
+                        _context = serviceProvider.GetService<RestaurantSimulationContext>();
                     });
                 });
 
             TestClient = appFactory.CreateClient();
         }
 
-        protected void  AuthenticateAsync(string role, string email)
+        public void Dispose()
+        {
+            _context?.Database.EnsureDeleted();
+        }
+
+        public void  AuthenticateAsync(string role, string email, string userSub)
         {
             var data = new ExpandoObject() as IDictionary<string, Object>;
 
-            data.Add(ClaimTypes.NameIdentifier, Guid.NewGuid());
+            data.Add(ClaimTypes.NameIdentifier, userSub);
             data.Add(ClaimTypes.Email, email);
             data.Add(RestaurantSimulationClaims.RestaurantSimulationRoles, role);
 

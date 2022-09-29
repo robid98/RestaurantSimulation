@@ -6,7 +6,7 @@ using RestaurantSimulation.Application.Restaurant.RestaurantMenuCategory.Queries
 using RestaurantSimulation.Domain.Entities.Restaurant;
 using Shouldly;
 
-namespace RestaurantSimulation.Tests.UnitTests.Restaurant.RestaurantMenuCategory.Queries
+namespace RestaurantSimulation.UnitTests.Restaurant.RestaurantMenuCategory.Queries
 {
     public class GetMenuCategoriesHandlerTests
     {

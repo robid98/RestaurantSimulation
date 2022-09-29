@@ -1,13 +1,13 @@
 ﻿using RestaurantSimulation.Application.Common.Interfaces.Persistence;
 using Moq;
-using RestaurantSimulation.Tests.UnitTests.Mocks.Authentication;
+using RestaurantSimulation.UnitTests.Mocks.Authentication;
 using RestaurantSimulation.Application.Authentication.Queries.GetUsers;
 using Shouldly;
 using RestaurantSimulation.Application.Authentication.Common;
 using ErrorOr;
 using RestaurantSimulation.Domain.Entities.Authentication;
 
-namespace RestaurantSimulation.Tests.UnitTests.Authentication.Queries
+namespace RestaurantSimulation.UnitTests.Authentication.Queries
 {
     public class GetUsersHandlerTests
     {

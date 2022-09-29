@@ -7,7 +7,7 @@ using RestaurantSimulation.Domain.Entities.Restaurant;
 using Shouldly;
 using RestaurantSimulation.Domain.RestaurantApplicationErrors;
 
-namespace RestaurantSimulation.Tests.UnitTests.Restaurant.RestaurantMenuCategory.Queries
+namespace RestaurantSimulation.UnitTests.Restaurant.RestaurantMenuCategory.Queries
 {
     public class GetMenuCategoryByIdHandlerTests
     {
