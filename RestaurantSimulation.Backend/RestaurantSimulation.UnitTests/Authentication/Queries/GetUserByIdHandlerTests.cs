@@ -1,11 +1,11 @@
 ﻿using Moq;
 using RestaurantSimulation.Application.Authentication.Queries.GetUserById;
 using RestaurantSimulation.Application.Common.Interfaces.Persistence;
-using RestaurantSimulation.Tests.UnitTests.Mocks.Authentication;
+using RestaurantSimulation.UnitTests.Mocks.Authentication;
 using Shouldly;
 using RestaurantSimulation.Domain.RestaurantApplicationErrors;
 
-namespace RestaurantSimulation.Tests.UnitTests.Authentication.Queries
+namespace RestaurantSimulation.UnitTests.Authentication.Queries
 {
     public class GetUserByIdHandlerTests
     {

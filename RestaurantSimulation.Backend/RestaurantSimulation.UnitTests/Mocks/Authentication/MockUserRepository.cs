@@ -2,7 +2,7 @@
 using RestaurantSimulation.Application.Common.Interfaces.Persistence;
 using RestaurantSimulation.Domain.Entities.Authentication;
 
-namespace RestaurantSimulation.Tests.UnitTests.Mocks.Authentication
+namespace RestaurantSimulation.UnitTests.Mocks.Authentication
 {
     public static class MockUserRepository
     {
