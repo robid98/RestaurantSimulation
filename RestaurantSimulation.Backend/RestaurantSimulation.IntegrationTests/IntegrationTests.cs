@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using RestaurantSimulation.Application.Common.Interfaces.Persistence;
 using RestaurantSimulation.Domain.Common.Claims;
 using RestaurantSimulation.Infrastructure.Persistence;
 using System.Dynamic;
@@ -13,11 +15,12 @@ namespace RestaurantSimulation.IntegrationTests
     public class IntegrationTestsSetup : IDisposable
     {
         public readonly HttpClient TestClient;
+
         private RestaurantSimulationContext? _context { get; set; }
 
-        public string userSub = Guid.NewGuid().ToString();
+        private SqliteConnection Connection = default!;
 
-        private readonly string _dbName = Guid.NewGuid().ToString();
+        public string userSub = Guid.NewGuid().ToString();
 
         public IntegrationTestsSetup()
         {
@@ -37,15 +40,27 @@ namespace RestaurantSimulation.IntegrationTests
                                 services.Remove(option);
                             }
                         }
-                        services.AddDbContext<RestaurantSimulationContext>(options =>
+
+                        var unitOfWork = services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IUnitOfWork));
+                        if (unitOfWork != null)
                         {
-                            options.UseInMemoryDatabase(_dbName);
-                        });
+                            services.Remove(unitOfWork);    
+                        }
+
+
+                        // Microsoft.EntityFrameworkCore.Sqlite needs to be installed.
+                        Connection = new SqliteConnection("DataSource=:memory:");
+                        Connection.Open();
+
+                        services.AddDbContext<RestaurantSimulationContext>(options => options.UseSqlite(Connection));
+
+                        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
                         services.AddAuthentication(FakeJwtBearerDefaults.AuthenticationScheme).AddFakeJwtBearer();
 
                         var serviceProvider = services.BuildServiceProvider();
                         _context = serviceProvider.GetService<RestaurantSimulationContext>();
+                        _context?.Database.EnsureCreated();
 
                         RestaurantContextSeed.SeedAsync(_context!);
                     });
