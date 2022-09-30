@@ -62,7 +62,7 @@ namespace RestaurantSimulation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateMenuCategory(Guid id, MenuCategoryRequest request)
+        public async Task<IActionResult> UpdateMenuCategory(Guid id, MenuCategoryRequest request) // Careful to change that in the future if necessary
         {
             ErrorOr<MenuCategoryResult> updateMenuCategoryCommand = await _sender.Send(
                 new UpdateMenuCategoryCommand(
