@@ -1,6 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using RestaurantSimulation.Api;
 using RestaurantSimulation.Application;
 using RestaurantSimulation.Infrastructure;
+using RestaurantSimulation.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,16 +13,22 @@ builder.Services.AddPresentation(builder.Configuration)
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+using (var scope = app.Services.CreateScope())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api");
-        c.OAuthClientId(builder.Configuration["Auth0:ClientId"]);
-    });
+    var db = scope.ServiceProvider.GetRequiredService<RestaurantSimulationContext>();
+    db.Database.Migrate();
 }
+
+// Configure the HTTP request pipeline.
+//if (app.Environment.IsDevelopment())
+//{
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api");
+    c.OAuthClientId(builder.Configuration["Auth0:ClientId"]);
+});
+//}
 
 app.UseCors(builder => builder
     .AllowAnyOrigin()
@@ -34,7 +42,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
 
 app.Run();
 
