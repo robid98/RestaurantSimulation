@@ -1,0 +1,37 @@
+version: '3.4'
+
+services:
+  restaurantsimulation.api:
+    container_name: restaurantsimulation.api
+    image: ${DOCKER_REGISTRY-}restaurantsimulationapi
+    build:
+      context: .
+      dockerfile: RestaurantSimulation.Api/Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Production
+        - SqlServer__ConnectionString=Server=db;Database=RestaurantSimulation;User=sa;Password=Barbaric123;
+        - SqlServer__AutomaticMigrations=true
+        - Auth0__Domain=dev-88r0xkt1.eu.auth0.com
+        - Auth0__Audience=https://restaurantsimulation/api
+        - Auth0__ClientId=xCRPlATR4O0ZzZvAvTZ8h1yaJC0RMLGI
+        - Auth0__Authority=dev-88r0xkt1.eu.auth0.com
+        - UseSwagger=true
+    depends_on:
+        - db
+
+  db:
+    container_name: restaurantsimulation.db
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    user: root
+    ports:
+        - "1433:1433"
+    environment:
+        SA_PASSWORD: "Barbaric123"
+        ACCEPT_EULA: "Y"
+    volumes:
+        - restaurantsimulation-data:/var/opt/mssql/data
+
+volumes:
+  restaurantsimulation-data:

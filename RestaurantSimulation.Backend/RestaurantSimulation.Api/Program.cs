@@ -1,6 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using RestaurantSimulation.Api;
 using RestaurantSimulation.Application;
 using RestaurantSimulation.Infrastructure;
+using RestaurantSimulation.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,8 +13,16 @@ builder.Services.AddPresentation(builder.Configuration)
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (bool.Parse(builder.Configuration["SqlServer:AutomaticMigrations"]))
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<RestaurantSimulationContext>();
+        db.Database.Migrate();
+    }
+}
+
+if (bool.Parse(builder.Configuration["UseSwagger"]))
 {
     app.UseSwagger();
     app.UseSwaggerUI(c =>
@@ -34,7 +44,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
 
 app.Run();
 

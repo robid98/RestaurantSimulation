@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Docker-compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "db": "StartWithoutDebugging",
+        "restaurantsimulation.api": "StartDebugging"
+      }
+    }
+  }
+}

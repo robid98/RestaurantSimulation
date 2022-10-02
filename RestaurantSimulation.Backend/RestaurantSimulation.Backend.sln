@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestaurantSimulation.Integr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestaurantSimulation.UnitTests", "RestaurantSimulation.UnitTests\RestaurantSimulation.UnitTests.csproj", "{3D82E907-903B-4F60-9D16-B3D33A9E363F}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{F7540039-E076-4748-929E-5758DEC5E6A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{3D82E907-903B-4F60-9D16-B3D33A9E363F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D82E907-903B-4F60-9D16-B3D33A9E363F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D82E907-903B-4F60-9D16-B3D33A9E363F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7540039-E076-4748-929E-5758DEC5E6A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7540039-E076-4748-929E-5758DEC5E6A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7540039-E076-4748-929E-5758DEC5E6A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7540039-E076-4748-929E-5758DEC5E6A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
