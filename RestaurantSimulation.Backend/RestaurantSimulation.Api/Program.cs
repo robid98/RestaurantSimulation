@@ -13,22 +13,24 @@ builder.Services.AddPresentation(builder.Configuration)
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
+if (bool.Parse(builder.Configuration["SqlServer:AutomaticMigrations"]))
 {
-    var db = scope.ServiceProvider.GetRequiredService<RestaurantSimulationContext>();
-    db.Database.Migrate();
+    using (var scope = app.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<RestaurantSimulationContext>();
+        db.Database.Migrate();
+    }
 }
 
-// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-app.UseSwagger();
-app.UseSwaggerUI(c =>
+if (bool.Parse(builder.Configuration["UseSwagger"]))
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api");
-    c.OAuthClientId(builder.Configuration["Auth0:ClientId"]);
-});
-//}
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api");
+        c.OAuthClientId(builder.Configuration["Auth0:ClientId"]);
+    });
+}
 
 app.UseCors(builder => builder
     .AllowAnyOrigin()
