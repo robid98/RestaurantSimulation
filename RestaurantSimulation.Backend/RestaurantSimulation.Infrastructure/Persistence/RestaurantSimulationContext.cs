@@ -2,6 +2,7 @@
 using RestaurantSimulation.Domain.Entities.Authentication;
 using RestaurantSimulation.Domain.Entities.Restaurant;
 using RestaurantSimulation.Infrastructure.Persistence.RelationshipsEntityFramework;
+using RestaurantSimulation.Infrastructure.Persistence.Seeding;
 
 namespace RestaurantSimulation.Infrastructure.Persistence
 {
@@ -18,6 +19,11 @@ namespace RestaurantSimulation.Infrastructure.Persistence
             modelBuilder.ProductMenuCategoryRelationship();
         }
 
+        public static void Seed(RestaurantSimulationContext restaurantSimulationContext)
+        {
+            MenuCategoriesSeed.Seed(restaurantSimulationContext);
+            restaurantSimulationContext.SaveChanges();
+        }
 
         public DbSet<User> Users { get; set; } = default!;
         public DbSet<Product> Products { get; set; } = default!;

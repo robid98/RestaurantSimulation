@@ -6,11 +6,10 @@ using System.Security.Claims;
 using RestaurantSimulation.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using RestaurantSimulation.Application.Common.Interfaces.Persistence;
-using RestaurantSimulation.Infrastructure.Persistence.Authentication;
 using RestaurantSimulation.Domain.Common.Policies.Authorization;
 using RestaurantSimulation.Domain.Common.Claims;
 using RestaurantSimulation.Domain.Common.Roles;
-using RestaurantSimulation.Infrastructure.Persistence.Restaurant;
+using RestaurantSimulation.Infrastructure.Persistence.Repositories;
 
 namespace RestaurantSimulation.Infrastructure
 {
