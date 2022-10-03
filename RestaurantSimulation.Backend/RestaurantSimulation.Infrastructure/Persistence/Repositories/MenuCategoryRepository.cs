@@ -2,7 +2,7 @@
 using RestaurantSimulation.Domain.Entities.Restaurant;
 using Microsoft.EntityFrameworkCore;
 
-namespace RestaurantSimulation.Infrastructure.Persistence.Restaurant
+namespace RestaurantSimulation.Infrastructure.Persistence.Repositories
 {
     public class MenuCategoryRepository : IMenuCategoryRepository
     {

@@ -16,6 +16,17 @@ namespace RestaurantSimulation.Domain.Entities.Restaurant
 
         public ICollection<Product> Products { get; private set; } = default!;
 
+        public static List<MenuCategory> RestaurantCategories = new()
+        {
+            new MenuCategory(Guid.NewGuid(), "Breakfast", "Here you will have all the dishes you can eat in the morning."),
+            new MenuCategory(Guid.NewGuid(), "Salads", "Here you will find among the best salads."),
+            new MenuCategory(Guid.NewGuid(), "Seafood", "Quality seafood and fish dishes."),
+            new MenuCategory(Guid.NewGuid(), "Desserts", "Life is short, eat the dessert."),
+            new MenuCategory(Guid.NewGuid(), "Drinks", "Hot and Cold drinks for everyone."),
+            new MenuCategory(Guid.NewGuid(), "Pizzas", "Here you will find all kinds of pizza."),
+            new MenuCategory(Guid.NewGuid(), "Grill ", "Here you will find dishes cooked on the grill."),
+        };
+
         public void UpdateMenuCategoryInfo(string name, string description)
         {
             Name = name;

@@ -2,7 +2,7 @@
 using RestaurantSimulation.Application.Common.Interfaces.Persistence;
 using RestaurantSimulation.Domain.Entities.Authentication;
 
-namespace RestaurantSimulation.Infrastructure.Persistence.Authentication
+namespace RestaurantSimulation.Infrastructure.Persistence.Repositories
 {
     public class UserRepository : IUserRepository
     {

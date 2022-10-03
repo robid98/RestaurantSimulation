@@ -13,6 +13,7 @@ services:
         - ASPNETCORE_ENVIRONMENT=Production
         - SqlServer__ConnectionString=Server=db;Database=RestaurantSimulation;User=sa;Password=Barbaric123;
         - SqlServer__AutomaticMigrations=true
+        - SqlServer__SeedDatabase=true
         - Auth0__Domain=dev-88r0xkt1.eu.auth0.com
         - Auth0__Audience=https://restaurantsimulation/api
         - Auth0__ClientId=xCRPlATR4O0ZzZvAvTZ8h1yaJC0RMLGI
