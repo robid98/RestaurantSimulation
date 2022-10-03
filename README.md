@@ -80,8 +80,10 @@ On the backend side the project will be build as a Web API and the frontend side
   <img src="https://user-images.githubusercontent.com/89996135/193544075-9f17332b-bf94-466a-836d-ecf308cd4103.png" alt="auth0" width="150" height="140"/> &nbsp;&nbsp;
 </p>
 
-&nbsp; RestaurantSimulation Swagger Documentation Url: http://localhost:8080/swagger/index.html <br>
-&nbsp; RestaurantSimulation Api Url: http://localhost:8080 <br>
+RestaurantSimulation Swagger Documentation Url: http://localhost:8080/swagger/index.html <br>
+RestaurantSimulation Api Url: http://localhost:8080 <br>
+
+<h3>Commands</h3>
 
 - <b>docker-compose -f docker-compose.yml build</b> ( For building the project and creating the image ) <br>
 - <b>docker-compose -f docker-compose.yml up -d</b> ( For creating the database and restaurant api containers) <br>
@@ -95,7 +97,9 @@ On the backend side the project will be build as a Web API and the frontend side
    - SqlServer__SeedDatabase : for automatic seeding when the containers are created <br> 
    - SqlServer__AutomaticMigrations : for automatic migrations when the containers are created 
 
-## 
+<br>
+
+## Useful links
 
 - https://github.com/robid98/RestaurantSimulation/issues - For suggestions, bugs. Here you will find also what needs to be implemented / current stories.
 - https://github.com/users/robid98/projects/1 - RestaurantSimulation Board
