@@ -75,6 +75,26 @@ On the backend side the project will be build as a Web API and the frontend side
 - This project is also good for begginers to learn how to structure code with CLEAN Architecture, learn CQRS with the help of MediatR Library, Entity Framework etc.
 - This project can help you also if you are only a Frontend Developer. You will have a free Web API to use, for building an Frontend, with a technology by your choice. The only restriction is, authentication need to be made with <b>Auth0</b>.
 
+## Run RestaurantSimulation.Backend
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/89996135/193544075-9f17332b-bf94-466a-836d-ecf308cd4103.png" alt="auth0" width="150" height="140"/> &nbsp;&nbsp;
+</p>
+
+&nbsp; RestaurantSimulation Swagger Documentation Url: http://localhost:8080/swagger/index.html <br>
+&nbsp; RestaurantSimulation Api Url: http://localhost:8080 <br>
+
+- <b>docker-compose -f docker-compose.yml build</b> ( For building the project and creating the image ) <br>
+- <b>docker-compose -f docker-compose.yml up -d</b> ( For creating the database and restaurant api containers) <br>
+- <b>docker-compose -f docker-compose.yml down</b> ( For removing the created containers without deleting the database volume ) <br>
+- <b>docker-compose -f docker-compose.yml down -v</b> ( For removing the created containers and deleting the database volume - data stored will be lost)
+
+<hr>
+
+- <h4> Environment Variables docker-compose.yml </h4>
+   - UseSwagger : for activating or not the Swagger Documentation <br>
+   - SqlServer__SeedDatabase : for automatic seeding when the containers are created <br> 
+   - SqlServer__AutomaticMigrations : for automatic migrations when the containers are created 
+
 ## 
 
 - https://github.com/robid98/RestaurantSimulation/issues - For suggestions, bugs. Here you will find also what needs to be implemented / current stories.
