@@ -20,11 +20,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RestaurantSimulation.Application\RestaurantSimulation.Application.csproj" />
+    <Folder Include="Persistence\Migrations\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Persistence\Migrations\" />
+    <ProjectReference Include="..\RestaurantSimulation.Application\RestaurantSimulation.Application.csproj" />
+    <ProjectReference Include="..\RestaurantSimulation.Domain\RestaurantSimulation.Domain.csproj" />
   </ItemGroup>
 
 </Project>

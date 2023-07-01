@@ -6,7 +6,6 @@
 <img src="https://uploads-ssl.webflow.com/61566192da988c377f1ac06c/616dfac0a533fe024d89e327_60dbd7237742ba750d49cf35_icon-auth0-marketplace.svg" alt="auth0"  width="150" height="140"/> &nbsp;&nbsp;
 <img src="https://neosmart.net/blog/wp-content/uploads/2019/06/dot-NET-Core.png" alt="auth0" width="150" height="140"/> &nbsp;&nbsp;
 <img src="https://seeklogo.com/images/M/microsoft-sql-server-logo-96AF49E2B3-seeklogo.com.png" alt="auth0" width="150" height="140"/> &nbsp;&nbsp;
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png" alt="auth0" width="150" height="140"/> &nbsp;&nbsp;
 
 <br>
 
@@ -14,7 +13,7 @@
 
 ## Description
 The aim of this project is to make a functional Restaurant web application.
-On the backend side the project will be build as a Web API and the frontend side will be made in Angular or React.
+On the backend side the project will be build as a Web API and the frontend side will be made in Angular.
 
 </div>
 
@@ -46,7 +45,6 @@ On the backend side the project will be build as a Web API and the frontend side
 
 ## RestaurantSimulation.Frontend
 
-- <b>React</br>
 - <b>Angular</br>
 
 ## Branches conventions
