@@ -18,7 +18,7 @@ namespace RestaurantSimulation.Application.Authentication.Queries.GetUserById
 
         public async Task<ErrorOr<AuthenticationResult>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
         {
-            User? user = await _userRepository.GetUserByIdAsync(request.Id);
+            User user = await _userRepository.GetUserByIdAsync(request.Id);
 
             if (user is null)
                 return Errors.User.NotFound;

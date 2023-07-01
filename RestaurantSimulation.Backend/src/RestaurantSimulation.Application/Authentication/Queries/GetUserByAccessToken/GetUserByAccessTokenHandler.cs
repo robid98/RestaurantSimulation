@@ -27,7 +27,7 @@ namespace RestaurantSimulation.Application.Authentication.Queries.GetUserByAcces
             if (userSub.IsError)
                 return userSub.Errors.FirstOrDefault();
 
-            User? user = await _userRepository.GetUserBySubAsync(userSub.Value);
+            User user = await _userRepository.GetUserBySubAsync(userSub.Value);
 
             if (user is null)
                 return Errors.User.NotFound;

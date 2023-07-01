@@ -10,10 +10,10 @@ namespace RestaurantSimulation.Application.Common.Interfaces.Persistence
 
         Task<List<MenuCategory>> GetRestaurantMenuCategoriesAsync();
 
-        Task<MenuCategory?> GetRestaurantMenuCategoryByIdAsync(Guid id);
+        Task<MenuCategory> GetRestaurantMenuCategoryByIdAsync(Guid id);
 
-        Task<MenuCategory?> GetRestaurantMenuCategoryByNameAsync(string name);
+        Task<MenuCategory> GetRestaurantMenuCategoryByNameAsync(string name);
 
-        Task<List<Product>?> GetProductsRestaurantMenuCategoryByIdAsync(Guid id);
+        Task<List<Product>> GetProductsRestaurantMenuCategoryByIdAsync(Guid id);
     }
 }

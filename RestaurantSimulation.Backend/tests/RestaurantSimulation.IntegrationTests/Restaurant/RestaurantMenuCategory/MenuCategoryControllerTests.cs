@@ -48,7 +48,7 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
             // assert
             responseGet.StatusCode.ShouldBe(HttpStatusCode.OK);
 
-            MenuCategoryResponse? category = await responseGet.Content.ReadFromJsonAsync<MenuCategoryResponse>();
+            MenuCategoryResponse category = await responseGet.Content.ReadFromJsonAsync<MenuCategoryResponse>();
 
             category?.Name.ShouldBe(RestaurantContextSeed.menuCategories[0].Name);
             category?.Description.ShouldBe(RestaurantContextSeed.menuCategories[0].Description);
@@ -92,7 +92,7 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
                 new MenuCategoryRequest("Categorie de vara", "Cea mai frumoasa categorie de vara"));
 
 
-            MenuCategoryResponse? category = await responsePost.Content.ReadFromJsonAsync<MenuCategoryResponse>();
+            MenuCategoryResponse category = await responsePost.Content.ReadFromJsonAsync<MenuCategoryResponse>();
 
             // assert
             responsePost.StatusCode.ShouldBe(HttpStatusCode.OK);
@@ -133,7 +133,7 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
             // assert
             responseGet.StatusCode.ShouldBe(HttpStatusCode.OK);
 
-            MenuCategoryResponse? category = await responseGet.Content.ReadFromJsonAsync<MenuCategoryResponse>();
+            MenuCategoryResponse category = await responseGet.Content.ReadFromJsonAsync<MenuCategoryResponse>();
 
             category?.Name.ShouldBe("Categorie de iarna");
             category?.Description.ShouldBe("Cea mai frumoasa categorie de iarna");
@@ -187,14 +187,14 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
             // act
             var responseGet = await _integrationTestsSetup.TestClient.GetAsync($"/api/restaurant/menucategory/{RestaurantContextSeed.categoriesGuid[1]}/products");
 
-            List<ProductResponse>? products = await responseGet.Content.ReadFromJsonAsync<List<ProductResponse>>();
+            List<ProductResponse> products = await responseGet.Content.ReadFromJsonAsync<List<ProductResponse>>();
 
             // assert
             responseGet.StatusCode.ShouldBe(HttpStatusCode.OK);
 
             products?.Count.ShouldBe(2);
 
-            List<ProductResponse>? sortedProducts = products?.OrderBy(o => o.Price).ToList();
+            List<ProductResponse> sortedProducts = products?.OrderBy(o => o.Price).ToList();
 
             sortedProducts?[0].Price.ShouldBe(10.05);
             sortedProducts?[0].Description.ShouldBe("Carne, cartofi");
@@ -225,7 +225,7 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
             // act
             var responseGet = await _integrationTestsSetup.TestClient.GetAsync($"/api/restaurant/menucategory/{RestaurantContextSeed.categoriesGuid[2]}/products");
 
-            List<ProductResponse>? products = await responseGet.Content.ReadFromJsonAsync<List<ProductResponse>>();
+            List<ProductResponse> products = await responseGet.Content.ReadFromJsonAsync<List<ProductResponse>>();
 
             // assert
             responseGet.StatusCode.ShouldBe(HttpStatusCode.OK);

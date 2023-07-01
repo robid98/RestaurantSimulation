@@ -33,24 +33,24 @@ namespace RestaurantSimulation.Infrastructure.Persistence.Repositories
             return menuCategories;
         }
 
-        public async Task<MenuCategory?> GetRestaurantMenuCategoryByIdAsync(Guid id)
+        public async Task<MenuCategory> GetRestaurantMenuCategoryByIdAsync(Guid id)
         {
-            MenuCategory? category = await _restaurantSimulationContext.MenuCategories.FirstOrDefaultAsync(category => category.Id == id);
+            MenuCategory category = await _restaurantSimulationContext.MenuCategories.FirstOrDefaultAsync(category => category.Id == id);
 
             return category;
         }
 
-        public async Task<List<Product>?> GetProductsRestaurantMenuCategoryByIdAsync(Guid id)
+        public async Task<List<Product>> GetProductsRestaurantMenuCategoryByIdAsync(Guid id)
         {
-            MenuCategory? category = await _restaurantSimulationContext.MenuCategories
+            MenuCategory category = await _restaurantSimulationContext.MenuCategories
                 .Include(g => g.Products).FirstOrDefaultAsync(category => category.Id == id);
 
             return category?.Products.ToList();
         }
 
-        public async Task<MenuCategory?> GetRestaurantMenuCategoryByNameAsync(string name)
+        public async Task<MenuCategory> GetRestaurantMenuCategoryByNameAsync(string name)
         {
-            MenuCategory? category = await _restaurantSimulationContext.MenuCategories.FirstOrDefaultAsync(category => category.Name == name);
+            MenuCategory category = await _restaurantSimulationContext.MenuCategories.FirstOrDefaultAsync(category => category.Name == name);
 
             return category;
         }

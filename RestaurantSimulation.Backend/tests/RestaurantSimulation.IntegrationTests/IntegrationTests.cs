@@ -16,9 +16,9 @@ namespace RestaurantSimulation.IntegrationTests
     {
         public readonly HttpClient TestClient;
 
-        private RestaurantSimulationContext? _context { get; set; }
+        private RestaurantSimulationContext _context { get; set; }
 
-        private SqliteConnection Connection = default!;
+        private SqliteConnection Connection;
 
         public string userSub = Guid.NewGuid().ToString();
 

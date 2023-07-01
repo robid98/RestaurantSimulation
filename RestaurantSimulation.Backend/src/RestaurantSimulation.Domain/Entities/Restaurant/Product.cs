@@ -17,13 +17,13 @@ namespace RestaurantSimulation.Domain.Entities.Restaurant
 
         public string Name { get; private set; }
 
-        public string Description { get; private set; } = default!;
+        public string Description { get; private set; }
 
         public bool IsAvailable { get; private set; }
 
-        public Guid CategoryId { get; private set; }
+        public virtual Guid CategoryId { get; private set; }
 
-        public MenuCategory Category { get; private set; } = default!;
+        public virtual MenuCategory Category { get; private set; }
 
     }
 }

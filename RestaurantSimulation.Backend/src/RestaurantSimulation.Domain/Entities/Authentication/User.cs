@@ -14,17 +14,17 @@ namespace RestaurantSimulation.Domain.Entities.Authentication
             Address = address;
         }
 
-        public string Sub { get; private set; } = default!;
+        public string Sub { get; private set; }
 
-        public string Email { get; private set; } = default!;
+        public string Email { get; private set; }
 
-        public string FirstName { get; private set; } = default!;
+        public string FirstName { get; private set; }
 
-        public string LastName { get; private set; } = default!;
+        public string LastName { get; private set; }
 
-        public string PhoneNumber { get; private set; } = default!;
+        public string PhoneNumber { get; private set; }
 
-        public string Address { get; private set; } = default!;
+        public string Address { get; private set; }
 
         public void UpdateUserProfile(
             string firstName,

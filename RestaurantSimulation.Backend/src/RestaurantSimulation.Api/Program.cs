@@ -22,15 +22,6 @@ if (bool.Parse(builder.Configuration["SqlServer:AutomaticMigrations"]))
     }
 }
 
-if (bool.Parse(builder.Configuration["SqlServer:SeedDatabase"]))
-{
-    using (var scope = app.Services.CreateScope())
-    {
-        var db = scope.ServiceProvider.GetRequiredService<RestaurantSimulationContext>();
-        RestaurantSimulationContext.Seed(db);
-    }
-}
-
 if (bool.Parse(builder.Configuration["UseSwagger"]))
 {
     app.UseSwagger();

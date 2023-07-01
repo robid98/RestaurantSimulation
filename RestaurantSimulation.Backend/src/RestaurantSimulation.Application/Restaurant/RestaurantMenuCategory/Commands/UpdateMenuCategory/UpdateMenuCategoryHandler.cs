@@ -22,7 +22,7 @@ namespace RestaurantSimulation.Application.Restaurant.RestaurantMenuCategory.Com
 
         public async Task<ErrorOr<MenuCategoryResult>> Handle(UpdateMenuCategoryCommand request, CancellationToken cancellationToken)
         {
-            MenuCategory? category = await _menuCategoryRepository.GetRestaurantMenuCategoryByIdAsync(request.Id);
+            MenuCategory category = await _menuCategoryRepository.GetRestaurantMenuCategoryByIdAsync(request.Id);
 
             if (category is null)
             {

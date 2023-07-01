@@ -15,14 +15,14 @@ namespace RestaurantSimulation.Application.Authentication.Common.Services.Extrac
         }
 
 
-        private ClaimsIdentity? GetClaimsIdentity()
+        private ClaimsIdentity GetClaimsIdentity()
         {
             return accessor.HttpContext?.User.Identity as ClaimsIdentity; ;
         }
 
         public ErrorOr<string> GetUserEmail()
         {
-            Claim? email = GetClaimsIdentity()?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email);
+            Claim email = GetClaimsIdentity()?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email);
 
             if (email is null)
                 return Errors.Authentication.EmailClaimNull;
@@ -32,7 +32,7 @@ namespace RestaurantSimulation.Application.Authentication.Common.Services.Extrac
 
         public ErrorOr<string> GetUserSub()
         {
-            Claim? sub = GetClaimsIdentity()?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+            Claim sub = GetClaimsIdentity()?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
 
             if (sub is null)
                 return Errors.Authentication.SubClaimNull;

@@ -11,7 +11,7 @@ namespace RestaurantSimulation.UnitTests.Authentication.Queries
 {
     public class GetUsersHandlerTests
     {
-        private Mock<IUserRepository>? _mockUserRepository;
+        private Mock<IUserRepository> _mockUserRepository;
 
         public GetUsersHandlerTests()
         {

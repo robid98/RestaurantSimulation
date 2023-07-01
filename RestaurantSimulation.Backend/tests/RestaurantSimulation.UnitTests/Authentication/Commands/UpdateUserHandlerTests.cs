@@ -58,7 +58,7 @@ namespace RestaurantSimulation.UnitTests.Authentication.Commands
             _extractUserClaimsService.Setup(x => x.GetUserEmail()).Returns("robert98@yahoo.com");
             _extractUserClaimsService.Setup(x => x.GetUserSub()).Returns("restaurant|usertest");
 
-            _mockUserRepository.Setup(x => x.GetUserByEmailAsync(It.IsAny<string>())).Returns(Task.FromResult<User?>(null));
+            _mockUserRepository.Setup(x => x.GetUserByEmailAsync(It.IsAny<string>())).Returns(Task.FromResult<User>(null));
 
             var handler = new UpdateUserHandler(
                 _mockUserRepository.Object, 

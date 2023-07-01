@@ -50,7 +50,7 @@ namespace RestaurantSimulation.UnitTests.Mocks.Authentication
                 return Task.FromResult(userList.FirstOrDefault(user => user.Id == id));
             });
 
-            User? user = null;
+            User user = null;
 
             mockRepo.Setup(r => r.GetUserByEmailAsync(It.IsAny<string>())).ReturnsAsync(user);
 
