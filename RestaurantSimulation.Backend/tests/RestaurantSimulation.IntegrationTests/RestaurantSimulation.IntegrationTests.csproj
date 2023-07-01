@@ -30,11 +30,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RestaurantSimulation.Api\RestaurantSimulation.Api.csproj" />
-    <ProjectReference Include="..\RestaurantSimulation.Application\RestaurantSimulation.Application.csproj" />
-    <ProjectReference Include="..\RestaurantSimulation.Contracts\RestaurantSimulation.Contracts.csproj" />
-    <ProjectReference Include="..\RestaurantSimulation.Domain\RestaurantSimulation.Domain.csproj" />
-    <ProjectReference Include="..\RestaurantSimulation.Infrastructure\RestaurantSimulation.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\RestaurantSimulation.Api\RestaurantSimulation.Api.csproj" />
+    <ProjectReference Include="..\..\src\RestaurantSimulation.Contracts\RestaurantSimulation.Contracts.csproj" />
+    <ProjectReference Include="..\..\src\RestaurantSimulation.Domain\RestaurantSimulation.Domain.csproj" />
+    <ProjectReference Include="..\..\src\RestaurantSimulation.Infrastructure\RestaurantSimulation.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -29,12 +29,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RestaurantSimulation.Api\RestaurantSimulation.Api.csproj" />
-    <ProjectReference Include="..\RestaurantSimulation.Application\RestaurantSimulation.Application.csproj" />
+    <Folder Include="Mocks\Restaurant\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Mocks\Restaurant\" />
+    <ProjectReference Include="..\..\src\RestaurantSimulation.Application\RestaurantSimulation.Application.csproj" />
   </ItemGroup>
 
 </Project>

@@ -11,6 +11,7 @@
 	  <NoWarn>$(NoWarn);1591</NoWarn>
 	  <UserSecretsId>038d70a4-47d3-42d8-ad06-828ad258370b</UserSecretsId>
 	  <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	  <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
 	
   <ItemGroup>
