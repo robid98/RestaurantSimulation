@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\RestaurantSimulation.Api\RestaurantSimulation.Api.csproj" />
     <ProjectReference Include="..\..\src\RestaurantSimulation.Contracts\RestaurantSimulation.Contracts.csproj" />
     <ProjectReference Include="..\..\src\RestaurantSimulation.Domain\RestaurantSimulation.Domain.csproj" />
     <ProjectReference Include="..\..\src\RestaurantSimulation.Infrastructure\RestaurantSimulation.Infrastructure.csproj" />
