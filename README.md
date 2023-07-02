@@ -14,24 +14,25 @@
 ## Description
 The aim of this project is to make a functional Restaurant web application.
 On the backend side the project will be build as a Web API and the frontend side will be made in Angular.
+Backend architecture is a monolitch one and frontend architecture will be based on feature modules.
 
 </div>
 
 <br>
 
 ## Deploy
-- Azure or AWS
+- Deploy will be done when the project will be in a good state. For deploying AWS will be used.
 
 ## Authentication
 - Auth0 : https://auth0.com/ <br>
-- RestaurantSimulation.Backend is protected with Auth0. You need a valid access token in order to use the Api. Also there are two roles in the RestaurantSimulation:<br>
-&nbsp;&nbsp;&nbsp;  1.  <b>restaurant-simulation-admin</b>  (You have full access to all features of the application) <br>
-&nbsp;&nbsp;&nbsp;  2.  <b>restaurant-simulation-client</b> (You have access only to some features of the application)
+- `RestaurantSimulation.Backend` is protected with `Auth0`. You need a valid access token in order to use the Api. Also there are two roles in the RestaurantSimulation:<br>
+&nbsp;&nbsp;&nbsp;  1.  `restaurant-simulation-admin`  (You have full access to all features of the application) <br>
+&nbsp;&nbsp;&nbsp;  2.  `restaurant-simulation-client` (You have access only to some features of the application)
 
-## RestaurantSimulation.Backend
+## RestaurantSimulation.Backend libraries/technologies used:
 
 - <b>CLEAN Arhitecture</br>
-- <b>CQRS - MediatR</br>
+- <b>MediatR</br>
 - <b>Entity Framework Core 6.0</br>
 - <b>SQL Server</br>
 - <b>FluentValidation</br>
@@ -40,40 +41,39 @@ On the backend side the project will be build as a Web API and the frontend side
 - <b>WebAPI</br>
 - <b>LINQ</br>
 - <b>xUnit</br>
-- <b>moq</br>
-- <b>shouldly</br>
+- <b>Moq</br>
+- <b>Shouldly</br>
 
 ## RestaurantSimulation.Frontend
 
 - <b>Angular</br>
 
 ## Branches conventions
-
-- <h4>backend/feature/branch-name</h4>
-- <h4>backend/bug/bug-name</h4>
-- <h4>frontend/feature/branch-name</h4>
-- <h4>frontend/bug/bug-name</h4>
+- Branches will follow the next conventions based on the work that is done:
+  - <h4>backend/feature/branch-name</h4>
+  - <h4>backend/bug/bug-name</h4>
+  - <h4>frontend/feature/branch-name</h4>
+  - <h4>frontend/bug/bug-name</h4>
 
 ## EntityFramework Migrations Commands
 
-- EntityFrameworkCore\Add-Migration 'migration-name' -project RestaurantSimulation.Infrastructure -o Persistence/Migrations
-- EntityFrameworkCore\Update-database
+- Adding a new migration in RestaurantSimulation.Backend
+  - EntityFrameworkCore\Add-Migration 'migration-name' -project RestaurantSimulation.Infrastructure -o Persistence/Migrations
+- Applying migrations to the MySQL instance
+  - EntityFrameworkCore\Update-database
 
 ## Branch protection rules
 
-- Git guardian with passed status
-- RestaurantSimulation.Backend Azure Pipeline with passed status
+- `Git guardian` with passed status
+- `RestaurantSimulation.Backend` azure pipeline with passed status
+
+Pipeline for validating the pull requests that target `RestaurantSimulation.Backend` contains some simple tasks for building the project, running unit tests and integration tests.
+Integration tests will target a MySQL Docker Container that is created also in the pipeline.
+![image](https://github.com/robid98/RestaurantSimulation/assets/89996135/29b2bdf9-15e5-4fde-b381-8a902b28b8cf)
 
 <hr>
 
-## Contributing
-
-- Feel free to contribute to this project if you like it or if you have any suggestions for new Features.
-- Also feel free to report any bug`s you find into the application.
-- This project is also good for begginers to learn how to structure code with CLEAN Architecture, learn CQRS with the help of MediatR Library, Entity Framework etc.
-- This project can help you also if you are only a Frontend Developer. You will have a free Web API to use, for building an Frontend, with a technology by your choice. The only restriction is, authentication need to be made with <b>Auth0</b>.
-
-## Run RestaurantSimulation.Backend
+## Run RestaurantSimulation.Backend on local
 <p align="center">
   <img src="https://user-images.githubusercontent.com/89996135/193544075-9f17332b-bf94-466a-836d-ecf308cd4103.png" alt="auth0" width="150" height="140"/> &nbsp;&nbsp;
 </p>
@@ -88,16 +88,24 @@ RestaurantSimulation Api Url: http://localhost:8080 <br>
 - <b>docker-compose -f docker-compose.yml down</b> ( For removing the created containers without deleting the database volume ) <br>
 - <b>docker-compose -f docker-compose.yml down -v</b> ( For removing the created containers and deleting the database volume - data stored will be lost)
 
-<hr>
+<br>
 
-- <h4> Environment Variables docker-compose.yml </h4>
-   - UseSwagger : for activating or not the Swagger Documentation <br>
-   - SqlServer__SeedDatabase : for automatic seeding when the containers are created <br> 
-   - SqlServer__AutomaticMigrations : for automatic migrations when the containers are created 
+## Contributing
+
+- Feel free to contribute to this project if you like it or if you have any suggestions for new Features.
+- Feel free to report any bug`s you find into the application.
+- Project is good for begginers to learn how to structure code with CLEAN Architecture, learn CQRS with help of MediatR Library, Entity Framework, write unit and integration tests.
+- This project can help you if you are only a Frontend Developer. You will have a free Web API to use, for building an Frontend, with a technology by your choice. The only restriction is, authentication need to be made with <b>Auth0</b>.
+
+<br>
+
+<hr> 
 
 <br>
 
 ## Useful links
 
-- https://github.com/robid98/RestaurantSimulation/issues - For suggestions, bugs. Here you will find also what needs to be implemented / current stories.
-- https://github.com/users/robid98/projects/1 - RestaurantSimulation Board
+- [.NET6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+- [Angular](https://angular.io/)
+- [Auth0](https://auth0.com/)
+- [EntityFramework6](https://learn.microsoft.com/en-us/ef/ef6/)
