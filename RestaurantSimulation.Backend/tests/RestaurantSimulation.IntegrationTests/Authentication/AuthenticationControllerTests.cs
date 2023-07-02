@@ -116,7 +116,7 @@ namespace RestaurantSimulation.IntegrationTests.Authentication
         }
 
         [Fact]
-        public async Task PutAsJsonAsync_WhenCalledWithValidInformations_ShouldUpdatedCurrentUserBasedOnSub()
+        public async Task PutAsJsonAsync_WhenCalledWithValidInformations_ShouldUpdateCurrentUserBasedOnSub()
         {
             AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
 
