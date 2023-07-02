@@ -116,3 +116,4 @@ RestaurantSimulation Api Url: http://localhost:8080 <br>
 - [Angular](https://angular.io/)
 - [Auth0](https://auth0.com/)
 - [EntityFramework6](https://learn.microsoft.com/en-us/ef/ef6/)
+- [Docker](https://www.docker.com/)
