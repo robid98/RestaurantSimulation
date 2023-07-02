@@ -84,10 +84,14 @@ RestaurantSimulation Api Url: http://localhost:8080 <br>
 
 <h3>Commands</h3>
 
-- <b>docker-compose -f docker-compose.yml build</b> ( For building the project and creating the image ) <br>
-- <b>docker-compose -f docker-compose.yml up -d</b> ( For creating the database and restaurant api containers) <br>
-- <b>docker-compose -f docker-compose.yml down</b> ( For removing the created containers without deleting the database volume ) <br>
-- <b>docker-compose -f docker-compose.yml down -v</b> ( For removing the created containers and deleting the database volume - data stored will be lost)
+- Building the project and creating the image
+  - `docker-compose -f docker-compose.yml build`
+- Creating the database and RestaurantSimulation.Api Container
+  - `docker-compose -f docker-compose.yml up -d`
+- Removing the created containers without deleting the database volume
+  - `docker-compose -f docker-compose.yml down`
+- Removing the created containers and deleting the database volume. Data stored will be lost
+  - `docker-compose -f docker-compose.yml down -v`
 
 <br>
 
