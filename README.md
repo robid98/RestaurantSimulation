@@ -69,6 +69,7 @@ Backend architecture is a monolitch one and frontend architecture will be based 
 
 Pipeline for validating the pull requests that target `RestaurantSimulation.Backend` contains some simple tasks for building the project, running unit tests and integration tests.
 Integration tests will target a MySQL Docker Container that is created also in the pipeline.
+<br>
 ![image](https://github.com/robid98/RestaurantSimulation/assets/89996135/29b2bdf9-15e5-4fde-b381-8a902b28b8cf)
 
 <hr>
