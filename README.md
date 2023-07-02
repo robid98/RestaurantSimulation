@@ -58,9 +58,9 @@ Backend architecture is a monolitch one and frontend architecture will be based 
 ## EntityFramework Migrations Commands
 
 - Adding a new migration in RestaurantSimulation.Backend
-  - EntityFrameworkCore\Add-Migration 'migration-name' -project RestaurantSimulation.Infrastructure -o Persistence/Migrations
+  - `EntityFrameworkCore\Add-Migration 'migration-name' -project RestaurantSimulation.Infrastructure -o Persistence/Migrations`
 - Applying migrations to the MySQL instance
-  - EntityFrameworkCore\Update-database
+  - `EntityFrameworkCore\Update-database`
 
 ## Branch protection rules
 
