@@ -24,10 +24,12 @@ Backend architecture is a monolitch one and frontend architecture will be based 
 - Deploy will be done when the project is in a good state. For deploying `AWS` will be used.
 
 ## Authentication
-- Auth0 : https://auth0.com/ <br>
-- `RestaurantSimulation.Backend` is protected with `Auth0`. You need a valid access token in order to use the Api. Also there are two roles in the RestaurantSimulation:<br>
-&nbsp;&nbsp;&nbsp;  1.  `restaurant-simulation-admin`  (You have full access to all features of the application) <br>
-&nbsp;&nbsp;&nbsp;  2.  `restaurant-simulation-client` (You have access only to some features of the application)
+- Auth0 free tier will be used: https://auth0.com/ <br>
+- `RestaurantSimulation.Backend` is protected with `Auth0`. You need a valid access token in order to use the `RestaurantSimulation.Api`. Also there are two roles in the RestaurantSimulation:<br>
+  - You have full access to all features of the RestaurantSimulation app.
+    - Role: `restaurant-simulation-admin`
+  - You have limited access only to some features of the RestaurantSimulation app.
+    - Role: `restaurant-simulation-client`
 
 ## RestaurantSimulation.Backend libraries/technologies used:
 
