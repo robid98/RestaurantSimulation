@@ -19,7 +19,7 @@ namespace RestaurantSimulation.IntegrationTests.Authentication
         }
 
         [Fact]
-        public async Task Should_Add_A_New_User()
+        public async Task PostAsJsonAsync_WithValidUserInformations_ShouldCreateANewUser()
         {
             AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
 
@@ -30,7 +30,7 @@ namespace RestaurantSimulation.IntegrationTests.Authentication
         }
 
         [Fact]
-        public async Task Should_Get_A_List_Of_Users()
+        public async Task GetAsync_WhenUserHaveAdminRole_ShouldReturnAllTheUsers()
         {
             AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
 
@@ -50,7 +50,7 @@ namespace RestaurantSimulation.IntegrationTests.Authentication
         }
 
         [Fact]
-        public async Task Should_Get_User_By_Access_Token()
+        public async Task GetAsync_WhenUserAccessTokenIsValidAndUserIsRegistered_ShouldReturnUserInformationsBasedOnSub()
         {
             AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
 
@@ -70,7 +70,7 @@ namespace RestaurantSimulation.IntegrationTests.Authentication
         }
 
         [Fact]
-        public async Task Should_Return_Not_Found_When_User_Is_Not_Registered_Getting_By_Access_Token()
+        public async Task GetAsync_WhenUserAccessTokenIsValidButIsNotRegistered_ShouldReturnNotFound()
         {
             AuthenticateAsync(RestaurantSimulationRoles.ClientRole, "test_mail@restaurant.com", Guid.NewGuid().ToString());
 
@@ -80,7 +80,7 @@ namespace RestaurantSimulation.IntegrationTests.Authentication
         }
 
         [Fact]
-        public async Task Should_Return_Not_Found_If_A_User_With_Specified_Id_Not_Registered()
+        public async Task GetAsync_WhenCalledWithAInvalidUserId_ShouldReturnNotFound()
         {
             AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", Guid.NewGuid().ToString());
 
@@ -91,7 +91,7 @@ namespace RestaurantSimulation.IntegrationTests.Authentication
         }
 
         [Fact]
-        public async Task Should_Return_User_Registered_With_Specified_Id()
+        public async Task GetAsync_WhenCalledWithAValidUserIdAndUserHaveAdminRole_ShouldReturnUserInformations()
         {
             AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", Guid.NewGuid().ToString());
 
@@ -116,7 +116,7 @@ namespace RestaurantSimulation.IntegrationTests.Authentication
         }
 
         [Fact]
-        public async Task Should_Update_Existing_User()
+        public async Task PutAsJsonAsync_WhenCalledWithValidInformations_ShouldUpdateCurrentUserBasedOnSub()
         {
             AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
 
@@ -144,7 +144,7 @@ namespace RestaurantSimulation.IntegrationTests.Authentication
         }
 
         [Fact]
-        public async Task Should_Return_404_If_User_Dont_Exist_And_Want_To_Be_Updated()
+        public async Task PutAsJsonAsync_WhenUserDoesntExist_ShouldReturnNotFound()
         {
             AuthenticateAsync(
                 RestaurantSimulationRoles.ClientRole, 
@@ -159,7 +159,7 @@ namespace RestaurantSimulation.IntegrationTests.Authentication
 
 
         [Fact]
-        public async Task Should_Return_Bad_Request_If_Validations_For_First_Name_Will_Fail()
+        public async Task PostAsJsonAsync_WhenFirstNameIsInvalid_ShouldReturnBadRequest()
         {
             AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
 
@@ -180,7 +180,7 @@ namespace RestaurantSimulation.IntegrationTests.Authentication
         }
 
         [Fact]
-        public async Task Should_Return_Bad_Request_If_Validations_For_Last_Name_Will_Fail()
+        public async Task PostAsJsonAsync_WhenLastNameIsInvalid_ShouldReturnBadRequest()
         {
             AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
 
@@ -201,7 +201,7 @@ namespace RestaurantSimulation.IntegrationTests.Authentication
         }
 
         [Fact]
-        public async Task Should_Return_Bad_Request_If_Validations_For_PhoneNumber_Will_Fail()
+        public async Task PostAsJsonAsync_WhenPhoneNumberIsInvalid_ShouldReturnBadRequest()
         {
             AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
 
@@ -227,7 +227,7 @@ namespace RestaurantSimulation.IntegrationTests.Authentication
         }
 
         [Fact]
-        public async Task Should_Return_Bad_Request_If_Validations_For_Address_Will_Fail()
+        public async Task PostAsJsonAsync_WhenAddressIsInvalid_ShouldReturnBadRequest()
         {
             AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
 
