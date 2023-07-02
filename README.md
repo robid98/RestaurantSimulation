@@ -21,7 +21,7 @@ Backend architecture is a monolitch one and frontend architecture will be based 
 <br>
 
 ## Deploy
-- Deploy will be done when the project will be in a good state. For deploying AWS will be used.
+- Deploy will be done when the project is in a good state. For deploying `AWS` will be used.
 
 ## Authentication
 - Auth0 : https://auth0.com/ <br>
