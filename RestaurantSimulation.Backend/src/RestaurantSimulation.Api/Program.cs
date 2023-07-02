@@ -1,8 +1,6 @@
-using Microsoft.EntityFrameworkCore;
 using RestaurantSimulation.Api;
 using RestaurantSimulation.Application;
 using RestaurantSimulation.Infrastructure;
-using RestaurantSimulation.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,24 +10,6 @@ builder.Services.AddPresentation(builder.Configuration)
     .AddApplication();
 
 var app = builder.Build();
-
-if (bool.Parse(builder.Configuration["SqlServer:AutomaticMigrations"]))
-{
-    using (var scope = app.Services.CreateScope())
-    {
-        var db = scope.ServiceProvider.GetRequiredService<RestaurantSimulationContext>();
-        db.Database.Migrate();
-    }
-}
-
-if (bool.Parse(builder.Configuration["SqlServer:SeedDatabase"]))
-{
-    using (var scope = app.Services.CreateScope())
-    {
-        var db = scope.ServiceProvider.GetRequiredService<RestaurantSimulationContext>();
-        RestaurantSimulationContext.Seed(db);
-    }
-}
 
 if (bool.Parse(builder.Configuration["UseSwagger"]))
 {

@@ -10,6 +10,8 @@ using RestaurantSimulation.Domain.Common.Policies.Authorization;
 using RestaurantSimulation.Domain.Common.Claims;
 using RestaurantSimulation.Domain.Common.Roles;
 using RestaurantSimulation.Infrastructure.Persistence.Repositories;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using System;
 
 namespace RestaurantSimulation.Infrastructure
 {
@@ -69,9 +71,19 @@ namespace RestaurantSimulation.Infrastructure
 
         public static IServiceCollection AddPersistenceServices(this IServiceCollection services, ConfigurationManager configuration)
         {
-            services.AddDbContext<RestaurantSimulationContext>(options =>
-                options.UseSqlServer(configuration["SqlServer:ConnectionString"], 
-                optionsAction => optionsAction.MigrationsAssembly("RestaurantSimulation.Infrastructure")));
+            services.AddDbContext<RestaurantSimulationContext>(
+                options => options.UseMySql(configuration.GetValue<string>("ConnectionStrings:Mysql"),
+                new MySqlServerVersion(new Version(5, 7)),
+                mySqlOptions =>
+                {
+                    mySqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: 3,
+                        maxRetryDelay: TimeSpan.FromSeconds(30),
+                        errorNumbersToAdd: null);
+
+                    mySqlOptions.MigrationsAssembly(typeof(RestaurantSimulationContext).Assembly.FullName);
+                }
+            ));
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMenuCategoryRepository, MenuCategoryRepository>();

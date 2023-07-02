@@ -47,7 +47,7 @@ namespace RestaurantSimulation.UnitTests.Restaurant.RestaurantMenuCategory.Queri
         {
             // arrange
             _mockMenuCategoryRepository.Setup(r => r.GetRestaurantMenuCategoryByIdAsync(It.IsAny<Guid>()))
-                .ReturnsAsync((MenuCategory?)null);
+                .ReturnsAsync((MenuCategory)null);
 
             var handler = new GetMenuCategoryByIdHandler(_mockMenuCategoryRepository.Object);
 

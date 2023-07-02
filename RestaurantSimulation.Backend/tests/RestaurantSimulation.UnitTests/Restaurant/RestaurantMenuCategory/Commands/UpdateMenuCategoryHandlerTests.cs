@@ -28,7 +28,7 @@ namespace RestaurantSimulation.UnitTests.Restaurant.RestaurantMenuCategory.Comma
                 .ReturnsAsync(new MenuCategory(Guid.NewGuid(), "Fruits", "Best Fruits"));
 
             _mockMenuCategoryRepository.Setup(x => x.GetRestaurantMenuCategoryByNameAsync(It.IsAny<string>()))
-                .ReturnsAsync((MenuCategory?)null);
+                .ReturnsAsync((MenuCategory)null);
 
             var handler = new UpdateMenuCategoryHandler(_mockMenuCategoryRepository.Object, _mockUnitOfWork.Object);
 
@@ -47,7 +47,7 @@ namespace RestaurantSimulation.UnitTests.Restaurant.RestaurantMenuCategory.Comma
         {
             // arrange
             _mockMenuCategoryRepository.Setup(x => x.GetRestaurantMenuCategoryByIdAsync(It.IsAny<Guid>()))
-                .ReturnsAsync((MenuCategory?)null);
+                .ReturnsAsync((MenuCategory)null);
 
             var handler = new UpdateMenuCategoryHandler(_mockMenuCategoryRepository.Object, _mockUnitOfWork.Object);
 

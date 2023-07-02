@@ -43,7 +43,7 @@ namespace RestaurantSimulation.UnitTests.Restaurant.RestaurantMenuCategory.Comma
         {
             // arrange
             _mockMenuCategoryRepository.Setup(x => x.GetRestaurantMenuCategoryByIdAsync(It.IsAny<Guid>()))
-                .ReturnsAsync((MenuCategory?)null);
+                .ReturnsAsync((MenuCategory)null);
 
             var handler = new DeleteMenuCategoryHandler(_mockMenuCategoryRepository.Object, _mockUnitOfWork.Object);
 

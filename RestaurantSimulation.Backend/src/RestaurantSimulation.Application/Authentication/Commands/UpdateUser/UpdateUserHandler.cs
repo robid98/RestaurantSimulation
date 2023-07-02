@@ -35,7 +35,7 @@ namespace RestaurantSimulation.Application.Authentication.Commands.UpdateUser
             if (userSub.IsError)
                 return userSub.FirstError;
 
-            User? user = await _userRepository.GetUserByEmailAsync(userEmail.Value);
+            User user = await _userRepository.GetUserByEmailAsync(userEmail.Value);
 
             if (user is null)
             {

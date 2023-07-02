@@ -54,7 +54,7 @@ namespace RestaurantSimulation.UnitTests.Restaurant.RestaurantMenuCategory.Queri
         {
             // arrange
             _mockMenuCategoryRepository.Setup(r => r.GetProductsRestaurantMenuCategoryByIdAsync(It.IsAny<Guid>()))
-                .ReturnsAsync((List<Product>?)new List<Product> { });
+                .ReturnsAsync((List<Product>)new List<Product> { });
 
 
             var handler = new GetProductsMenuCategoryByIdHandler(_mockMenuCategoryRepository.Object);
@@ -73,7 +73,7 @@ namespace RestaurantSimulation.UnitTests.Restaurant.RestaurantMenuCategory.Queri
         {
             // arrange
             _mockMenuCategoryRepository.Setup(r => r.GetProductsRestaurantMenuCategoryByIdAsync(It.IsAny<Guid>()))
-                .ReturnsAsync((List<Product>?)null);
+                .ReturnsAsync((List<Product>)null);
                 
 
             var handler = new GetProductsMenuCategoryByIdHandler(_mockMenuCategoryRepository.Object);

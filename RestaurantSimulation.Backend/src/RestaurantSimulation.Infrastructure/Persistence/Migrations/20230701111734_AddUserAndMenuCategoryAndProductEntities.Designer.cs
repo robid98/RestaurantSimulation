@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestaurantSimulation.Infrastructure.Persistence;
 
@@ -10,9 +11,10 @@ using RestaurantSimulation.Infrastructure.Persistence;
 namespace RestaurantSimulation.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(RestaurantSimulationContext))]
-    partial class RestaurantSimulationContextModelSnapshot : ModelSnapshot
+    [Migration("20230701111734_AddUserAndMenuCategoryAndProductEntities")]
+    partial class AddUserAndMenuCategoryAndProductEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
