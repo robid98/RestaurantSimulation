@@ -1,337 +1,275 @@
-﻿namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategory
+﻿using System.Net;
+using System.Net.Http.Json;
+using RestaurantSimulation.Contracts.Restaurant.MenuCategory;
+using RestaurantSimulation.Contracts.Restaurant.Product;
+using RestaurantSimulation.Domain.Common.Roles;
+using RestaurantSimulation.IntegrationTests.Helpers;
+using Shouldly;
+
+namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategory
 {
-    public class MenuCategoryControllerTests
+    public class MenuCategoryControllerTests : CustomWebApplicationBase, IAsyncLifetime
     {
-        public MenuCategoryControllerTests()
+        public MenuCategoryControllerTests(CustomWebApplicationFactory<Program> factory) : base(factory)
         {
 
         }
 
-    //    [Fact, Order(1)]
-    //    public async Task Should_Get_A_List_Of_Menu_Categories()
-    //    {
-    //        // arrange
-    //        _integrationTestsSetup.AuthenticateAsync(RestaurantSimulationRoles.ClientRole, "test_mail@restaurant.com", _integrationTestsSetup.userSub);
-
-    //        // act
-    //        var responseGet = await _integrationTestsSetup.TestClient.GetAsync("/api/restaurant/menucategories/");
+        [Fact]
+        public async Task GetAsync_ShouldGetAListOfMenuCategories()
+        {
+            // Arrange
+            AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
 
-    //        // assert
-    //        responseGet.StatusCode.ShouldBe(HttpStatusCode.OK);
+            await _httpClient.PostAsJsonAsync("/api/restaurant/menucategory",
+                new MenuCategoryRequest("categorie de vara", "cea mai frumoasa categorie de vara"));
 
-    //        var categories = await responseGet.Content.ReadFromJsonAsync<List<MenuCategoryResponse>>();
+            // Act
+            var responseGet = await _httpClient.GetAsync("/api/restaurant/menucategories/");
 
-    //        categories.ShouldNotBeNull();
-    //    }
+            // Assert
+            responseGet.StatusCode.ShouldBe(HttpStatusCode.OK);
 
+            var categories = await responseGet.Content.ReadFromJsonAsync<List<MenuCategoryResponse>>();
 
-    //    [Fact, Order(2)]
-    //    public async Task Should_Get_Specific_Menu_Category_By_Id()
-    //    {
-    //        // arrange
-    //        _integrationTestsSetup.AuthenticateAsync(RestaurantSimulationRoles.ClientRole, "test_mail@restaurant.com", _integrationTestsSetup.userSub);
+            categories.ShouldNotBeNull();
+            categories.Count.ShouldBe(1);
+        }
 
-    //        // act
-    //        var responseGet = await _integrationTestsSetup.TestClient.GetAsync($"/api/restaurant/menucategory/");
 
-    //        // assert
-    //        responseGet.StatusCode.ShouldBe(HttpStatusCode.OK);
+        [Fact]
+        public async Task GetAsync_ShouldGetSpecificMenuCategoryById()
+        {
+            // Arrange
+            AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
 
-    //        MenuCategoryResponse category = await responseGet.Content.ReadFromJsonAsync<MenuCategoryResponse>();
+            await _httpClient.PostAsJsonAsync("/api/restaurant/menucategory",
+                new MenuCategoryRequest("categorie de vara", "cea mai frumoasa categorie de vara"));
 
-    //        category?.Name.ShouldBe(RestaurantContextSeed.menuCategories[0].Name);
-    //        category?.Description.ShouldBe(RestaurantContextSeed.menuCategories[0].Description);
-    //    }
+            var menuCategories = await _httpClient.GetFromJsonAsync<List<MenuCategoryResponse>>("/api/restaurant/menucategories/");
 
-    //    [Fact, Order(3)]
-    //    public async Task Should_Return_Not_Found_If_Category_Is_Not_Found_By_Id()
-    //    {
-    //        // arrange
-    //        _integrationTestsSetup.AuthenticateAsync(RestaurantSimulationRoles.ClientRole, "test_mail@restaurant.com", _integrationTestsSetup.userSub);
+            // Act
+            var responseGet = await _httpClient.GetAsync($"/api/restaurant/menucategory/{menuCategories.First().Id}");
 
-    //        // act
-    //        var responseGet = await _integrationTestsSetup.TestClient.GetAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}");
+            // Assert
+            responseGet.StatusCode.ShouldBe(HttpStatusCode.OK);
 
-    //        // assert
-    //        responseGet.StatusCode.ShouldBe(HttpStatusCode.NotFound);
-    //    }
+            MenuCategoryResponse category = await responseGet.Content.ReadFromJsonAsync<MenuCategoryResponse>();
 
-    //    [Fact, Order(4)]
-    //    public async Task Should_Return_Forbidden_If_New_Category_Want_To_Be_Created_And_User_Is_Not_Admin()
-    //    {
-    //        // arrange
-    //        _integrationTestsSetup.AuthenticateAsync(RestaurantSimulationRoles.ClientRole, "test_mail@restaurant.com", _integrationTestsSetup.userSub);
+            category?.Name.ShouldBe(menuCategories.First().Name);
+            category?.Description.ShouldBe(menuCategories.First().Description);
+        }
 
-    //        // act
-    //        var responsePost = await _integrationTestsSetup.TestClient.PostAsJsonAsync("/api/restaurant/menucategory",
-    //            new MenuCategoryRequest("Categorie de vara", "Cea mai frumoasa categorie de vara"));
+        [Fact]
+        public async Task GetAsync_WhenCategoryIsNotFoundById_ShouldReturnNotFound()
+        {
+            // Arrange
+            AuthenticateAsync(RestaurantSimulationRoles.ClientRole, "test_mail@restaurant.com", _userSub);
 
-    //        // assert
-    //        responsePost.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
-    //    }
+            // Act
+            var responseGet = await _httpClient.GetAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}");
 
-    //    [Fact, Order(5)]
-    //    public async Task Should_Create_New_Menu_Category()
-    //    {
-    //        // arrange
-    //        _integrationTestsSetup.AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "dtest_mail@restaurant.com", _integrationTestsSetup.userSub);
+            // Assert
+            responseGet.StatusCode.ShouldBe(HttpStatusCode.NotFound);
+        }
 
-    //        // act
-    //        var responsePost = await _integrationTestsSetup.TestClient.PostAsJsonAsync("/api/restaurant/menucategory",
-    //            new MenuCategoryRequest("Categorie de vara", "Cea mai frumoasa categorie de vara"));
+        [Fact]
+        public async Task PostAsJsonAsync_WhenNewCategoryWantToBeCreatedAndUserIsNotAdmin_ShouldReturnForbidden()
+        {
+            // Arrange
+            AuthenticateAsync(RestaurantSimulationRoles.ClientRole, "test_mail@restaurant.com", _userSub);
 
+            // Act
+            var responsePost = await _httpClient.PostAsJsonAsync("/api/restaurant/menucategory",
+                new MenuCategoryRequest("categorie de vara", "cea mai frumoasa categorie de vara"));
 
-    //        MenuCategoryResponse category = await responsePost.Content.ReadFromJsonAsync<MenuCategoryResponse>();
+            // Assert
+            responsePost.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
+        }
 
-    //        // assert
-    //        responsePost.StatusCode.ShouldBe(HttpStatusCode.OK);
-    //        category?.Name.ShouldBe("Categorie de vara");
-    //        category?.Description.ShouldBe("Cea mai frumoasa categorie de vara");
-    //    }
+        [Fact]
+        public async Task PostAsJsonAsync_WithValidDetails_ShouldCreateNewNenuCategory()
+        {
+            // Arrange
+            AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
 
-    //    [Fact, Order(6)]
-    //    public async Task Should_Return_Forbidden_If_A_Category_Want_To_Be_Updated_And_User_Is_Not_Admin()
-    //    {
-    //        // arrange
-    //        _integrationTestsSetup.AuthenticateAsync(RestaurantSimulationRoles.ClientRole, "test_mail@restaurant.com", _integrationTestsSetup.userSub);
+            // Act
+            var responsePost = await _httpClient.PostAsJsonAsync("/api/restaurant/menucategory",
+                new MenuCategoryRequest("categorie de vara", "cea mai frumoasa categorie de vara"));
 
-    //        // act
-    //        var responsePut = await _integrationTestsSetup.TestClient.PutAsJsonAsync($"/api/restaurant/menucategory/{RestaurantContextSeed.categoriesGuid[0]}",
-    //            new MenuCategoryRequest("Categorie de iarna", "Cea mai frumoasa categorie de iarna"));
 
-    //        // assert
-    //        responsePut.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
-    //    }
+            MenuCategoryResponse category = await responsePost.Content.ReadFromJsonAsync<MenuCategoryResponse>();
 
-    //    [Fact, Order(7)]
-    //    public async Task Should_Update_Existing_Category_And_After_That_Conflict_If_Updating_With_Same_Name()
-    //    {
-    //        // arrange
-    //        _integrationTestsSetup.AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _integrationTestsSetup.userSub);
+            // Assert
+            responsePost.StatusCode.ShouldBe(HttpStatusCode.OK);
+            category?.Name.ShouldBe("categorie de vara");
+            category?.Description.ShouldBe("cea mai frumoasa categorie de vara");
+        }
 
-    //        // act
-    //        var responsePut = await _integrationTestsSetup.TestClient.PutAsJsonAsync($"/api/restaurant/menucategory/{RestaurantContextSeed.categoriesGuid[0]}",
-    //            new MenuCategoryRequest("Categorie de iarna", "Cea mai frumoasa categorie de iarna"));
+        [Fact]
+        public async Task PutAsJsonAsync_WhenACategoryWantToBeUpdatedAndUserIsNotAdmin_ShouldReturnForbidden()
+        {
+            // Arrange
+            AuthenticateAsync(RestaurantSimulationRoles.ClientRole, "test_mail@restaurant.com", _userSub);
 
-    //        // assert
-    //        responsePut.StatusCode.ShouldBe(HttpStatusCode.OK);
+            // Act
+            var responseput = await _httpClient.PutAsJsonAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}",
+                new MenuCategoryRequest("categorie de iarna", "cea mai frumoasa categorie de iarna"));
 
-    //        // act
-    //        var responseGet = await _integrationTestsSetup.TestClient.GetAsync($"/api/restaurant/menucategory/{RestaurantContextSeed.categoriesGuid[0]}");
+            // Assert
+            responseput.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
+        }
 
-    //        // assert
-    //        responseGet.StatusCode.ShouldBe(HttpStatusCode.OK);
+        [Fact]
+        public async Task GetAsync_IfCategoryIdDoesNotExistWhenGettingProductsFromCategory_ShouldReturnNoFound()
+        {
+            // Arrange
+            AuthenticateAsync(RestaurantSimulationRoles.ClientRole, "test_mail@restaurant.com", _userSub);
 
-    //        MenuCategoryResponse category = await responseGet.Content.ReadFromJsonAsync<MenuCategoryResponse>();
+            // Act
+            var responseget = await _httpClient.GetAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}/products");
 
-    //        category?.Name.ShouldBe("Categorie de iarna");
-    //        category?.Description.ShouldBe("Cea mai frumoasa categorie de iarna");
+            // Assert
+            responseget.StatusCode.ShouldBe(HttpStatusCode.NotFound);
+        }
 
-    //        responsePut = await _integrationTestsSetup.TestClient.PutAsJsonAsync($"/api/restaurant/menucategory/{RestaurantContextSeed.categoriesGuid[0]}",
-    //            new MenuCategoryRequest("Categorie de iarna", "Cea mai frumoasa categorie de iarna"));
+        [Fact]
+        public async Task GetAsync_WhenCategoryDoesNotHaveProducts_ShouldReturnEmptyProductList()
+        {
+            // arrange
+            AuthenticateAsync(RestaurantSimulationRoles.ClientRole, "test_mail@restaurant.com", _userSub);
 
-    //        // assert
-    //        responsePut.StatusCode.ShouldBe(HttpStatusCode.Conflict);
-    //    }
+            // act
+            var responseGet = await _httpClient.GetAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}/products");
 
+            List<ProductResponse> products = await responseGet.Content.ReadFromJsonAsync<List<ProductResponse>>();
 
-    //    [Fact, Order(8)]
-    //    public async Task Should_Return_Forbidden_If_A_Category_Want_To_Be_Deleted_And_User_Is_Not_Admin()
-    //    {
-    //        // arrange
-    //        _integrationTestsSetup.AuthenticateAsync(RestaurantSimulationRoles.ClientRole, "test_mail@restaurant.com", _integrationTestsSetup.userSub);
+            // assert
+            responseGet.StatusCode.ShouldBe(HttpStatusCode.OK);
 
-    //        // act
-    //        var responseDelete = await _integrationTestsSetup.TestClient.DeleteAsync($"/api/restaurant/menucategory/{RestaurantContextSeed.categoriesGuid[0]}");
+            products?.Count.ShouldBe(0);
+        }
 
-    //        // assert
-    //        responseDelete.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
-    //    }
+        [Fact]
+        public async Task PostAsJsonAsync_IfValidationsForNameWillFailWhenCreatingMenuCategory_ShouldReturnBadRequest()
+        {
+            // Arrange 
+            AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
 
-    //    [Fact, Order(9)]
-    //    public async Task Should_Delete_A_Specific_Category_By_Id()
-    //    {
-    //        // arrange
-    //        _integrationTestsSetup.AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _integrationTestsSetup.userSub);
+            // Act
+            var responsePost = await _httpClient.PostAsJsonAsync("/api/restaurant/menucategory",
+                new MenuCategoryRequest("", "cea mai frumoasa categorie de vara"));
 
-    //        // act
-    //        var responseDelete = await _integrationTestsSetup.TestClient.DeleteAsync($"/api/restaurant/menucategory/{RestaurantContextSeed.categoriesGuid[0]}");
+            // Assert
+            responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
-    //        // assert
-    //        responseDelete.StatusCode.ShouldBe(HttpStatusCode.NoContent);
+            // Act
+            responsePost = await _httpClient.PostAsJsonAsync("/api/restaurant/menucategory",
+                new MenuCategoryRequest("s", "cea mai frumoasa categorie de vara"));
 
-    //        // act
-    //        var responseGet = await _integrationTestsSetup.TestClient.GetAsync($"/api/restaurant/menucategory/{RestaurantContextSeed.categoriesGuid[0]}");
+            // Assert
+            responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
-    //        // assert
-    //        responseGet.StatusCode.ShouldBe(HttpStatusCode.NotFound);
-    //    }
+            // Act
+            responsePost = await _httpClient.PostAsJsonAsync("/api/restaurant/menucategory",
+                new MenuCategoryRequest("%$%!ssadqweqdas", "cea mai frumoasa categorie de vara"));
 
-    //    [Fact, Order(10)]
-    //    public async Task Should_Get_Products_From_Category_By_Id()
-    //    {
-    //        // arrange
-    //        _integrationTestsSetup.AuthenticateAsync(RestaurantSimulationRoles.ClientRole, "test_mail@restaurant.com", _integrationTestsSetup.userSub);
+            // Assert
+            responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+        }
 
-    //        // act
-    //        var responseGet = await _integrationTestsSetup.TestClient.GetAsync($"/api/restaurant/menucategory/{RestaurantContextSeed.categoriesGuid[1]}/products");
+        [Fact]
+        public async Task PostAsJsonAsync_IfValidationsForDescriptionWillFailWhenCreatingMenuCategory_ShouldReturnBadRequest()
+        {
+            // Arrange 
+            AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
 
-    //        List<ProductResponse> products = await responseGet.Content.ReadFromJsonAsync<List<ProductResponse>>();
+            // Act
+            var responsePost = await _httpClient.PostAsJsonAsync("/api/restaurant/menucategory",
+                new MenuCategoryRequest("prajituri", "cea"));
 
-    //        // assert
-    //        responseGet.StatusCode.ShouldBe(HttpStatusCode.OK);
+            // Assert
+            responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
-    //        products?.Count.ShouldBe(2);
+            // Act
+            responsePost = await _httpClient.PostAsJsonAsync("/api/restaurant/menucategory",
+                new MenuCategoryRequest("prajituri", ""));
 
-    //        List<ProductResponse> sortedProducts = products?.OrderBy(o => o.Price).ToList();
+            // Assert
+            responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
-    //        sortedProducts?[0].Price.ShouldBe(10.05);
-    //        sortedProducts?[0].Description.ShouldBe("Carne, cartofi");
+            // Act
+            responsePost = await _httpClient.PostAsJsonAsync("/api/restaurant/menucategory",
+                new MenuCategoryRequest("prajituri", "qweqe2!#!543"));
 
-    //        sortedProducts?[1].Price.ShouldBe(11.50);
-    //        sortedProducts?[1].Description.ShouldBe("Inghetata cu de toate");
-    //    }
+            // Assert
+            responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+        }
 
-    //    [Fact, Order(11)]
-    //    public async Task Should_Return_No_Found_If_Category_Id_Does_Not_Exist_When_Getting_Products_From_Category()
-    //    {
-    //        // arrange
-    //        _integrationTestsSetup.AuthenticateAsync(RestaurantSimulationRoles.ClientRole, "test_mail@restaurant.com", _integrationTestsSetup.userSub);
+        [Fact]
+        public async Task PutAsJsonaAync_WhenUpdatingMenuCategoryIfValidationsForNameWillFail_ShouldReturnBadRequest()
+        {
+            // Arrange 
+            AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
 
-    //        // act
-    //        var responseGet = await _integrationTestsSetup.TestClient.GetAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}/products");
+            // Act
+            var responsePost = await _httpClient.PutAsJsonAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}",
+                new MenuCategoryRequest("", "cea mai frumoasa categorie de vara"));
 
-    //        // assert
-    //        responseGet.StatusCode.ShouldBe(HttpStatusCode.NotFound);
-    //    }
+            // Assert
+            responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
-    //    [Fact, Order(12)]
-    //    public async Task Should_Return_Empty_Product_List_If_Category_Does_Not_Have_Products()
-    //    {
-    //        // arrange
-    //        _integrationTestsSetup.AuthenticateAsync(RestaurantSimulationRoles.ClientRole, "test_mail@restaurant.com", _integrationTestsSetup.userSub);
+            // Act
+            responsePost = await _httpClient.PutAsJsonAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}",
+                new MenuCategoryRequest("s", "cea mai frumoasa categorie de vara"));
 
-    //        // act
-    //        var responseGet = await _integrationTestsSetup.TestClient.GetAsync($"/api/restaurant/menucategory/{RestaurantContextSeed.categoriesGuid[2]}/products");
+            // Assert
+            responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
-    //        List<ProductResponse> products = await responseGet.Content.ReadFromJsonAsync<List<ProductResponse>>();
+            // Act
+            responsePost = await _httpClient.PutAsJsonAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}",
+                new MenuCategoryRequest("%$%!ssadqweqdas", "cea mai frumoasa categorie de vara"));
 
-    //        // assert
-    //        responseGet.StatusCode.ShouldBe(HttpStatusCode.OK);
+            // Assert
+            responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+        }
 
-    //        products?.Count.ShouldBe(0);
-    //    }
+        [Fact]
+        public async Task PutAsJsonAsyncShould_IfValidationsForDescriptionWillFailWhenUpdatingMenuCategory_ShouldReturnBadRequest()
+        {
+            // Arrange 
+            AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
 
-    //    [Fact]
-    //    public async Task Should_Return_Bad_Request_If_Validations_For_Name_Will_Fail_When_Creating_Menu_Category()
-    //    {
-    //        // arrange 
-    //        _integrationTestsSetup.AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _integrationTestsSetup.userSub);
+            // Act
+            var responsePost = await _httpClient.PutAsJsonAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}",
+                new MenuCategoryRequest("prajituri", "cea"));
 
-    //        // act
-    //        var responsePost = await _integrationTestsSetup.TestClient.PostAsJsonAsync("/api/restaurant/menucategory",
-    //            new MenuCategoryRequest("", "Cea mai frumoasa categorie de vara"));
+            // Assert
+            responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
-    //        // assert
-    //        responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+            // Act
+            responsePost = await _httpClient.PutAsJsonAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}",
+                new MenuCategoryRequest("prajituri", ""));
 
-    //        // act
-    //        responsePost = await _integrationTestsSetup.TestClient.PostAsJsonAsync("/api/restaurant/menucategory",
-    //            new MenuCategoryRequest("s", "Cea mai frumoasa categorie de vara"));
+            // Assert
+            responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
-    //        // assert
-    //        responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+            // Act
+            responsePost = await _httpClient.PutAsJsonAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}",
+                new MenuCategoryRequest("prajituri", "qweqe2!#!543"));
 
-    //        // act
-    //        responsePost = await _integrationTestsSetup.TestClient.PostAsJsonAsync("/api/restaurant/menucategory",
-    //            new MenuCategoryRequest("%$%!ssadqweqdas", "Cea mai frumoasa categorie de vara"));
+            // Assert
+            responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+        }
 
-    //        // assert
-    //        responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
-    //    }
+        public Task InitializeAsync()
+        {
+            return Task.CompletedTask;
+        }
 
-    //    [Fact]
-    //    public async Task Should_Return_Bad_Request_If_Validations_For_Description_Will_Fail_When_Creating_Menu_Category()
-    //    {
-    //        // arrange 
-    //        _integrationTestsSetup.AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _integrationTestsSetup.userSub);
-
-    //        // act
-    //        var responsePost = await _integrationTestsSetup.TestClient.PostAsJsonAsync("/api/restaurant/menucategory",
-    //            new MenuCategoryRequest("Prajituri", "Cea"));
-
-    //        // assert
-    //        responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
-
-    //        // act
-    //        responsePost = await _integrationTestsSetup.TestClient.PostAsJsonAsync("/api/restaurant/menucategory",
-    //            new MenuCategoryRequest("Prajituri", ""));
-
-    //        // assert
-    //        responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
-
-    //        // act
-    //        responsePost = await _integrationTestsSetup.TestClient.PostAsJsonAsync("/api/restaurant/menucategory",
-    //            new MenuCategoryRequest("Prajituri", "qweqe2!#!543"));
-
-    //        // assert
-    //        responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
-    //    }
-
-    //    [Fact]
-    //    public async Task Should_Return_Bad_Request_If_Validations_For_Name_Will_Fail_When_Updating_Menu_Category()
-    //    {
-    //        // arrange 
-    //        _integrationTestsSetup.AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _integrationTestsSetup.userSub);
-
-    //        // act
-    //        var responsePost = await _integrationTestsSetup.TestClient.PutAsJsonAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}",
-    //            new MenuCategoryRequest("", "Cea mai frumoasa categorie de vara"));
-
-    //        // assert
-    //        responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
-
-    //        // act
-    //        responsePost = await _integrationTestsSetup.TestClient.PutAsJsonAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}",
-    //            new MenuCategoryRequest("s", "Cea mai frumoasa categorie de vara"));
-
-    //        // assert
-    //        responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
-
-    //        // act
-    //        responsePost = await _integrationTestsSetup.TestClient.PutAsJsonAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}",
-    //            new MenuCategoryRequest("%$%!ssadqweqdas", "Cea mai frumoasa categorie de vara"));
-
-    //        // assert
-    //        responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
-    //    }
-
-    //    [Fact]
-    //    public async Task Should_Return_Bad_Request_If_Validations_For_Description_Will_Fail_When_Updating_Menu_Category()
-    //    {
-    //        // arrange 
-    //        _integrationTestsSetup.AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _integrationTestsSetup.userSub);
-
-    //        // act
-    //        var responsePost = await _integrationTestsSetup.TestClient.PutAsJsonAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}",
-    //            new MenuCategoryRequest("Prajituri", "Cea"));
-
-    //        // assert
-    //        responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
-
-    //        // act
-    //        responsePost = await _integrationTestsSetup.TestClient.PutAsJsonAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}",
-    //            new MenuCategoryRequest("Prajituri", ""));
-
-    //        // assert
-    //        responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
-
-    //        // act
-    //        responsePost = await _integrationTestsSetup.TestClient.PutAsJsonAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}",
-    //            new MenuCategoryRequest("Prajituri", "qweqe2!#!543"));
-
-    //        // assert
-    //        responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
-    //    }
+        public async Task DisposeAsync()
+        {
+            await _respawner.ResetAsync(_connection);
+        }
     }
 }

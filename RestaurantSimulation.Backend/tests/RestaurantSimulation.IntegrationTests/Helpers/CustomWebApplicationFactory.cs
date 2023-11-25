@@ -25,9 +25,11 @@ namespace RestaurantSimulation.IntegrationTests.Helpers
 
                 services.Remove(descriptor);
 
+                var mySqlConnectionString = Configuration.GetValue<string>("ConnectionStrings:Mysql");
+
                 services.AddDbContext<RestaurantSimulationContext>(
-                    options => options.UseMySql(Configuration.GetValue<string>("ConnectionStrings:Mysql"),
-                    new MySqlServerVersion(new Version(5, 7)),
+                    options => options.UseMySql(mySqlConnectionString,
+                    ServerVersion.AutoDetect(mySqlConnectionString),
                     mySqlOptions =>
                     {
                         mySqlOptions.MigrationsAssembly(typeof(RestaurantSimulationContext).Assembly.FullName);
