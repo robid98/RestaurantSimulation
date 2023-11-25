@@ -35,8 +35,7 @@ namespace RestaurantSimulation.IntegrationTests.Helpers
                 {
                     TablesToIgnore = new Table[]
                     {
-                        "__EFMigrationsHistory",
-                        "MenuCategory"
+                        "__EFMigrationsHistory"
                     },
                     DbAdapter = DbAdapter.MySql
                 }).GetAwaiter().GetResult();
