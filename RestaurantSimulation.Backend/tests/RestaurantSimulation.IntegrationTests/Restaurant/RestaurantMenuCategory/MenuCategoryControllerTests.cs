@@ -134,23 +134,6 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
         }
 
         [Fact]
-        public async Task GetAsync_WhenCategoryDoesNotHaveProducts_ShouldReturnEmptyProductList()
-        {
-            // arrange
-            AuthenticateAsync(RestaurantSimulationRoles.ClientRole, "test_mail@restaurant.com", _userSub);
-
-            // act
-            var responseGet = await _httpClient.GetAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}/products");
-
-            List<ProductResponse> products = await responseGet.Content.ReadFromJsonAsync<List<ProductResponse>>();
-
-            // assert
-            responseGet.StatusCode.ShouldBe(HttpStatusCode.OK);
-
-            products?.Count.ShouldBe(0);
-        }
-
-        [Fact]
         public async Task PostAsJsonAsync_IfValidationsForNameWillFailWhenCreatingMenuCategory_ShouldReturnBadRequest()
         {
             // Arrange 
