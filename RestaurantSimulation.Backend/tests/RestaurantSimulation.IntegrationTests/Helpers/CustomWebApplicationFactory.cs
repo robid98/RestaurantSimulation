@@ -12,10 +12,10 @@ namespace RestaurantSimulation.IntegrationTests.Helpers
         : WebApplicationFactory<TProgram> where TProgram : class
     {
         public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
-         .SetBasePath(Directory.GetCurrentDirectory())
-         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-         .AddEnvironmentVariables()
-         .Build();
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddEnvironmentVariables()
+            .Build();
         
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {

@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
+using AutoFixture;
 using RestaurantSimulation.Contracts.Restaurant.MenuCategory;
-using RestaurantSimulation.Contracts.Restaurant.Product;
 using RestaurantSimulation.Domain.Common.Roles;
 using RestaurantSimulation.IntegrationTests.Helpers;
 using Shouldly;
@@ -10,6 +10,8 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
 {
     public class MenuCategoryControllerTests : CustomWebApplicationBase, IAsyncLifetime
     {
+        private string _baseApiPath = "/api/restaurant";
+
         public MenuCategoryControllerTests(CustomWebApplicationFactory<Program> factory) : base(factory)
         {
 
@@ -19,13 +21,17 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
         public async Task GetAsync_ShouldGetAListOfMenuCategories()
         {
             // Arrange
+            var menuCategoryRequest = _fixture.Build<MenuCategoryRequest>()
+                .With(x => x.Name, "Test Category")
+                .With(x => x.Description, "A beautiful food category in this world")
+                .Create();
+
             AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
 
-            await _httpClient.PostAsJsonAsync("/api/restaurant/menucategory",
-                new MenuCategoryRequest("categorie de vara", "cea mai frumoasa categorie de vara"));
+            await _httpClient.PostAsJsonAsync($"{_baseApiPath}/menucategory", menuCategoryRequest);
 
             // Act
-            var responseGet = await _httpClient.GetAsync("/api/restaurant/menucategories/");
+            var responseGet = await _httpClient.GetAsync($"{_baseApiPath}/menucategories/");
 
             // Assert
             responseGet.StatusCode.ShouldBe(HttpStatusCode.OK);
@@ -33,7 +39,7 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
             var categories = await responseGet.Content.ReadFromJsonAsync<List<MenuCategoryResponse>>();
 
             categories.ShouldNotBeNull();
-            categories.Count.ShouldBe(1);
+            categories.Where(x => x.Name == menuCategoryRequest.Name).Count().ShouldBe(1);
         }
 
 
@@ -43,13 +49,13 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
             // Arrange
             AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
 
-            await _httpClient.PostAsJsonAsync("/api/restaurant/menucategory",
+            await _httpClient.PostAsJsonAsync($"{_baseApiPath}/menucategory",
                 new MenuCategoryRequest("categorie de vara", "cea mai frumoasa categorie de vara"));
 
-            var menuCategories = await _httpClient.GetFromJsonAsync<List<MenuCategoryResponse>>("/api/restaurant/menucategories/");
+            var menuCategories = await _httpClient.GetFromJsonAsync<List<MenuCategoryResponse>>($"{_baseApiPath}/menucategories/");
 
             // Act
-            var responseGet = await _httpClient.GetAsync($"/api/restaurant/menucategory/{menuCategories.First().Id}");
+            var responseGet = await _httpClient.GetAsync($"{_baseApiPath}/menucategory/{menuCategories.First().Id}");
 
             // Assert
             responseGet.StatusCode.ShouldBe(HttpStatusCode.OK);
@@ -67,7 +73,7 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
             AuthenticateAsync(RestaurantSimulationRoles.ClientRole, "test_mail@restaurant.com", _userSub);
 
             // Act
-            var responseGet = await _httpClient.GetAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}");
+            var responseGet = await _httpClient.GetAsync($"{_baseApiPath}/menucategory/{Guid.NewGuid()}");
 
             // Assert
             responseGet.StatusCode.ShouldBe(HttpStatusCode.NotFound);
@@ -80,7 +86,7 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
             AuthenticateAsync(RestaurantSimulationRoles.ClientRole, "test_mail@restaurant.com", _userSub);
 
             // Act
-            var responsePost = await _httpClient.PostAsJsonAsync("/api/restaurant/menucategory",
+            var responsePost = await _httpClient.PostAsJsonAsync($"{_baseApiPath}/menucategory",
                 new MenuCategoryRequest("categorie de vara", "cea mai frumoasa categorie de vara"));
 
             // Assert
@@ -91,19 +97,22 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
         public async Task PostAsJsonAsync_WithValidDetails_ShouldCreateNewNenuCategory()
         {
             // Arrange
+            var menuCategoryRequest = _fixture.Build<MenuCategoryRequest>()
+                .With(x => x.Name, "Something random at this moment")
+                .With(x => x.Description, "Something Random Description Best Category")
+                .Create();
+
             AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
 
             // Act
-            var responsePost = await _httpClient.PostAsJsonAsync("/api/restaurant/menucategory",
-                new MenuCategoryRequest("categorie de vara", "cea mai frumoasa categorie de vara"));
-
+            var responsePost = await _httpClient.PostAsJsonAsync($"{_baseApiPath}/menucategory", menuCategoryRequest);
 
             MenuCategoryResponse category = await responsePost.Content.ReadFromJsonAsync<MenuCategoryResponse>();
 
             // Assert
             responsePost.StatusCode.ShouldBe(HttpStatusCode.OK);
-            category?.Name.ShouldBe("categorie de vara");
-            category?.Description.ShouldBe("cea mai frumoasa categorie de vara");
+            category?.Name.ShouldBe(menuCategoryRequest.Name);
+            category?.Description.ShouldBe(menuCategoryRequest.Description);
         }
 
         [Fact]
@@ -113,7 +122,7 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
             AuthenticateAsync(RestaurantSimulationRoles.ClientRole, "test_mail@restaurant.com", _userSub);
 
             // Act
-            var responseput = await _httpClient.PutAsJsonAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}",
+            var responseput = await _httpClient.PutAsJsonAsync($"{_baseApiPath}/menucategory/{Guid.NewGuid()}",
                 new MenuCategoryRequest("categorie de iarna", "cea mai frumoasa categorie de iarna"));
 
             // Assert
@@ -127,7 +136,7 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
             AuthenticateAsync(RestaurantSimulationRoles.ClientRole, "test_mail@restaurant.com", _userSub);
 
             // Act
-            var responseget = await _httpClient.GetAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}/products");
+            var responseget = await _httpClient.GetAsync($"{_baseApiPath}/menucategory/{Guid.NewGuid()}/products");
 
             // Assert
             responseget.StatusCode.ShouldBe(HttpStatusCode.NotFound);
@@ -140,21 +149,21 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
             AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
 
             // Act
-            var responsePost = await _httpClient.PostAsJsonAsync("/api/restaurant/menucategory",
+            var responsePost = await _httpClient.PostAsJsonAsync($"{_baseApiPath}/menucategory",
                 new MenuCategoryRequest("", "cea mai frumoasa categorie de vara"));
 
             // Assert
             responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
             // Act
-            responsePost = await _httpClient.PostAsJsonAsync("/api/restaurant/menucategory",
+            responsePost = await _httpClient.PostAsJsonAsync($"{_baseApiPath}/menucategory",
                 new MenuCategoryRequest("s", "cea mai frumoasa categorie de vara"));
 
             // Assert
             responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
             // Act
-            responsePost = await _httpClient.PostAsJsonAsync("/api/restaurant/menucategory",
+            responsePost = await _httpClient.PostAsJsonAsync($"{_baseApiPath}/menucategory",
                 new MenuCategoryRequest("%$%!ssadqweqdas", "cea mai frumoasa categorie de vara"));
 
             // Assert
@@ -168,21 +177,21 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
             AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
 
             // Act
-            var responsePost = await _httpClient.PostAsJsonAsync("/api/restaurant/menucategory",
+            var responsePost = await _httpClient.PostAsJsonAsync($"{_baseApiPath}/menucategory",
                 new MenuCategoryRequest("prajituri", "cea"));
 
             // Assert
             responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
             // Act
-            responsePost = await _httpClient.PostAsJsonAsync("/api/restaurant/menucategory",
+            responsePost = await _httpClient.PostAsJsonAsync($"{_baseApiPath}/menucategory",
                 new MenuCategoryRequest("prajituri", ""));
 
             // Assert
             responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
             // Act
-            responsePost = await _httpClient.PostAsJsonAsync("/api/restaurant/menucategory",
+            responsePost = await _httpClient.PostAsJsonAsync($"{_baseApiPath}/menucategory",
                 new MenuCategoryRequest("prajituri", "qweqe2!#!543"));
 
             // Assert
@@ -196,21 +205,21 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
             AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
 
             // Act
-            var responsePost = await _httpClient.PutAsJsonAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}",
+            var responsePost = await _httpClient.PutAsJsonAsync($"{_baseApiPath}/menucategory/{Guid.NewGuid()}",
                 new MenuCategoryRequest("", "cea mai frumoasa categorie de vara"));
 
             // Assert
             responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
             // Act
-            responsePost = await _httpClient.PutAsJsonAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}",
+            responsePost = await _httpClient.PutAsJsonAsync($"{_baseApiPath}/menucategory/{Guid.NewGuid()}",
                 new MenuCategoryRequest("s", "cea mai frumoasa categorie de vara"));
 
             // Assert
             responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
             // Act
-            responsePost = await _httpClient.PutAsJsonAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}",
+            responsePost = await _httpClient.PutAsJsonAsync($"{_baseApiPath}/menucategory/{Guid.NewGuid()}",
                 new MenuCategoryRequest("%$%!ssadqweqdas", "cea mai frumoasa categorie de vara"));
 
             // Assert
@@ -224,25 +233,38 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
             AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
 
             // Act
-            var responsePost = await _httpClient.PutAsJsonAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}",
+            var responsePost = await _httpClient.PutAsJsonAsync($"{_baseApiPath}/menucategory/{Guid.NewGuid()}",
                 new MenuCategoryRequest("prajituri", "cea"));
 
             // Assert
             responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
             // Act
-            responsePost = await _httpClient.PutAsJsonAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}",
+            responsePost = await _httpClient.PutAsJsonAsync($"{_baseApiPath}/menucategory/{Guid.NewGuid()}",
                 new MenuCategoryRequest("prajituri", ""));
 
             // Assert
             responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
             // Act
-            responsePost = await _httpClient.PutAsJsonAsync($"/api/restaurant/menucategory/{Guid.NewGuid()}",
+            responsePost = await _httpClient.PutAsJsonAsync($"{_baseApiPath}/menucategory/{Guid.NewGuid()}",
                 new MenuCategoryRequest("prajituri", "qweqe2!#!543"));
 
             // Assert
             responsePost.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task DeleteAsync_WhenACategoryNeedsToBeDeletedAndUserIsNotAdmin_ShouldReturnForbidden()
+        {
+            // Arrange
+            AuthenticateAsync(RestaurantSimulationRoles.ClientRole, "test_mail@restaurant.com", _userSub);
+
+            // Act
+            var responseDelete = await _httpClient.DeleteAsync($"{_baseApiPath}/menucategory/{"694d6ed1-4ef5-4539-926d-c459c2ba1b39"}");
+
+            // Assert
+            responseDelete.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
         }
 
         public Task InitializeAsync()

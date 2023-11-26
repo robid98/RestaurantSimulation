@@ -21,7 +21,6 @@ namespace RestaurantSimulation.IntegrationTests.Helpers
 
         public MySqlConnection _connection;
 
-
         protected CustomWebApplicationBase(CustomWebApplicationFactory<Program> factory)
         {
             _fixture = new Fixture();
