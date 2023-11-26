@@ -20,7 +20,7 @@ Backend architecture is a monolitch one and frontend architecture will be based 
 <br>
 
 ## Project status
-- [![Build RestaurantSimulation.Backend](https://github.com/robid98/RestaurantSimulation/actions/workflows/build.yml/badge.svg)](https://github.com/robid98/RestaurantSimulation/actions/workflows/build.yml)
+[![RestaurantSimulation.Backend GitHub Action](https://github.com/robid98/RestaurantSimulation/actions/workflows/restaurant-simulation-backend.yml/badge.svg)](https://github.com/robid98/RestaurantSimulation/actions/workflows/restaurant-simulation-backend.yml)
 
 ## Deploy
 - Deploy will be done when the project is in a good state. For deploying `AWS` will be used.
