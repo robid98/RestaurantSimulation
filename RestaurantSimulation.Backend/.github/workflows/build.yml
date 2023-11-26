@@ -23,8 +23,8 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
       
       - name: Restore 
-        run: dotnet restore ./RestaurantSimulation.Backend/RestaurantSimulation.Backend.sln
+        run: dotnet restore ${{ GITHUB_WORKSPACE }}/RestaurantSimulation.Backend/RestaurantSimulation.Backend.sln
 
       - name: Build
-        run: dotnet build ./RestaurantSimulation.Backend/RestaurantSimulation.Backend.sln --configuration Release --no-restore
+        run: dotnet build ${{ GITHUB_WORKSPACE }}/RestaurantSimulation.Backend/RestaurantSimulation.Backend.sln --configuration Release --no-restore
 
