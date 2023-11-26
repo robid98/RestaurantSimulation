@@ -6,8 +6,13 @@ on:
     paths:
     - 'RestaurantSimulation.Backend/**'               # target all the changes for backend
     - '!RestaurantSimulation.Angular.Frontend/**'     # ignore everything related to frontend
+    - '!RestaurantSimulation.Next.Frontend/**'
   pull_request:
     branches: [main]
+    paths:
+    - 'RestaurantSimulation.Backend/**'               # target all the changes for backend
+    - '!RestaurantSimulation.Angular.Frontend/**'     # ignore everything related to frontend
+    - '!RestaurantSimulation.Next.Frontend/**'        # ignore everything related to frontend
 
 env:
   DOTNET_VERSION: "6.0.x"
