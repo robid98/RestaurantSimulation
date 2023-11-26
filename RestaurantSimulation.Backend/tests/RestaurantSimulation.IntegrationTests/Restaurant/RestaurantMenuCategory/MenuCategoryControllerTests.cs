@@ -95,7 +95,7 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
         }
 
         [Fact]
-        public async Task PostAsJsonAsync_WithValidDetails_ShouldCreateNewNenuCategory()
+        public async Task PostAsJsonAsync_WithValidDetails_ShouldCreateNewNenuCategoryInRestaurantSimulation()
         {
             // Arrange
             var menuCategoryRequest = _fixture.Build<MenuCategoryRequest>()

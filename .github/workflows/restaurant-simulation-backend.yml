@@ -1,4 +1,4 @@
-name: Build RestaurantSimulation.Backend
+name: RestaurantSimulation.Backend GitHub Action
 
 on:
   push:
