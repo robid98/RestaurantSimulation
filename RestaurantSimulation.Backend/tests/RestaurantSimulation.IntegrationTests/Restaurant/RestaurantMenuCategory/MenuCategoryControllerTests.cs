@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using AutoFixture;
+using Microsoft.EntityFrameworkCore;
 using RestaurantSimulation.Contracts.Restaurant.MenuCategory;
 using RestaurantSimulation.Domain.Common.Roles;
 using RestaurantSimulation.IntegrationTests.Helpers;
@@ -265,6 +266,32 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
 
             // Assert
             responseDelete.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
+        }
+
+        [Fact]
+        public async Task DeleteAsync_WhenACategoryNeedsToBeDeletedAndUserIsAdmin_ShouldDeleteTheCategory()
+        {
+            // Arrange
+            AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
+
+            // Act
+            var responseDelete = await _httpClient.DeleteAsync($"{_baseApiPath}/menucategory/{"694d6ed1-4ef5-4539-926d-c459c2ba1b39"}"); // Id is seeded
+
+            // Assert
+            responseDelete.StatusCode.ShouldBe(HttpStatusCode.NoContent);
+        }
+
+        [Fact]
+        public async Task DeleteAsync_WhenIsNotFoundAndUserIsAdmin_ShouldReturnNotFound()
+        {
+            // Arrange
+            AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
+
+            // Act
+            var responseDelete = await _httpClient.DeleteAsync($"{_baseApiPath}/menucategory/{Guid.NewGuid()}");
+
+            // Assert
+            responseDelete.StatusCode.ShouldBe(HttpStatusCode.NotFound);
         }
 
         public Task InitializeAsync()

@@ -50,6 +50,5 @@ namespace RestaurantSimulation.IntegrationTests.Helpers
                 }
             });
         }
-
     }
 }

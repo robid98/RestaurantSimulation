@@ -7,6 +7,9 @@ using MySqlConnector;
 using Respawn;
 using Respawn.Graph;
 using RestaurantSimulation.Domain.Common.Claims;
+using RestaurantSimulation.Infrastructure.Persistence;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 
 namespace RestaurantSimulation.IntegrationTests.Helpers
 {
@@ -18,10 +21,10 @@ namespace RestaurantSimulation.IntegrationTests.Helpers
         protected readonly IFixture _fixture;
         protected readonly string _userSub = Guid.NewGuid().ToString();
         protected readonly Respawner _respawner;
+        protected MySqlConnection _connection;
 
-        public MySqlConnection _connection;
-
-        protected CustomWebApplicationBase(CustomWebApplicationFactory<Program> factory)
+        protected CustomWebApplicationBase(
+            CustomWebApplicationFactory<Program> factory)
         {
             _fixture = new Fixture();
             _factory = factory;
@@ -32,10 +35,6 @@ namespace RestaurantSimulation.IntegrationTests.Helpers
                 _connection,
                 new RespawnerOptions
                 {
-                    TablesToIgnore = new Table[]
-                    {
-                        "__EFMigrationsHistory"
-                    },
                     DbAdapter = DbAdapter.MySql
                 }).GetAwaiter().GetResult();
         }
@@ -45,6 +44,18 @@ namespace RestaurantSimulation.IntegrationTests.Helpers
             _connection.Close();
             _connection.Dispose();
             _connection = null;
+
+            //TODO: Temporary for now. Check how to reseed data if is possible with Respawn
+            // if not another alternative needs to be found
+            using (var scope = _factory.Services.CreateScope())
+            {
+                var scopedServices = scope.ServiceProvider;
+
+                var db = scopedServices.GetRequiredService<RestaurantSimulationContext>();
+
+                db.Database.EnsureDeletedAsync().Wait();
+                db.Database.MigrateAsync().Wait();
+            }
         }
 
         public void AuthenticateAsync(string role, string email, string userSub)
