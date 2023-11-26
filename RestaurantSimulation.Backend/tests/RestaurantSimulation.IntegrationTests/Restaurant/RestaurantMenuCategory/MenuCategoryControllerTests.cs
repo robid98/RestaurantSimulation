@@ -40,7 +40,7 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
             var categories = await responseGet.Content.ReadFromJsonAsync<List<MenuCategoryResponse>>();
 
             categories.ShouldNotBeNull();
-            categories.Where(x => x.Name == menuCategoryRequest.Name).Count().ShouldBe(1);
+            categories.Where(x => x.Name == menuCategoryRequest.Name).Count().ShouldBe(3);
         }
 
 

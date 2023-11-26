@@ -3,9 +3,9 @@ name: Build RestaurantSimulation.Backend
 on:
   push:
     branches: '**'
-    # paths:
-    # - 'RestaurantSimulation.Backend/**'               # target all the changes for backend
-    # - '!RestaurantSimulation.Angular.Frontend/**'     # ignore everything related to frontend
+    paths:
+    - 'RestaurantSimulation.Backend/**'               # target all the changes for backend
+    - '!RestaurantSimulation.Angular.Frontend/**'     # ignore everything related to frontend
 
 env:
   DOTNET_VERSION: "6.0.x"
