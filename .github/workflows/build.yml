@@ -40,3 +40,5 @@ jobs:
           mysql database: 'RestaurantSimulationTests'
           mysql root password: root-password
 
+      - name: Run integration tests
+        run: dotnet test RestaurantSimulation.Backend/tests/RestaurantSimulation.IntegrationTests/**.csproj
