@@ -11,7 +11,7 @@ env:
   DOTNET_VERSION: "6.0.x"
 
 jobs:
-  build:
+  Build RestaurantSimultation.Backend:
     runs-on: ubuntu-latest
 
     steps:
