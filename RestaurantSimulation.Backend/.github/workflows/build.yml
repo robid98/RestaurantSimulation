@@ -2,7 +2,7 @@ name: Build
 
 on:
   push:
-    branches: '*'
+    branches: '**'
     paths:
     - 'RestaurantSimulation.Backend/**'               # target all the changes for backend
     - '!RestaurantSimulation.Angular.Frontend/**'     # ignore everything related to frontend
