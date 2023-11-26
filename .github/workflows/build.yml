@@ -3,6 +3,9 @@ name: Build RestaurantSimulation.Backend
 on:
   push:
     branches: '**'
+    # paths:
+    # - 'RestaurantSimulation.Backend/**'               # target all the changes for backend
+    # - '!RestaurantSimulation.Angular.Frontend/**'     # ignore everything related to frontend
 
 env:
   DOTNET_VERSION: "6.0.x"
@@ -24,4 +27,7 @@ jobs:
 
       - name: Dotnet build
         run: dotnet build RestaurantSimulation.Backend/RestaurantSimulation.Backend.sln --configuration Release --no-restore
+
+      - name: Run unit tests
+        run: dotnet test RestaurantSimulation.Backend/**/tests/RestaurantSimulation.UnitTests/*.csproj
 
