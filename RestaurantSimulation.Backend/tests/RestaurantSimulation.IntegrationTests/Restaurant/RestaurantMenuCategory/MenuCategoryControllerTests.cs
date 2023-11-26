@@ -45,7 +45,7 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
 
 
         [Fact]
-        public async Task GetAsync_ShouldGetSpecificMenuCategoryById()
+        public async Task GetAsync_WithValidId_ShouldGetSpecificMenuCategoryForTheProvidedId()
         {
             // Arrange
             AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);
