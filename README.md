@@ -1,8 +1,5 @@
 <h1 align="center">Restaurant Simulation - A real world restaurant application</h1>
 
-Project status: </br>
-[![Build RestaurantSimulation.Backend](https://github.com/robid98/RestaurantSimulation/actions/workflows/build.yml/badge.svg)](https://github.com/robid98/RestaurantSimulation/actions/workflows/build.yml)
-
 <br>
 
 <img src="https://user-images.githubusercontent.com/89996135/192704213-81735e23-98ed-4373-a7d7-89dce6c9b575.png" alt="angular" width="150" height="150"/> &nbsp;&nbsp;
@@ -13,15 +10,16 @@ Project status: </br>
 <br>
 
 <div align="center">
-
 ## Description
 The aim of this project is to make a functional Restaurant web application.
 On the backend side the project will be build as a Web API and the frontend side will be made in Angular.
 Backend architecture is a monolitch one and frontend architecture will be based on feature modules.
-
 </div>
 
 <br>
+
+## Project status
+- [![Build RestaurantSimulation.Backend](https://github.com/robid98/RestaurantSimulation/actions/workflows/build.yml/badge.svg)](https://github.com/robid98/RestaurantSimulation/actions/workflows/build.yml)
 
 ## Deploy
 - Deploy will be done when the project is in a good state. For deploying `AWS` will be used.
