@@ -1,0 +1,51 @@
+name: Build RestaurantSimulation.Backend
+
+on:
+  push:
+    branches: '**'
+    paths:
+    - 'RestaurantSimulation.Backend/**'               # target all the changes for backend
+    - '!RestaurantSimulation.Angular.Frontend/**'     # ignore everything related to frontend
+    - '!RestaurantSimulation.Next.Frontend/**'        # ignore everything related to frontend
+  pull_request:
+    branches: [main]
+    paths:
+    - 'RestaurantSimulation.Backend/**'               # target all the changes for backend
+    - '!RestaurantSimulation.Angular.Frontend/**'     # ignore everything related to frontend
+    - '!RestaurantSimulation.Next.Frontend/**'        # ignore everything related to frontend
+
+env:
+  DOTNET_VERSION: "6.0.x"
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+      
+      - name: Dotnet restore 
+        run: dotnet restore RestaurantSimulation.Backend/RestaurantSimulation.Backend.sln
+
+      - name: Dotnet build
+        run: dotnet build RestaurantSimulation.Backend/RestaurantSimulation.Backend.sln --configuration Release --no-restore
+
+      - name: Run unit tests
+        run: dotnet test RestaurantSimulation.Backend/tests/RestaurantSimulation.UnitTests/**.csproj
+
+      - name: Set up MySql Container
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          host port: 3306
+          container port: 3306
+          mysql version: '5.7'
+          mysql database: 'RestaurantSimulationTests'
+          mysql root password: root-password
+
+      - name: Run integration tests
+        run: dotnet test RestaurantSimulation.Backend/tests/RestaurantSimulation.IntegrationTests/**.csproj

@@ -19,7 +19,7 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
         }
 
         [Fact]
-        public async Task GetAsync_ShouldGetAListOfMenuCategories()
+        public async Task GetAsync_ShouldGetAllMenuCategoriesFromRestaurantSimulation()
         {
             // Arrange
             var menuCategoryRequest = _fixture.Build<MenuCategoryRequest>()
