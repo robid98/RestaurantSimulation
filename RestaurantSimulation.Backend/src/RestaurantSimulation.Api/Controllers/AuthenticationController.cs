@@ -93,7 +93,7 @@ namespace RestaurantSimulation.Api.Controllers
         }
 
         /// <summary>
-        ///Get user by Id (admin role)
+        /// Get user by Id (admin role)
         /// </summary>
         [Authorize(Policy = AuthorizationPolicies.AdminRolePolicy)]
         [HttpGet("user/{id}")]

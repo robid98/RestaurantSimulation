@@ -13,7 +13,6 @@ using RestaurantSimulation.Application.Restaurant.RestaurantProducts.Common;
 using RestaurantSimulation.Contracts.Restaurant.MenuCategory;
 using RestaurantSimulation.Contracts.Restaurant.Product;
 using RestaurantSimulation.Domain.Common.Policies.Authorization;
-using RestaurantSimulation.Domain.Entities.Restaurant;
 
 namespace RestaurantSimulation.Api.Controllers
 {

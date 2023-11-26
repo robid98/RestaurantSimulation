@@ -12,10 +12,10 @@ namespace RestaurantSimulation.IntegrationTests.Helpers
         : WebApplicationFactory<TProgram> where TProgram : class
     {
         public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
-         .SetBasePath(Directory.GetCurrentDirectory())
-         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-         .AddEnvironmentVariables()
-         .Build();
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddEnvironmentVariables()
+            .Build();
         
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
@@ -25,9 +25,11 @@ namespace RestaurantSimulation.IntegrationTests.Helpers
 
                 services.Remove(descriptor);
 
+                var mySqlConnectionString = Configuration.GetValue<string>("ConnectionStrings:Mysql");
+
                 services.AddDbContext<RestaurantSimulationContext>(
-                    options => options.UseMySql(Configuration.GetValue<string>("ConnectionStrings:Mysql"),
-                    new MySqlServerVersion(new Version(5, 7)),
+                    options => options.UseMySql(mySqlConnectionString,
+                    ServerVersion.AutoDetect(mySqlConnectionString),
                     mySqlOptions =>
                     {
                         mySqlOptions.MigrationsAssembly(typeof(RestaurantSimulationContext).Assembly.FullName);
@@ -48,6 +50,5 @@ namespace RestaurantSimulation.IntegrationTests.Helpers
                 }
             });
         }
-
     }
 }
