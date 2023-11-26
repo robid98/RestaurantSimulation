@@ -1,5 +1,8 @@
 <h1 align="center">Restaurant Simulation - A real world restaurant application</h1>
 
+Project status: </br>
+[![Build RestaurantSimulation.Backend](https://github.com/robid98/RestaurantSimulation/actions/workflows/build.yml/badge.svg)](https://github.com/robid98/RestaurantSimulation/actions/workflows/build.yml)
+
 <br>
 
 <img src="https://user-images.githubusercontent.com/89996135/192704213-81735e23-98ed-4373-a7d7-89dce6c9b575.png" alt="angular" width="150" height="150"/> &nbsp;&nbsp;
