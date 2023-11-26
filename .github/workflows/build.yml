@@ -29,5 +29,5 @@ jobs:
         run: dotnet build RestaurantSimulation.Backend/RestaurantSimulation.Backend.sln --configuration Release --no-restore
 
       - name: Run unit tests
-        run: dotnet test RestaurantSimulation.Backend/**/tests/RestaurantSimulation.UnitTests/*.csproj
+        run: dotnet test RestaurantSimulation.Backend/**/tests/RestaurantSimulation.UnitTests/**.csproj
 
