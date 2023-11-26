@@ -1,8 +1,11 @@
-name: Build
+name: Build RestaurantSimulation.Backend
 
 on:
   push:
     branches: '**'
+    paths:
+    - 'RestaurantSimulation.Backend/**'               # target all the changes for backend
+    - '!RestaurantSimulation.Angular.Frontend/**'     # ignore everything related to frontend
 
 env:
   DOTNET_VERSION: "6.0.x"
@@ -19,9 +22,9 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
       
-      - name: Restore 
+      - name: Dotnet restore 
         run: dotnet restore RestaurantSimulation.Backend/RestaurantSimulation.Backend.sln
 
-      - name: Build
+      - name: Dotnet build
         run: dotnet build RestaurantSimulation.Backend/RestaurantSimulation.Backend.sln --configuration Release --no-restore
 
