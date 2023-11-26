@@ -31,3 +31,12 @@ jobs:
       - name: Run unit tests
         run: dotnet test RestaurantSimulation.Backend/tests/RestaurantSimulation.UnitTests/**.csproj
 
+      - name: Set up MySql Container
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          host port: 3306
+          container port: 3306
+          mysql version: '5.7'
+          mysql database: 'RestaurantSimulationTests'
+          mysql root password: root-password
+
