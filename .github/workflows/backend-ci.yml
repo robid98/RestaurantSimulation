@@ -3,8 +3,8 @@ name: RestaurantSimulation.Backend.CI
 on:
   push:
     branches: '**'
-    # paths:
-    # - 'RestaurantSimulation.Backend/**'               # target all the changes for backend
+    paths:
+    - 'RestaurantSimulation.Backend/**'               # target all the changes for backend
   pull_request:
     branches: [main]
     paths:
