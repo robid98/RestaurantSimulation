@@ -49,5 +49,6 @@ jobs:
       - name: Integrate dotnet test reporter
         uses: bibipkins/dotnet-test-reporter@v1.3.0
         with:
-          comment-title: 'Unit Test Results'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          comment-title: 'RestaurantSimulation Unit Test Results'
           results-path: RestaurantSimulation.Backend/tests/RestaurantSimulation.UnitTests/**/*.trx
