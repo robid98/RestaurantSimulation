@@ -29,38 +29,50 @@ Backend architecture is a monolitch one and frontend architecture will be based 
 ## Authentication
 - Auth0 free tier will be used: https://auth0.com/ <br>
 - `RestaurantSimulation.Backend` is protected with `Auth0`. You need a valid access token in order to use the `RestaurantSimulation.Api`. Also there are two roles in the RestaurantSimulation:<br>
-  - You have full access to all features of the RestaurantSimulation app.
-    - Role: `restaurant-simulation-admin`
-  - You have limited access only to some features of the RestaurantSimulation app.
-    - Role: `restaurant-simulation-client`
 
-## RestaurantSimulation.Backend libraries/technologies used:
+> Below will be presented all the roles inside RestaurantSimulation application
 
-- <b>CLEAN Arhitecture</br>
-- <b>MediatR</br>
-- <b>Entity Framework Core 6.0</br>
-- <b>SQL Server</br>
-- <b>FluentValidation</br>
-- <b>Auth0</br>
-- <b>ErrorOr Library</br>
-- <b>WebAPI</br>
-- <b>LINQ</br>
-- <b>xUnit</br>
-- <b>Moq</br>
-- <b>Shouldly</br>
+| Role name | Role description |
+|--|--|
+| **restaurant-simulation-admin** | You have full access to all features of the RestaurantSimulation app |
+| **restaurant-simulation-client** | You have limited access only to some features of the RestaurantSimulation app |
 
-## RestaurantSimulation.Frontend
+## RestaurantSimulation libraries/technologies used:
+> Please complete this list when a new technology/library will be used:
 
-- <b>Angular</br>
+- RestaurantSimulation.Backend
+  - <b>CLEAN Arhitecture</br>
+  - <b>MediatR</br>
+  - <b>Entity Framework Core 6.0</br>
+  - <b>SQL Server</br>
+  - <b>FluentValidation</br>
+  - <b>Auth0</br>
+  - <b>ErrorOr Library</br>
+  - <b>WebAPI</br>
+  - <b>LINQ</br>
+  - <b>xUnit</br>
+  - <b>Moq</br>
+  - <b>Shouldly</br>
+
+- RestaurantSimulation.Frontend
+> The frontend is focused to be written in Next.js and also the is a possibility to create a version in Angular too.
+  -  Angular
+  > To be completed
+  -  Next.js
+> To be completed
 
 ## Branches conventions
 - Branches will follow the next conventions based on the work that is done:
-  - <h4>backend/feature/branch-name</h4>
-  - <h4>backend/bug/bug-name</h4>
-  - <h4>frontend/feature/branch-name</h4>
-  - <h4>frontend/bug/bug-name</h4>
+  
+| Branch name | Used when |
+|--|--|
+| **backend/feature/[branch-name]** | Used when you want to create a new feature in the backend |
+| **backend/bug/[bug-name]** | Used when you try to fix a bug in the backend |
+| **frontend/feature/[branch-name]** | Used when you want to create a new feature in the frontend |
+| **frontend/bug/[bug-name]** | Used when you try to fix a bug in the frontend  |
 
 ## EntityFramework Migrations Commands
+> Below will be described useful commands to interact with the MySql database and EntityFramework
 
 - Adding a new migration in RestaurantSimulation.Backend
   - `EntityFrameworkCore\Add-Migration 'migration-name' -project RestaurantSimulation.Infrastructure -o Persistence/Migrations`
@@ -121,3 +133,5 @@ RestaurantSimulation Api Url: http://localhost:8080 <br>
 - [Auth0](https://auth0.com/)
 - [EntityFramework6](https://learn.microsoft.com/en-us/ef/ef6/)
 - [Docker](https://www.docker.com/)
+- [MySql](https://www.mysql.com/)
+- [Next.js](https://nextjs.org/)
