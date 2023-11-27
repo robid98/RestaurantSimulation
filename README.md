@@ -2,10 +2,11 @@
 
 <br>
 
-<img src="https://user-images.githubusercontent.com/89996135/192704213-81735e23-98ed-4373-a7d7-89dce6c9b575.png" alt="angular" width="150" height="150"/> &nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/89996135/192704213-81735e23-98ed-4373-a7d7-89dce6c9b575.png" alt="angular" width="150" height="150"/> &nbsp;&nbsp;
 <img src="https://uploads-ssl.webflow.com/61566192da988c377f1ac06c/616dfac0a533fe024d89e327_60dbd7237742ba750d49cf35_icon-auth0-marketplace.svg" alt="auth0"  width="150" height="140"/> &nbsp;&nbsp;
 <img src="https://neosmart.net/blog/wp-content/uploads/2019/06/dot-NET-Core.png" alt="dotnet" width="150" height="140"/> &nbsp;&nbsp;&nbsp;
 <img src="https://imagedelivery.net/5MYSbk45M80qAwecrlKzdQ/6f6d6101-68b4-4c53-d405-71f5de512f00/preview" alt="mysql" width="150" height="140"/> &nbsp;&nbsp;
+<img src="https://d2nir1j4sou8ez.cloudfront.net/wp-content/uploads/2021/12/nextjs-boilerplate-logo.png" alt="nextjs" width="150" height="150"/> 
 
 <br>
 
