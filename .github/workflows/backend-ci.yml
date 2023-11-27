@@ -46,7 +46,7 @@ jobs:
       - name: Run integration tests
         run: dotnet test RestaurantSimulation.Backend/tests/RestaurantSimulation.IntegrationTests/**.csproj
       
-      -name: Integrate dotnet test reporter
+      - name: Integrate dotnet test reporter
         uses: bibipkins/dotnet-test-reporter@v1.3.0
         with:
           comment-title: 'Unit Test Results'
