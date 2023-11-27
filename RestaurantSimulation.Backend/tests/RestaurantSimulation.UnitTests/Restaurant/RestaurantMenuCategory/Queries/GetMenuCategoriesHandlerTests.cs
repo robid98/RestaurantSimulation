@@ -18,7 +18,7 @@ namespace RestaurantSimulation.UnitTests.Restaurant.RestaurantMenuCategory.Queri
         }
 
         [Fact]
-        public async Task Should_Return_A_List_Of_Menu_Categories()
+        public async Task GetMenuCategoriesHandler_ShouldReturnAListOfMenuCategories()
         {
             // arrange
             List<MenuCategory> categories = new List<MenuCategory> {
@@ -45,7 +45,7 @@ namespace RestaurantSimulation.UnitTests.Restaurant.RestaurantMenuCategory.Queri
         }
 
         [Fact]
-        public async Task Should_Return_A_Empty_List()
+        public async Task GetMenuCategoriesHandler_WhenThereAreNoMenuCategories_ShouldReturnAnEmptyList()
         {
             // arrange
             _mockMenuCategoryRepository.Setup(r => r.GetRestaurantMenuCategoriesAsync()).ReturnsAsync(new List<MenuCategory> { });

@@ -17,7 +17,7 @@ namespace RestaurantSimulation.UnitTests.Authentication.Queries
         }
 
         [Fact]
-        public async Task Should_Return_With_Valid_Guid_A_Valid_User_Test_1()
+        public async Task GetUserByIdHandler_WithValidGuid_ShouldReturnTheUserForTheSpecifiedGuid()
         {
             // arrange
             var handler = new GetUserByIdHandler(_mockUserRepository.Object);
@@ -34,7 +34,7 @@ namespace RestaurantSimulation.UnitTests.Authentication.Queries
         }
 
         [Fact]
-        public async Task Should_Return_With_Valid_Guid_A_Valid_User_Test_2()
+        public async Task GetUserByIdHandler_WithAnotherValidGuid_ShouldReturnTheUserForTheSpecifiedGuid()
         {
             // arrange 
             var handler = new GetUserByIdHandler(_mockUserRepository.Object);
@@ -51,7 +51,7 @@ namespace RestaurantSimulation.UnitTests.Authentication.Queries
         }
 
         [Fact]
-        public async Task Should_Return_With_Invalid_Guid_Error_Not_Found()
+        public async Task GetUserByIdHandler_WithInvalidGuid_ShouldReturnNotFoundError()
         {
             // arrange
             var handler = new GetUserByIdHandler(_mockUserRepository.Object);

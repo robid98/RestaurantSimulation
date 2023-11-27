@@ -23,7 +23,7 @@ namespace RestaurantSimulation.UnitTests.Authentication.Commands
         }
 
         [Fact]
-        public async Task Should_Update_Current_User_Profile()
+        public async Task UpdateUserHandler_IfDetailsAreValid_ShouldUpdateCurrentUserProfile()
         {
             // arrange
             _extractUserClaimsService.Setup(x => x.GetUserEmail()).Returns("robert98@yahoo.com");
@@ -52,7 +52,7 @@ namespace RestaurantSimulation.UnitTests.Authentication.Commands
         }
 
         [Fact]
-        public async Task Should_Return_404_If_User_Dont_Exist_And_Want_To_Be_Updated()
+        public async Task UpdateUserHandler_IfUserDoesntExistAndWantToBeUpdated_ShouldReturn404()
         {
             // arrange
             _extractUserClaimsService.Setup(x => x.GetUserEmail()).Returns("robert98@yahoo.com");

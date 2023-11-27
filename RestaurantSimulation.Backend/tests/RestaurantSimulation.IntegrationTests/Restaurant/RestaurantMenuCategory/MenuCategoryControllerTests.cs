@@ -228,7 +228,7 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
         }
 
         [Fact]
-        public async Task PutAsJsonAsyncShould_IfValidationsForDescriptionWillFailWhenUpdatingMenuCategory_ShouldReturnBadRequest()
+        public async Task PutAsJsonAsync_IfValidationsForDescriptionWillFailWhenUpdatingMenuCategory_ShouldReturnBadRequest()
         {
             // Arrange 
             AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);

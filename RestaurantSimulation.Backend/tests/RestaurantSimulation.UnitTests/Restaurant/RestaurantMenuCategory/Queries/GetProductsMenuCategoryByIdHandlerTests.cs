@@ -19,7 +19,7 @@ namespace RestaurantSimulation.UnitTests.Restaurant.RestaurantMenuCategory.Queri
         }
 
         [Fact]
-        public async Task Should_Return_A_List_Of_Products()
+        public async Task GetProductsMenuCategoryByIdHandler_ShouldReturnAListOfProductsForTheProvidedMenuCategory()
         {
             // arrange
             _mockMenuCategoryRepository.Setup(r => r.GetProductsRestaurantMenuCategoryByIdAsync(It.IsAny<Guid>()))
@@ -50,7 +50,7 @@ namespace RestaurantSimulation.UnitTests.Restaurant.RestaurantMenuCategory.Queri
         }
 
         [Fact]
-        public async Task Should_Return_A_Empty_Products_List()
+        public async Task GetProductsMenuCategoryByIdHandler_WhenThereAreNoProdutsForTheProvidedMenuCategory_ShouldReturnAnEmptyList()
         {
             // arrange
             _mockMenuCategoryRepository.Setup(r => r.GetProductsRestaurantMenuCategoryByIdAsync(It.IsAny<Guid>()))
@@ -69,7 +69,7 @@ namespace RestaurantSimulation.UnitTests.Restaurant.RestaurantMenuCategory.Queri
         }
 
         [Fact]
-        public async Task Should_Return_Menu_Category_Not_Found()
+        public async Task GetProductsMenuCategoryByIdHandler_WhenProvidedMenuCategoryDoesntExists_ShouldReturnNotFoundError()
         {
             // arrange
             _mockMenuCategoryRepository.Setup(r => r.GetProductsRestaurantMenuCategoryByIdAsync(It.IsAny<Guid>()))
