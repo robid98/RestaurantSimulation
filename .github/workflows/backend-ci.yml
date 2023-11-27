@@ -3,8 +3,8 @@ name: RestaurantSimulation.Backend.CI
 on:
   push:
     branches: '**'
-    paths:
-    - 'RestaurantSimulation.Backend/**'               # target all the changes for backend
+    # paths:
+    # - 'RestaurantSimulation.Backend/**'               # target all the changes for backend
   pull_request:
     branches: [main]
     paths:
@@ -32,7 +32,7 @@ jobs:
         run: dotnet build RestaurantSimulation.Backend/RestaurantSimulation.Backend.sln --configuration Release --no-restore
 
       - name: Run unit tests
-        run: dotnet test RestaurantSimulation.Backend/tests/RestaurantSimulation.UnitTests/**.csproj
+        run: dotnet test RestaurantSimulation.Backend/tests/RestaurantSimulation.UnitTests/**.csproj --logger "trx;logfilename=UnitTestsResult.trx"
 
       - name: Set up MySql Container
         uses: mirromutth/mysql-action@v1.1
@@ -45,3 +45,9 @@ jobs:
 
       - name: Run integration tests
         run: dotnet test RestaurantSimulation.Backend/tests/RestaurantSimulation.IntegrationTests/**.csproj
+      
+      -name: Integrate dotnet test reporter
+        uses: bibipkins/dotnet-test-reporter@v1.3.0
+        with:
+          comment-title: 'Unit Test Results'
+          results-path: RestaurantSimulation.Backend/tests/RestaurantSimulation.UnitTests/*.trx
