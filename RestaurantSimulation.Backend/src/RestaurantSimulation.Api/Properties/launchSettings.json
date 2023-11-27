@@ -1,22 +1,14 @@
 {
   "$schema": "https://json.schemastore.org/launchsettings.json",
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:53084",
-      "sslPort": 44379
-    }
-  },
   "profiles": {
     "RestaurantSimulation.Api": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "swagger",
+      "launchUrl": "restaurant-simulation/swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:7242;http://localhost:5242",
+      "applicationUrl": "https://localhost:7242;http://localhost:5242;",
       "dotnetRunMessages": true
     },
     "IIS Express": {

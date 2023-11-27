@@ -18,6 +18,7 @@ if (bool.Parse(builder.Configuration["UseSwagger"]))
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api");
         c.OAuthClientId(builder.Configuration["Auth0:ClientId"]);
+        c.RoutePrefix = $"restaurant-simulation/swagger";
     });
 }
 
