@@ -84,10 +84,14 @@ Backend architecture is a monolitch one and frontend architecture will be based 
 - `Git guardian` with passed status
 - [backend-ci](https://github.com/robid98/RestaurantSimulation/actions/workflows/backend-ci.yml) github action with passed status when modifying `RestaurantSimulation.Backend`
 
-Pipeline for validating the pull requests that target `RestaurantSimulation.Backend` contains some simple steps for building the project, running unit tests and integration tests.
+Github action for validating the pull requests that target `RestaurantSimulation.Backend` contains some simple steps for building the project, running unit tests and integration tests.
 Integration tests will target a MySQL Docker Container that is created also in the pipeline.
 <br>
 ![image](https://github.com/robid98/RestaurantSimulation/assets/89996135/43397099-998c-403e-93e2-9c55811e7a92)
+</br>
+
+> After the [backend-ci](https://github.com/robid98/RestaurantSimulation/actions/workflows/backend-ci.yml) GitHub Action is completed you can see the test results:
+![image](https://github.com/robid98/RestaurantSimulation/assets/89996135/375eeb52-ff0f-47f7-b6e5-5c389ae5f367)
 
 
 <hr>
