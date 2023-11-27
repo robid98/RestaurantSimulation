@@ -31,7 +31,7 @@ namespace RestaurantSimulation.Api.Controllers
         /// Create a new Restaurant Menu Category (admin role)
         /// </summary>
         [Authorize(Policy = AuthorizationPolicies.AdminRolePolicy)]
-        [HttpPost("restaurant/menucategory")]
+        [HttpPost("menucategory")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MenuCategoryResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -54,7 +54,7 @@ namespace RestaurantSimulation.Api.Controllers
         /// Update name or description for existing Restaurant Menu Category (admin role)
         /// </summary>
         [Authorize(Policy = AuthorizationPolicies.AdminRolePolicy)]
-        [HttpPut("restaurant/menucategory/{id}")]
+        [HttpPut("menucategory/{id}")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MenuCategoryResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -79,7 +79,7 @@ namespace RestaurantSimulation.Api.Controllers
         /// Delete Restaurant Menu Category (admin role)
         /// </summary>
         [Authorize(Policy = AuthorizationPolicies.AdminRolePolicy)]
-        [HttpDelete("restaurant/menucategory/{id}")]
+        [HttpDelete("menucategory/{id}")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -98,7 +98,7 @@ namespace RestaurantSimulation.Api.Controllers
         /// Get informations about a specific Restaurant Menu Category like name and description
         /// </summary>
         [Authorize(Policy = AuthorizationPolicies.ClientOrAdminRolePolicy)]
-        [HttpGet("restaurant/menucategory/{id}")]
+        [HttpGet("menucategory/{id}")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MenuCategoryResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -117,7 +117,7 @@ namespace RestaurantSimulation.Api.Controllers
         /// Get all Restaurant Menu Categories available in Restaurant Simulation
         /// </summary>
         [Authorize(Policy = AuthorizationPolicies.ClientOrAdminRolePolicy)]
-        [HttpGet("restaurant/menucategories")]
+        [HttpGet("menucategories")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<MenuCategoryResponse>))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -136,7 +136,7 @@ namespace RestaurantSimulation.Api.Controllers
         /// Get all Products from a  Restaurant Menu Category available in Restaurant Simulation
         /// </summary>
         [Authorize(Policy = AuthorizationPolicies.ClientOrAdminRolePolicy)]
-        [HttpGet("restaurant/menucategory/{id}/products")]
+        [HttpGet("menucategory/{id}/products")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ProductResult>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -8,8 +8,7 @@ using RestaurantSimulation.Infrastructure.Persistence;
 
 namespace RestaurantSimulation.IntegrationTests.Helpers
 {
-    public class CustomWebApplicationFactory<TProgram> 
-        : WebApplicationFactory<TProgram> where TProgram : class
+    public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram : class
     {
         public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())

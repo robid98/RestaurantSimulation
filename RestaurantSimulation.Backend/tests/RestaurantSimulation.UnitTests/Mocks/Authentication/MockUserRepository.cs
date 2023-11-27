@@ -35,7 +35,9 @@ namespace RestaurantSimulation.UnitTests.Mocks.Authentication
             var mockRepo = new Mock<IUserRepository>();
 
             if (users is null)
+            {
                 users = userList;
+            }
 
             mockRepo.Setup(r => r.GetUsersAsync()).ReturnsAsync(users);
 

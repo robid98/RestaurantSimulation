@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using AutoFixture;
-using Microsoft.EntityFrameworkCore;
 using RestaurantSimulation.Contracts.Restaurant.MenuCategory;
 using RestaurantSimulation.Domain.Common.Roles;
 using RestaurantSimulation.IntegrationTests.Helpers;
@@ -11,7 +10,7 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
 {
     public class MenuCategoryControllerTests : CustomWebApplicationBase, IAsyncLifetime
     {
-        private string _baseApiPath = "/api/restaurant";
+        private string _baseApiPath = "/api";
 
         public MenuCategoryControllerTests(CustomWebApplicationFactory<Program> factory) : base(factory)
         {
@@ -228,7 +227,7 @@ namespace RestaurantSimulation.IntegrationTests.Restaurant.RestaurantMenuCategor
         }
 
         [Fact]
-        public async Task PutAsJsonAsyncShould_IfValidationsForDescriptionWillFailWhenUpdatingMenuCategory_ShouldReturnBadRequest()
+        public async Task PutAsJsonAsync_IfValidationsForDescriptionWillFailWhenUpdatingMenuCategory_ShouldReturnBadRequest()
         {
             // Arrange 
             AuthenticateAsync(RestaurantSimulationRoles.AdminRole, "test_mail@restaurant.com", _userSub);

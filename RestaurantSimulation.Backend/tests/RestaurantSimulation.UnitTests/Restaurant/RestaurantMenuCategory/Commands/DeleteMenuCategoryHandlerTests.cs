@@ -21,7 +21,7 @@ namespace RestaurantSimulation.UnitTests.Restaurant.RestaurantMenuCategory.Comma
         }
 
         [Fact]
-        public async Task Should_Delete_An_Existing_Menu_Category()
+        public async Task DeleteMenuCategoryHandler_WhenTheMenuCategoryExists_ShouldDeleteTheMenuCategory()
         {
             // arrange
             _mockMenuCategoryRepository.Setup(x => x.GetRestaurantMenuCategoryByIdAsync(It.IsAny<Guid>()))
@@ -39,7 +39,7 @@ namespace RestaurantSimulation.UnitTests.Restaurant.RestaurantMenuCategory.Comma
         }
 
         [Fact]
-        public async Task ShouldReturnMenuCategoryNotFound()
+        public async Task DeleteMenuCategoryHandler_WhenTheMenuCategoryDoesntExists_ShouldReturnMenuCategoryNotFound()
         {
             // arrange
             _mockMenuCategoryRepository.Setup(x => x.GetRestaurantMenuCategoryByIdAsync(It.IsAny<Guid>()))

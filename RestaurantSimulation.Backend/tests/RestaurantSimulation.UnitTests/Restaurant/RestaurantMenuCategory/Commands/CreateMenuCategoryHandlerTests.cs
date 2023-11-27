@@ -21,7 +21,7 @@ namespace RestaurantSimulation.UnitTests.Restaurant.RestaurantMenuCategory.Comma
         }
 
         [Fact]
-        public async Task Should_Create_A_New_Menu_Category()
+        public async Task CreateMenuCategoryHandler_WithValidDetails_ShouldCreateANewMenuCategory()
         {
             // arrange
             _mockMenuCategoryRepository.Setup(x => x.AddAsync(It.IsAny<MenuCategory>()));
@@ -40,7 +40,7 @@ namespace RestaurantSimulation.UnitTests.Restaurant.RestaurantMenuCategory.Comma
         }
 
         [Fact]
-        public async Task Should_Return_Duplicate_Category_Name()
+        public async Task CreateMenuCategoryHandler_WhenTheMenuCategoryAlreadyExists_ShouldReturnDuplicateCategoryName()
         {
             // arrange
             _mockMenuCategoryRepository.Setup(x => x.AddAsync(It.IsAny<MenuCategory>()));

@@ -23,7 +23,7 @@ namespace RestaurantSimulation.UnitTests.Authentication.Commands
         }
 
         [Fact]
-        public async Task Should_Add_A_New_User_To_User_List()
+        public async Task RegisterUserHandler_WhenDetailsAreValid_ShouldAddANewUser()
         {
             // arrange
             _extractUserClaimsService.Setup(x => x.GetUserEmail()).Returns("test@email.com");
@@ -50,7 +50,7 @@ namespace RestaurantSimulation.UnitTests.Authentication.Commands
         }
 
         [Fact]
-        public async Task Should_Return_Error_Duplicate_Email_If_The_User_Already_Exist()
+        public async Task RegisterUserHandler_WhenUserAlreadyExists_ShouldReturnErrorDuplicateEmail()
         {
             // arrange
             _mockUserRepository = new Mock<IUserRepository>();

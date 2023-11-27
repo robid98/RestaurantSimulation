@@ -19,7 +19,7 @@ namespace RestaurantSimulation.UnitTests.Authentication.Queries
         }
 
         [Fact]
-        public async Task Should_Return_List_Of_Users()
+        public async Task GetUsersHandlerTests_ShouldReturnAListOfUsers()
         {
             // arrange
             List<User> users = new List<User> {
@@ -52,7 +52,7 @@ namespace RestaurantSimulation.UnitTests.Authentication.Queries
         }
 
         [Fact]
-        public async Task Should_Return_Empty_List_Of_Users()
+        public async Task GetUsersHandlerTests_WhenThereAreNoRegistredUsers_ShouldReturnAnEmptyList()
         {
             // arrange
             _mockUserRepository = MockUserRepository.GetUserRepository(new());
