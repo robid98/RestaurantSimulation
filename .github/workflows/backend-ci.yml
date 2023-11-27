@@ -3,10 +3,10 @@ name: RestaurantSimulation.Backend.CI
 on:
   push:
     branches: '**'
-    paths:
-    - 'RestaurantSimulation.Backend/**'               # target all the changes for backend
-    - '!RestaurantSimulation.Angular.Frontend/**'     # ignore everything related to frontend
-    - '!RestaurantSimulation.Next.Frontend/**'        # ignore everything related to frontend
+    # paths:
+    # - 'RestaurantSimulation.Backend/**'               # target all the changes for backend
+    # - '!RestaurantSimulation.Angular.Frontend/**'     # ignore everything related to frontend
+    # - '!RestaurantSimulation.Next.Frontend/**'        # ignore everything related to frontend
   pull_request:
     branches: [main]
     paths:
