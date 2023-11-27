@@ -21,7 +21,7 @@ Backend architecture is a monolitch one and frontend architecture will be based 
 <br>
 
 ## Project status
-[![RestaurantSimulation.Backend GitHub Action](https://github.com/robid98/RestaurantSimulation/actions/workflows/restaurant-simulation-backend.yml/badge.svg)](https://github.com/robid98/RestaurantSimulation/actions/workflows/restaurant-simulation-backend.yml)
+[![RestaurantSimulation.Backend.CI](https://github.com/robid98/RestaurantSimulation/actions/workflows/backend-ci.yml/badge.svg)](https://github.com/robid98/RestaurantSimulation/actions/workflows/backend-ci.yml)
 
 ## Deploy
 - Deploy will be done when the project is in a good state. For deploying `AWS` will be used.
@@ -82,7 +82,7 @@ Backend architecture is a monolitch one and frontend architecture will be based 
 ## Branch protection rules
 
 - `Git guardian` with passed status
-- [Build RestaurantSimulation.Backend](https://github.com/robid98/RestaurantSimulation/actions/workflows/restaurant-simulation-backend.yml) github action with passed status when modifying `RestaurantSimulation.Backend` backend
+- [backend-ci](https://github.com/robid98/RestaurantSimulation/actions/workflows/backend-ci.yml) github action with passed status when modifying `RestaurantSimulation.Backend`
 
 Pipeline for validating the pull requests that target `RestaurantSimulation.Backend` contains some simple steps for building the project, running unit tests and integration tests.
 Integration tests will target a MySQL Docker Container that is created also in the pipeline.
