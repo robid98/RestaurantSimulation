@@ -50,4 +50,4 @@ jobs:
         uses: bibipkins/dotnet-test-reporter@v1.3.0
         with:
           comment-title: 'Unit Test Results'
-          results-path: RestaurantSimulation.Backend/tests/RestaurantSimulation.UnitTests/*.trx
+          results-path: RestaurantSimulation.Backend/tests/RestaurantSimulation.UnitTests/**/*.trx
