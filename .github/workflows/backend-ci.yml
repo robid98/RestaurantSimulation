@@ -32,7 +32,7 @@ jobs:
         run: dotnet build RestaurantSimulation.Backend/RestaurantSimulation.Backend.sln --configuration Release --no-restore
 
       - name: Run unit tests
-        run: dotnet test RestaurantSimulation.Backend/tests/RestaurantSimulation.UnitTests/**.csproj
+        run: dotnet test RestaurantSimulation.Backend/tests/RestaurantSimulation.UnitTests/**.csproj --logger "trx;logfilename=UnitTestsResult.trx"
 
       - name: Set up MySql Container
         uses: mirromutth/mysql-action@v1.1
@@ -44,4 +44,11 @@ jobs:
           mysql root password: root-password
 
       - name: Run integration tests
-        run: dotnet test RestaurantSimulation.Backend/tests/RestaurantSimulation.IntegrationTests/**.csproj
+        run: dotnet test RestaurantSimulation.Backend/tests/RestaurantSimulation.IntegrationTests/**.csproj --logger "trx;logfilename=IntegrationTestsResult.trx"
+      
+      - name: Integrate dotnet test reporter
+        uses: bibipkins/dotnet-test-reporter@v1.3.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          comment-title: 'RestaurantSimulation Test Results'
+          results-path: RestaurantSimulation.Backend/tests/**/**/*.trx
