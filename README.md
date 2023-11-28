@@ -40,19 +40,24 @@ Backend architecture is a monolitch one and frontend architecture will be based 
 ## RestaurantSimulation libraries/technologies used:
 > Please complete this list when a new technology/library will be used:
 
-- RestaurantSimulation.Backend
-  - <b>CLEAN Arhitecture</br>
-  - <b>MediatR</br>
-  - <b>Entity Framework Core 6.0</br>
-  - <b>SQL Server</br>
-  - <b>FluentValidation</br>
-  - <b>Auth0</br>
-  - <b>ErrorOr Library</br>
-  - <b>WebAPI</br>
-  - <b>LINQ</br>
-  - <b>xUnit</br>
-  - <b>Moq</br>
-  - <b>Shouldly</br>
+<details>
+  <summary>RestaurantSimulation.Backend</summary>
+  
+- <b>CLEAN Arhitecture</br>
+- <b>MediatR</br>
+- <b>Entity Framework Core 6.0</br>
+- <b>MySql</br>
+- <b>FluentValidation</br>
+- <b>Auth0</br>
+- <b>ErrorOr Library</br>
+- <b>WebAPI</br>
+- <b>LINQ</br>
+- <b>xUnit</br>
+- <b>Moq</br>
+- <b>Shouldly</br>
+
+</details>
+<br/>
 
 - RestaurantSimulation.Frontend
 > The frontend is focused to be written in Next.js and also the is a possibility to create a version in Angular too.
