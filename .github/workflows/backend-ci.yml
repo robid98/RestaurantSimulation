@@ -45,15 +45,12 @@ jobs:
 
       - name: Run integration tests
         run: dotnet test RestaurantSimulation.Backend/tests/RestaurantSimulation.IntegrationTests/**.csproj --logger "trx;logfilename=IntegrationTestsResult.trx" --collect:"XPlat Code Coverage"
-      
-      - name: The destination for coveragereport
-        run: echo "${{ github.workspace }}/coveragereport"
 
       - name: Merge cobertura reports with ReportGenerator
         uses: danielpalme/ReportGenerator-GitHub-Action@5.2.0
         with:
           reports: 'RestaurantSimulation.Backend/tests/**/coverage.cobertura.xml'
-          targetdir: "${{ env.GITHUB_WORKSPACE }}/coveragereport" 
+          targetdir: "${{ github.workspace }}/coveragereport"
           reporttypes: 'Cobertura'
           toolpath: 'reportgeneratortool'
           verbosity: "Verbose"
@@ -64,5 +61,5 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           comment-title: 'RestaurantSimulation Test Results'
           results-path: RestaurantSimulation.Backend/tests/**/**/*.trx
-          coverage-path: ${{ env.GITHUB_WORKSPACE }}/coveragereport
+          coverage-path: "${{ github.workspace }}/coveragereport"
           coverage-type: 'cobertura'
