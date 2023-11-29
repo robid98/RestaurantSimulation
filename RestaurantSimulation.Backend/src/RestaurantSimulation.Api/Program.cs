@@ -1,8 +1,11 @@
 using RestaurantSimulation.Api;
 using RestaurantSimulation.Application;
 using RestaurantSimulation.Infrastructure;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((ctx, cfg) => cfg.ReadFrom.Configuration(ctx.Configuration));
 
 // Add services to the container.
 builder.Services.AddPresentation(builder.Configuration)

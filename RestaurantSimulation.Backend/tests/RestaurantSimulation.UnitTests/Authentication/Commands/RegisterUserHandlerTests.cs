@@ -6,6 +6,7 @@ using RestaurantSimulation.UnitTests.Mocks.Authentication;
 using Shouldly;
 using RestaurantSimulation.Domain.RestaurantApplicationErrors;
 using RestaurantSimulation.Application.Authentication.Common.Services.ExtractUserClaims;
+using Microsoft.Extensions.Logging;
 
 namespace RestaurantSimulation.UnitTests.Authentication.Commands
 {
@@ -14,12 +15,14 @@ namespace RestaurantSimulation.UnitTests.Authentication.Commands
         private Mock<IUserRepository> _mockUserRepository;
         private Mock<IExtractUserClaimsService> _extractUserClaimsService;
         private Mock<IUnitOfWork> _unitOfWork;
+        private readonly Mock<ILogger<RegisterUserHandler>> _logger;
 
         public RegisterUserHandlerTests()
         {
             _mockUserRepository = MockUserRepository.GetUserRepository();
             _extractUserClaimsService = new Mock<IExtractUserClaimsService>();
             _unitOfWork = new Mock<IUnitOfWork>();
+            _logger = new Mock<ILogger<RegisterUserHandler>>();
         }
 
         [Fact]
@@ -32,7 +35,8 @@ namespace RestaurantSimulation.UnitTests.Authentication.Commands
             var handler = new RegisterUserHandler(
                 _mockUserRepository.Object, 
                 _extractUserClaimsService.Object, 
-                _unitOfWork.Object);
+                _unitOfWork.Object,
+                _logger.Object);
 
             // act
             var result = await handler.Handle(new RegisterUserCommand(
@@ -68,7 +72,8 @@ namespace RestaurantSimulation.UnitTests.Authentication.Commands
             var handler = new RegisterUserHandler(
                 _mockUserRepository.Object, 
                 _extractUserClaimsService.Object,
-                _unitOfWork.Object);
+                _unitOfWork.Object,
+                _logger.Object);
 
             // act
             var result = await handler.Handle(new RegisterUserCommand(

@@ -1,23 +1,28 @@
-﻿using ErrorOr;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using ErrorOr;
 using RestaurantSimulation.Domain.RestaurantApplicationErrors;
+using Microsoft.Extensions.Logging;
 
 namespace RestaurantSimulation.Application.Authentication.Common.Services.ExtractUserClaims
 {
     public class ExtractUserClaimsService : IExtractUserClaimsService
     {
-        private readonly IHttpContextAccessor accessor;
+        private readonly IHttpContextAccessor _accessor;
+        private readonly ILogger<ExtractUserClaimsService> _logger;
 
-        public ExtractUserClaimsService(IHttpContextAccessor accessor)
+        public ExtractUserClaimsService(
+            IHttpContextAccessor accessor,
+            ILogger<ExtractUserClaimsService> logger)
         {
-            this.accessor = accessor;
+            _accessor = accessor;
+            _logger = logger;
         }
 
 
         private ClaimsIdentity GetClaimsIdentity()
         {
-            return accessor.HttpContext?.User.Identity as ClaimsIdentity; ;
+            return _accessor.HttpContext?.User.Identity as ClaimsIdentity; ;
         }
 
         public ErrorOr<string> GetUserEmail()
@@ -25,7 +30,11 @@ namespace RestaurantSimulation.Application.Authentication.Common.Services.Extrac
             Claim email = GetClaimsIdentity()?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email);
 
             if (email is null)
+            {
+                _logger.LogError("Email can not be extracted from the current User. Error returned {@RestaurantSimulationDomainError}", Errors.Authentication.EmailClaimNull);
+
                 return Errors.Authentication.EmailClaimNull;
+            }
 
             return email.Value;
         }
@@ -35,7 +44,11 @@ namespace RestaurantSimulation.Application.Authentication.Common.Services.Extrac
             Claim sub = GetClaimsIdentity()?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
 
             if (sub is null)
+            {
+                _logger.LogError("Sub can not be extracted from the current User. Error returned {@RestaurantSimulationDomainError}", Errors.Authentication.SubClaimNull);
+
                 return Errors.Authentication.SubClaimNull;
+            }
 
             return sub.Value;
         }

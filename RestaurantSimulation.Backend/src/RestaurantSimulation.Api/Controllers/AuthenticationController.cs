@@ -17,11 +17,14 @@ namespace RestaurantSimulation.Api.Controllers
     public class AuthenticationController : ApiController
     {
         private readonly ISender _sender;
+        private readonly ILogger<AuthenticationController> _logger;
 
         public AuthenticationController(
-            ISender mediator)
+            ISender mediator,
+            ILogger<AuthenticationController> logger)
         {
             _sender = mediator;
+            _logger = logger;
         }
 
         /// <summary>
@@ -36,6 +39,8 @@ namespace RestaurantSimulation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> RegisterUser(RegisterUserRequest request)
         {
+            _logger.LogDebug($"Entering {nameof(RegisterUser)} in {nameof(AuthenticationController)}");
+
             ErrorOr<AuthenticationResult> registerUserCommand = await _sender.Send(
                 new RegisterUserCommand(
                     request.FirstName,
@@ -43,6 +48,8 @@ namespace RestaurantSimulation.Api.Controllers
                     request.PhoneNumber,
                     request.Address)
                 );
+
+            _logger.LogDebug($"Exiting {nameof(RegisterUser)} in {nameof(AuthenticationController)}");
 
             return registerUserCommand.Match(
                 registerResult => Ok(GetAuthenticationResponse(registerResult)),
@@ -61,6 +68,8 @@ namespace RestaurantSimulation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> UpdateUser(UpdateUserRequest request)
         {
+            _logger.LogDebug($"Entering {nameof(UpdateUser)} in {nameof(AuthenticationController)}");
+
             ErrorOr<AuthenticationResult> updateUserCommand = await _sender.Send(
                 new UpdateUserCommand(
                     request.FirstName,
@@ -68,6 +77,8 @@ namespace RestaurantSimulation.Api.Controllers
                     request.PhoneNumber,
                     request.Address)
                 );
+
+            _logger.LogDebug($"Exiting {nameof(UpdateUser)} in {nameof(AuthenticationController)}");
 
             return updateUserCommand.Match(
                 updateResult => Ok(GetAuthenticationResponse(updateResult)),
@@ -85,7 +96,11 @@ namespace RestaurantSimulation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetUserByAccessToken()
         {
+            _logger.LogDebug($"Entering {nameof(GetUserByAccessToken)} in {nameof(AuthenticationController)}");
+
             ErrorOr<AuthenticationResult> getUserByAccessTokenQuery = await _sender.Send(new GetUserByAccessTokenQuery());
+
+            _logger.LogDebug($"Exiting {nameof(GetUserByAccessToken)} in {nameof(AuthenticationController)}");
 
             return getUserByAccessTokenQuery.Match(
                 getUserByAccessTokenResult => Ok(GetAuthenticationResponse(getUserByAccessTokenResult)),
@@ -103,7 +118,11 @@ namespace RestaurantSimulation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetUserById(Guid id)
         {
+            _logger.LogDebug($"Entering {nameof(GetUserById)} in {nameof(AuthenticationController)}");
+
             ErrorOr<AuthenticationResult> getUserByIdQuery = await _sender.Send(new GetUserByIdQuery(id));
+
+            _logger.LogDebug($"Exiting {nameof(GetUserById)} in {nameof(AuthenticationController)}");
 
             return getUserByIdQuery.Match(
                 getUserByIdResult => Ok(GetAuthenticationResponse(getUserByIdResult)),
@@ -120,7 +139,11 @@ namespace RestaurantSimulation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetUsers()
         {
+            _logger.LogDebug($"Entering {nameof(GetUsers)} in {nameof(AuthenticationController)}");
+
             ErrorOr<List<AuthenticationResult>> getUsersQuery = await _sender.Send(new GetUsersQuery());
+
+            _logger.LogDebug($"Exiting {nameof(GetUsers)} in {nameof(AuthenticationController)}");
 
             return getUsersQuery.Match(
                 getUsersResult => Ok(GetAuthenticationResponseList(getUsersResult)),

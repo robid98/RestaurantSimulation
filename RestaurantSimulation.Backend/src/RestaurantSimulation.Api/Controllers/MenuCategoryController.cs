@@ -20,11 +20,14 @@ namespace RestaurantSimulation.Api.Controllers
     public class MenuCategoryController : ApiController
     {
         private readonly ISender _sender;
+        private readonly ILogger<MenuCategoryController> _logger;
 
         public MenuCategoryController(
-            ISender mediator)
+            ISender mediator,
+            ILogger<MenuCategoryController> logger)
         {
             _sender = mediator;
+            _logger = logger;
         }
 
         /// <summary>
@@ -39,11 +42,15 @@ namespace RestaurantSimulation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> CreateMenuCategory(MenuCategoryRequest request)
         {
+            _logger.LogDebug($"Entering {nameof(CreateMenuCategory)} in {nameof(MenuCategoryController)}");
+
             ErrorOr<MenuCategoryResult> createMenuCategoryCommand = await _sender.Send(
                 new CreateMenuCategoryCommand(
                     request.Name,
                     request.Description)
                 );
+
+            _logger.LogDebug($"Exiting {nameof(CreateMenuCategory)} in {nameof(MenuCategoryController)}");
 
             return createMenuCategoryCommand.Match(
                 createCategoryResult => Ok(GetRestaurantMenuCategoryResponse(createCategoryResult)),
@@ -63,12 +70,16 @@ namespace RestaurantSimulation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateMenuCategory(Guid id, MenuCategoryRequest request) // Careful to change that in the future if necessary
         {
+            _logger.LogDebug($"Entering {nameof(UpdateMenuCategory)} in {nameof(MenuCategoryController)}");
+
             ErrorOr<MenuCategoryResult> updateMenuCategoryCommand = await _sender.Send(
                 new UpdateMenuCategoryCommand(
                     id,
                     request.Name,
                     request.Description)
                 );
+
+            _logger.LogDebug($"Exiting {nameof(UpdateMenuCategory)} in {nameof(MenuCategoryController)}");
 
             return updateMenuCategoryCommand.Match(
                 updateCategoryResult => Ok(GetRestaurantMenuCategoryResponse(updateCategoryResult)),
@@ -86,8 +97,12 @@ namespace RestaurantSimulation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> DeleteMenuCategory(Guid id)
         {
+            _logger.LogDebug($"Entering {nameof(DeleteMenuCategory)} in {nameof(MenuCategoryController)}");
+
             ErrorOr<Unit> deleteMenuCategoryCommand = await _sender.Send(
                     new DeleteMenuCategoryCommand(id));
+
+            _logger.LogDebug($"Exiting {nameof(DeleteMenuCategory)} in {nameof(MenuCategoryController)}");
 
             return deleteMenuCategoryCommand.Match(
                 deleteMenuCategoryResult => NoContent(),
@@ -105,8 +120,12 @@ namespace RestaurantSimulation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetRestaurantMenuCategoryById(Guid id)
         {
+            _logger.LogDebug($"Entering {nameof(GetRestaurantMenuCategoryById)} in {nameof(MenuCategoryController)}");
+
             ErrorOr<MenuCategoryResult> menuCategoryResult  = await _sender.Send(
                     new GetMenuCategoryByIdQuery(id));
+
+            _logger.LogDebug($"Exiting {nameof(GetRestaurantMenuCategoryById)} in {nameof(MenuCategoryController)}");
 
             return menuCategoryResult.Match(
                 categoryResult => Ok(GetRestaurantMenuCategoryResponse(categoryResult)),
@@ -123,8 +142,12 @@ namespace RestaurantSimulation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetRestaurantMenuCategories()
         {
+            _logger.LogDebug($"Entering {nameof(GetRestaurantMenuCategories)} in {nameof(MenuCategoryController)}");
+
             ErrorOr<List<MenuCategoryResult>> menuCategoriesResult = await _sender.Send(
                     new GetMenuCategoriesQuery());
+
+            _logger.LogDebug($"Exiting {nameof(GetRestaurantMenuCategories)} in {nameof(MenuCategoryController)}");
 
             return menuCategoriesResult.Match(
                 menuCategoriesResult => Ok(GetRestaurantMenuCategoriesResponse(menuCategoriesResult)),
@@ -143,8 +166,12 @@ namespace RestaurantSimulation.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetProductsFromRestaurantMenuCategory(Guid id)
         {
+            _logger.LogDebug($"Entering {nameof(GetProductsFromRestaurantMenuCategory)} in {nameof(MenuCategoryController)}");
+
             ErrorOr<List<ProductResult>> productsResult = await _sender.Send(
                     new GetProductsMenuCategoryByIdQuery(id));
+
+            _logger.LogDebug($"Exiting {nameof(GetProductsFromRestaurantMenuCategory)} in {nameof(MenuCategoryController)}");
 
             return productsResult.Match(
                 productsResult => Ok(productsResult.Select(product => 
