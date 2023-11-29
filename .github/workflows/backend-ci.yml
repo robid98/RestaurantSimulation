@@ -61,5 +61,5 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           comment-title: 'RestaurantSimulation Test Results'
           results-path: RestaurantSimulation.Backend/tests/**/**/*.trx
-          coverage-path: "${{ github.workspace }}/coveragereport"
+          coverage-path: "${{ github.workspace }}/coveragereport/*.xml"
           coverage-type: 'cobertura'
