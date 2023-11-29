@@ -50,7 +50,7 @@ jobs:
         uses: danielpalme/ReportGenerator-GitHub-Action@5.2.0
         with:
           reports: 'RestaurantSimulation.Backend/tests/**/coverage.cobertura.xml'
-          targetdir: '${{ GITHUB_WORKSPACE }}/coveragereport' 
+          targetdir: ${{ GITHUB_WORKSPACE }}/coveragereport 
           reporttypes: 'Cobertura'
           toolpath: 'reportgeneratortool'
           verbosity: "Verbose"
