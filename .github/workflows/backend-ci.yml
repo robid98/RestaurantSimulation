@@ -46,8 +46,14 @@ jobs:
       - name: Run integration tests
         run: dotnet test RestaurantSimulation.Backend/tests/RestaurantSimulation.IntegrationTests/**.csproj --logger "trx;logfilename=IntegrationTestsResult.trx" --collect:"XPlat Code Coverage"
       
-      - name: Install dotnet merge cobertura xml tool
-        run: dotnet tool install --global MergeCoberturaXml --version 1.1.0
+      - name: Merge cobertura reports with ReportGenerator
+        uses: danielpalme/ReportGenerator-GitHub-Action@5.2.0
+        with:
+          reports: 'RestaurantSimulation.Backend/tests/**/coverage.cobertura.xml'
+          targetdir: 'coveragereport' 
+          reporttypes: 'Cobertura'
+          toolpath: 'reportgeneratortool'
+          verbosity: "Verbose"
       
       - name: Integrate dotnet test reporter
         uses: bibipkins/dotnet-test-reporter@v1.3.0
@@ -55,5 +61,5 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           comment-title: 'RestaurantSimulation Test Results'
           results-path: RestaurantSimulation.Backend/tests/**/**/*.trx
-          coverage-path: RestaurantSimulation.Backend/tests/**/coverage.cobertura.xml
-          coverage-type: 'cobertura'
+          # coverage-path: RestaurantSimulation.Backend/tests/**/coverage.cobertura.xml
+          # coverage-type: 'cobertura'
