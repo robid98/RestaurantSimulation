@@ -106,19 +106,18 @@ Integration tests will target a MySQL Docker Container that is created also in t
   <img src="https://user-images.githubusercontent.com/89996135/193544075-9f17332b-bf94-466a-836d-ecf308cd4103.png" alt="auth0" width="150" height="140"/> &nbsp;&nbsp;
 </p>
 
-RestaurantSimulation Swagger Documentation Url: http://localhost:8080/swagger/index.html <br>
-RestaurantSimulation Api Url: http://localhost:8080 <br>
+RestaurantSimulation Swagger Documentation Url: http://localhost:7242/restaurant-simulation/swagger <br>
 
 <h3>Commands</h3>
 
-- Building the project and creating the image
-  - `docker-compose -f docker-compose.yml build`
-- Creating the database and RestaurantSimulation.Api Container
-  - `docker-compose -f docker-compose.yml up -d`
-- Removing the created containers without deleting the database volume
-  - `docker-compose -f docker-compose.yml down`
-- Removing the created containers and deleting the database volume. Data stored will be lost
-  - `docker-compose -f docker-compose.yml down -v`
+> The following commands will help to  run the project localy
+
+| Docker command | Description |
+|--|--|
+| **docker-compose -f docker-compose.yml build** | Building the project and creating the images |
+| **docker-compose -f docker-compose.yml up -d** | Creating a Mysql Container and RestaurantSimulation.Api Container. The Mysql RestaurantSimulation schema will be created, also the existing migrations will be applied to this schema with an additional seeding |
+| **docker-compose -f docker-compose.yml down** | Removing the created containers without deleting the database volume |
+| **docker-compose -f docker-compose.yml down -v** |  Removing the created containers and deleting the database volume. Mysql data stored will be lost  |
 
 <br>
 
