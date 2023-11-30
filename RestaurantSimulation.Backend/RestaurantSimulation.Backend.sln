@@ -23,6 +23,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestaurantSimulation.Integr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestaurantSimulation.UnitTests", "tests\RestaurantSimulation.UnitTests\RestaurantSimulation.UnitTests.csproj", "{38F8AF90-2C00-4C37-B2DB-4FA7B2CC250C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestaurantSimulation.EntityFramework.Migration", "infrastructure\RestaurantSimulation.EntityFramework.Migration\RestaurantSimulation.EntityFramework.Migration.csproj", "{B3F1E93A-AE32-4185-8757-1BC91E6A659F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infrastructure", "infrastructure", "{13F0903C-AE3A-464F-841A-0592890B2316}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +65,10 @@ Global
 		{38F8AF90-2C00-4C37-B2DB-4FA7B2CC250C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38F8AF90-2C00-4C37-B2DB-4FA7B2CC250C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38F8AF90-2C00-4C37-B2DB-4FA7B2CC250C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3F1E93A-AE32-4185-8757-1BC91E6A659F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3F1E93A-AE32-4185-8757-1BC91E6A659F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3F1E93A-AE32-4185-8757-1BC91E6A659F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3F1E93A-AE32-4185-8757-1BC91E6A659F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +81,7 @@ Global
 		{AA774196-860F-4529-BC58-06F98A716A7B} = {8A98E0EA-606C-4657-8160-82C4A7F80182}
 		{FD73423F-3FFF-42E9-B6C1-2A8242462549} = {3B8E736D-D869-4A9B-A15F-67C65FBEA4D4}
 		{38F8AF90-2C00-4C37-B2DB-4FA7B2CC250C} = {3B8E736D-D869-4A9B-A15F-67C65FBEA4D4}
+		{B3F1E93A-AE32-4185-8757-1BC91E6A659F} = {13F0903C-AE3A-464F-841A-0592890B2316}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4416972A-AD94-4A51-90D4-CC0BE55C93C3}

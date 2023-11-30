@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "RestaurantSimulation.EntityFramework.Migration": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
