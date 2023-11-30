@@ -64,9 +64,11 @@ namespace RestaurantSimulation.EntityFramework.Migration.Services
                     _logger.LogError("Something wrong happpened why trying to execute migrations for the RestaurantSimulationDatabase. " +
                         "Exception is {@Exception}", ex);
 
-                    _logger.LogInformation("Will wait 10 seconds before the migrations will try to be executed again");
+                    var milisecondsDelay = 5000;
 
-                    await Task.Delay(5000);
+                    _logger.LogInformation("Will wait {@milisecondsDelay} seconds before the migrations will try to be executed again", milisecondsDelay);
+
+                    await Task.Delay(milisecondsDelay);
                 }
             }
 
