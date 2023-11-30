@@ -3,14 +3,14 @@ version: '3.4'
 services:
   restaurantsimulation.api:
     container_name: restaurantsimulation.api
-    image: ${DOCKER_REGISTRY-}restaurantsimulationapi
     build:
       context: .
-      dockerfile: RestaurantSimulation.Api/Dockerfile
+      dockerfile: src/RestaurantSimulation.Api/Dockerfile
     ports:
-      - "8080:80"
+      - "7242:80"
     environment:
         - ASPNETCORE_ENVIRONMENT=Production
+        - ConnectionStrings__Mysql=Server=db;Port=3306;Database=RestaurantSimulation;Uid=root;Pwd=root-password;
         - Auth0__Domain=dev-88r0xkt1.eu.auth0.com
         - Auth0__Audience=https://restaurantsimulation/api
         - Auth0__ClientId=xCRPlATR4O0ZzZvAvTZ8h1yaJC0RMLGI
@@ -18,8 +18,21 @@ services:
         - UseSwagger=true
     depends_on:
         - db
-
+  restaurantsimulation.entityframework.migration:
+    container_name: restaurantsimulation.entityframework.migration
+    build:
+        context: .
+        dockerfile: infrastructure/RestaurantSimulation.Entityframework.Migration/Dockerfile
+    ports:
+      - "8090:80"
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Production
+        - ConnectionStrings__Mysql=Server=db;Port=3306;Database=RestaurantSimulation;Uid=root;Pwd=root-password;
+    depends_on:
+        - db
+        - restaurantsimulation.api
   db:
+    container_name: restaurantsimulation.database
     image: mysql:5.7
     environment:
       - MYSQL_ROOT_PASSWORD=root-password
