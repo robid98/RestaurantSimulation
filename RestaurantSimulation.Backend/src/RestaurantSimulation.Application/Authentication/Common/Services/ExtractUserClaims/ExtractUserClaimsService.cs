@@ -3,6 +3,7 @@ using System.Security.Claims;
 using ErrorOr;
 using RestaurantSimulation.Domain.RestaurantApplicationErrors;
 using Microsoft.Extensions.Logging;
+using RestaurantSimulation.Domain.Common.Claims;
 
 namespace RestaurantSimulation.Application.Authentication.Common.Services.ExtractUserClaims
 {
@@ -27,7 +28,7 @@ namespace RestaurantSimulation.Application.Authentication.Common.Services.Extrac
 
         public ErrorOr<string> GetUserEmail()
         {
-            Claim email = GetClaimsIdentity()?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email);
+            Claim email = GetClaimsIdentity()?.Claims.FirstOrDefault(x => x.Type == RestaurantSimulationClaims.Email);
 
             if (email is null)
             {

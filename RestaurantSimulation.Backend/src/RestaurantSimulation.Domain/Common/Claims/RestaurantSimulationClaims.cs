@@ -2,6 +2,8 @@
 {
     public class RestaurantSimulationClaims
     {
-        public const string RestaurantSimulationRoles = "restaurant-simulation-roles";
+        public const string Roles = "restaurant-simulation-roles";
+
+        public const string Email = "restaurant-simulation-email";
     }
 }

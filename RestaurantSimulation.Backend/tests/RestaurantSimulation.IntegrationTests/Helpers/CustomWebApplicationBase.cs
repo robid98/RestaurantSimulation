@@ -63,8 +63,8 @@ namespace RestaurantSimulation.IntegrationTests.Helpers
             var data = new ExpandoObject() as IDictionary<string, Object>;
 
             data.Add(ClaimTypes.NameIdentifier, userSub);
-            data.Add(ClaimTypes.Email, email);
-            data.Add(RestaurantSimulationClaims.RestaurantSimulationRoles, role);
+            data.Add(RestaurantSimulationClaims.Email, email);
+            data.Add(RestaurantSimulationClaims.Roles, role);
 
             _httpClient.SetFakeBearerToken((object)data);
         }
