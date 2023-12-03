@@ -51,17 +51,17 @@ namespace RestaurantSimulation.Infrastructure
             {
                 options.AddPolicy(AuthorizationPolicies.AdminRolePolicy,
                     (policy) => {
-                        policy.RequireClaim(RestaurantSimulationClaims.RestaurantSimulationRoles, RestaurantSimulationRoles.AdminRole);
+                        policy.RequireClaim(RestaurantSimulationClaims.Roles, RestaurantSimulationRoles.AdminRole);
                     });
 
                 options.AddPolicy(AuthorizationPolicies.ClientRolePolicy,
                     (policy) => {
-                        policy.RequireClaim(RestaurantSimulationClaims.RestaurantSimulationRoles, RestaurantSimulationRoles.ClientRole);
+                        policy.RequireClaim(RestaurantSimulationClaims.Roles, RestaurantSimulationRoles.ClientRole);
                     });
 
                 options.AddPolicy(AuthorizationPolicies.ClientOrAdminRolePolicy,
                     (policy) => {
-                        policy.RequireClaim(RestaurantSimulationClaims.RestaurantSimulationRoles, RestaurantSimulationRoles.ClientRole, RestaurantSimulationRoles.AdminRole);
+                        policy.RequireClaim(RestaurantSimulationClaims.Roles, RestaurantSimulationRoles.ClientRole, RestaurantSimulationRoles.AdminRole);
                     });
 
             });
